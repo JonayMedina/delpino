@@ -14,7 +14,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        $countries = Country::orderBy('id', 'desc')->get();
+        $countries = Country::orderBy('id', 'asc')->get();
         return response()->json(['countries'=>$countries]);
     }
 
@@ -33,12 +33,6 @@ class CountryController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $country = new Country([
@@ -51,23 +45,11 @@ class CountryController extends Controller
         return response()->json(['message' =>$country->name.' Guardado']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Country  $country
-     * @return \Illuminate\Http\Response
-     */
     public function show(Country $country)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Country  $country
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Country $country)
     {
         //

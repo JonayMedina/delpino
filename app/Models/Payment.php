@@ -10,7 +10,7 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'amount', 'amount_iso', 'pay', 'pay_iso', 'operation_code', 'operation_method','user_id', 'recipient_id', 'customer_id', 'bank_id', 'description', 'active'
+        'amount', 'amount_iso', 'pay', 'pay_iso', 'operation_code', 'operation_method','user_id', 'receiver_id', 'customer_id', 'bank_id', 'description', 'active'
     ];
 
     // Relations
@@ -20,9 +20,9 @@ class Payment extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function recipient()
+    public function receiver()
     {
-        return $this->belongsTo(Recipient::class, 'recipient_id', 'id');
+        return $this->belongsTo(Receiver::class, 'receiver_id', 'id');
     }
 
     public function customer()

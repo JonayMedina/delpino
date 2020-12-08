@@ -12,6 +12,10 @@ $config = [
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="{{ asset('img/favicon2.png') }}">
+    <meta name="keywords" content="euros a bolivares, dolares a bolivares,  EUR, peso colombiano venezuela, soles peruanos a bolivares, chile a venezuela, remesas españa, remesas, enviar euro, enviar dinero a venezuela">
+    <meta name="description" content="Remesas a venezuela Euro Peso Colombiano peso chileno sol peruano">
+    <meta name="author" content="jonay medina jonaymedinadev@gmail.com">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -27,9 +31,6 @@ $config = [
 </head>
 <body>
     <div id="app">
-        <main>
-            @yield('content')
-        </main>
     </div>
 
     <script>

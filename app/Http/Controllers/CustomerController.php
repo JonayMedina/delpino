@@ -9,21 +9,17 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $customers = Customer::orderBy('id', 'desc')->get();
-        return response()->json(['Customers'=>$customers]);
+        $customers = Customer::orderBy('id', 'asc')->paginate(20);
+        return response()->json(['customers'=>$customers]);
     }
 
     public function indexActive()
     {
         $customers = Customer::orderBy('id', 'desc')->active()->get();
-        return response()->json(['Customers'=>$customers]);
+        return response()->json(['customers'=>$customers]);
     }
 
     public function store(Request $request)
@@ -40,37 +36,18 @@ class CustomerController extends Controller
         return response()->json(['message' =>'Cliente '. $customer->name.' Registrado']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Sale  $customer
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $customer = Customer::find($id);
         return response()->json($customer);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Sale  $customer
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $customer = Customer::find($id);
         return response()->json($customer);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Sale  $customer
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request,Customer $customer)
     {
       try {
