@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('/coming/select2.min.css')}}">
 
     <link rel="stylesheet" type="text/css" href="{{asset('/coming/util.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('/coming/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('coming/main.css')}}">
 
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
@@ -89,7 +89,7 @@
 		})
     </script>
 
-    <script src="{{asset('/coming/main.js') }}"></script>
+    <script src="{{asset('coming/main.js') }}"></script>
 
     <script async="" src="{{asset('/coming/js') }}"></script>
     <script>
