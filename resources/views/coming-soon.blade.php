@@ -54,18 +54,18 @@
         </div>
     </div>
 
-    <script type="text/javascript" async="" src="{{asset('/coming/analytics.js') }}"></script>
-    <script src="{{asset('/coming/jquery-3.2.1.min.js') }}"></script>
+    <script type="text/javascript" async="" src="{{asset('coming/analytics.js') }}"></script>
+    <script src="{{asset('coming/jquery-3.2.1.min.js') }}"></script>
 
-    <script src="{{asset('/coming/popper.js') }}"></script>
-    <script src="{{asset('/coming/bootstrap.min.js') }}"></script>
+    <script src="{{asset('coming/popper.js') }}"></script>
+    <script src="{{asset('coming/bootstrap.min.js') }}"></script>
 
-    <script src="{{asset('/coming/select2.min.js') }}"></script>
+    <script src="{{asset('coming/select2.min.js') }}"></script>
 
-    <script src="{{asset('/coming/moment.min.js') }}"></script>
-    <script src="{{asset('/coming/moment-timezone.min.js') }}"></script>
-    <script src="{{asset('/coming/moment-timezone-with-data.min.js') }}"></script>
-    <script src="{{asset('/coming/countdowntime.js') }}"></script>
+    <script src="{{asset('coming/moment.min.js') }}"></script>
+    <script src="{{asset('coming/moment-timezone.min.js') }}"></script>
+    <script src="{{asset('coming/moment-timezone-with-data.min.js') }}"></script>
+    <script src="{{asset('coming/countdowntime.js') }}"></script>
     <script>
         $('.cd100').countdown100({
 			/*Set Endtime here*/
@@ -82,7 +82,7 @@
 		});
     </script>
 
-    <script src="{{asset('/coming/tilt.jquery.min.js') }}"></script>
+    <script src="{{asset('coming/tilt.jquery.min.js') }}"></script>
     <script>
         $('.js-tilt').tilt({
 			scale: 1.1
@@ -91,7 +91,7 @@
 
     <script src="{{asset('coming/main.js') }}"></script>
 
-    <script async="" src="{{asset('/coming/js') }}"></script>
+    <script async="" src="{{asset('coming/js') }}"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
