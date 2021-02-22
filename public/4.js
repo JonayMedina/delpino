@@ -142,11 +142,7 @@ var render = function() {
       _vm._l(_vm.links, function(link, i) {
         return _c(
           "v-col",
-          {
-            key: i,
-            staticClass: "text-center mb-sm-0",
-            attrs: { cols: "auto" }
-          },
+          { key: i, staticClass: "text-center my-0", attrs: { cols: "auto" } },
           [
             _c("a", {
               staticClass: "mr-0 white--text",
@@ -159,28 +155,24 @@ var render = function() {
       _vm._v(" "),
       _c("v-spacer", { staticClass: "hidden-sm-and-down" }),
       _vm._v(" "),
-      _c(
-        "v-col",
-        { staticClass: "text-center mb-sm-0", attrs: { cols: "auto" } },
-        [
-          _c(
-            "div",
-            { staticClass: "grey--text text--darken-4" },
-            [
-              _vm._v("\n      © 2020, made with\n      "),
-              _c("v-icon", { attrs: { size: "18" } }, [
-                _vm._v("\n          mdi-heart\n      ")
-              ]),
-              _vm._v("\n      by "),
-              _c("a", { attrs: { href: "mailto:lmteamla@gmail.com" } }, [
-                _vm._v("LmTeamLa")
-              ]),
-              _vm._v(" Creating Web.\n      ")
-            ],
-            1
-          )
-        ]
-      )
+      _c("v-col", { staticClass: "text-right my-0", attrs: { cols: "auto" } }, [
+        _c(
+          "div",
+          { staticClass: "grey--text text--darken-4" },
+          [
+            _vm._v("\n      © 2020, made with\n      "),
+            _c("v-icon", { attrs: { size: "18" } }, [
+              _vm._v("\n          mdi-heart\n      ")
+            ]),
+            _vm._v("\n      by "),
+            _c("a", { attrs: { href: "mailto:lmteamla@gmail.com" } }, [
+              _vm._v("LmTeamLa")
+            ]),
+            _vm._v(" Creating Web.\n      ")
+          ],
+          1
+        )
+      ])
     ],
     2
   )

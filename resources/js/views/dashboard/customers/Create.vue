@@ -11,9 +11,13 @@
                             <v-text-field
                             label="Introduzca Nombre Completo"
                             type="text" required
+                            outlined
+                            clearable
+                            dense
                             color="deep-purple"
                             v-model="customer.name"
                             cols="12" md="6"
+                            prepend-outer-icon="mdi-account"
                             />
                         </v-col>
                         <v-col cols="12" md="4" class="pt-0 pl-0">
@@ -22,16 +26,23 @@
                             <v-text-field type="text"
                             color="deep-purple"
                             label="Insertar Mail"
+                            outlined
+                            clearable
+                            dense
                             v-model="customer.email"
                             @change="vEmail(customer.email)"
+                            prepend-outer-icon="mdi-email-lock"
                             />
                         </v-col>
                         <v-col class="align-center justify-space-between" cols="12" md="4">
                             <v-autocomplete clearable
                             color="deep-purple"
+                            outlined
+                            dense
                             v-model="customer.country" :items="countries"
                             item-text="name" item-value="name"
-                            label="De Donde Eres"
+                            label="Pais donde Se ubica"
+                            prepend-outer-icon="mdi-book-marker-outline"
                             ></v-autocomplete>
                         </v-col>
                         <v-col cols="12" md="4" class="pt-0 pl-0">
@@ -40,21 +51,33 @@
                             <v-text-field type="text" label="Numero de Telefono Valido"
                             color="deep-purple"
                             v-model="customer.phone"
+                            outlined
+                            dense
+                            clearable
                             @change="vPhone(customer.phone)"
+                            prepend-outer-icon="mdi-card-account-phone-outline"
                             />
                         </v-col>
                         <v-col cols="12" md="4" class="pt-0 pl-0">
                             <span v-show="!customer.birthdate">Fecha de nacimiento del Cliente.</span>
                             <v-text-field type="date"
                             color="deep-purple"
+                            outlined
+                            dense
+                            clearable
                             Label="Ingrese una fecha de nacimiento" v-model="customer.birthdate"
+                            prepend-outer-icon="mdi-cake-variant"
                             />
                         </v-col>
                         <v-col cols="12" md="6" class="pt-0 pl-0">
                             <v-textarea v-model="customer.notes" rows="1"
-                            auto-grow filled
+                            auto-grow
                             color="deep-purple"
                             label="Acerca del Cliente"
+                            outlined
+                            dense
+                            clearable
+                            prepend-outer-icon="mdi-book-information-variant"
                             ></v-textarea>
                         </v-col>
                         <v-col cols="12">
@@ -66,15 +89,23 @@
                                     @input="valpass()"
                                     placeholder="Contraseña" label="CONTRASEÑA"
                                     color="deep-purple"
+                                    outlined
+                                    dense
+                                    clearable
+                                    prepend-outer-icon="mdi-lock-open-check-outline"
                                     />
                                 </v-col>
                                 <v-col cols="6">
-                                    <span style="color:red;" v-show="customer.password != customer.confirm_pass">Deben Coincidir</span>
+                                    <span style="color:red;" v-show="customer.password != customer.confirm_pass">No Coinciden</span>
                                     <v-text-field type="password"
                                     v-model="customer.confirm_pass"
-                                    placeholder="Confirme Su Contraña"
+                                    placeholder="Instroduzcala de nuevo"
                                     label="Repita su Contraseña"
                                     color="deep-purple"
+                                    outlined
+                                    dense
+                                    clearable
+                                    prepend-outer-icon="mdi-lock-open-check-outline"
                                     />
                                 </v-col>
                             </v-row>
@@ -101,7 +132,9 @@ export default {
                 dni:'',
                 email:'',
                 phone:'',
-                customer: {},
+                customer: {
+                    password: '',
+                },
                 dialog_title:'',
                 countries: [],
                 step: 1,
@@ -135,7 +168,7 @@ export default {
                             title: `${response.data.message}`,
                             timer: 3000
                         });
-
+                        me.$router.push({name: 'customers'});
                     })
                     .catch(error => console.log(error))
                     .finally(() => me.saving = false);
@@ -153,7 +186,15 @@ export default {
                 if (!me.customer.birthdate)me.errListC.push("Ingrese fecha de Nacimiento");
 
                 if (me.email)me.errListC.push("E-mail Registrado, por favor introduzca otro");
-                if (me.phone)me.errListC.push("Telefono registrado, por favor introduzca otro");
+
+                if (!me.customer.phone)me.errListC.push("Ingrese numero de Telefono");
+
+                if (!me.customer.password)me.errListC.push("Ingrese Contraseña");
+
+                if (!me.customer.confirm_pass)me.errListC.push("Ingrese Contraseña de confirmación ");
+
+                if (me.customer.password != me.customer.confirm_pass)me.errListC.push("Las Contraseñas no Coinciden");
+
                 if (me.dni)me.errListC.push("Documento registrado, verifique si el customere esta registrado Cuando realize un Pago.");
                 if (me.errListC.length) me.eCustomer = 1;
                 if (me.errListC.length >= 1) {
@@ -193,7 +234,7 @@ export default {
                 .catch(error => console.log(error));
             },
             valpass(){
-                this.min = this.agent.password.length
+                this.min = this.customer.password.length
             },
         },
         mounted(){

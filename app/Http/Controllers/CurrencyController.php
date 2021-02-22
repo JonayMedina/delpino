@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Carbon\Carbon;
 use App\Models\Currency;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class CurrencyController extends Controller
 {
@@ -14,62 +18,71 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        //
+        $currencies = Currency::with('country:id,nicename,iso')->get();
+        return response()->json(['currencies' => $currencies]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'iso' => 'required|string',
+            'symbol' => 'required|string',
+            'country_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 403);
+        }
+
+        $currency = new Currency([
+            'name' => $request->name,
+            'iso' => $request->iso,
+            'symbol' => $request->symbol,
+            'country_id' => $request->country_id
+        ]);
+
+        $currency->save();
+
+        return response()->json(['message' => 'Moneda guardada']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Currency  $currency
-     * @return \Illuminate\Http\Response
-     */
     public function show(Currency $currency)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Currency  $currency
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Currency $currency)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Currency  $currency
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Currency $currency)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'iso' => 'required|string',
+            'symbol' => 'required|string',
+            'country_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 403);
+        }
+
+        $currency->update([
+            'name' => $request->name,
+            'iso' => $request->iso,
+            'symbol' => $request->symbol,
+            'country_id' => $request->country_id
+        ]);
+
+        $currency->save();
+
+        return response()->json(['message' => 'Moneda actualizada']);
     }
 
     /**
@@ -80,6 +93,25 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
-        //
+        $currency->delete();
+        return response()->json(['message' => 'Deleted'], 204);
+    }
+
+    public function activate(Currency $currency)
+    {
+        $currencyActive = Currency::where('iso', $currency->iso)->where('active', 1)->first();
+
+        $currency->update(['active' => 1]);
+        if ($currencyActive) {
+            $currencyActive->update(['active' => 0]);
+        }
+
+        return response()->json(['message' => 'Exito! Cambiado'], 200);
+    }
+
+    public function desactivate(Currency $currency)
+    {
+        $currency->update(['active' => 0]);
+        return response()->json(['message' => 'Exito! Moneda no se encuentra Activa'], 200);
     }
 }

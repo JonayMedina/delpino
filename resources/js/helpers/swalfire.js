@@ -7,9 +7,15 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: '#1565c0',
                 cancelButtonColor: '##0000008a',
-                confirmButtonText: 'Aceptar!',
+                confirmButtonText: '<span class="mdi mdi-check-all">Confirmar</span>',
                 cancelButtonText: 'Cancelar',
-                reverseButtons: true
+                reverseButtons: true,
+                backdrop: `
+                    rgba(0,0,123,0.4)
+                    url("images/logo-final.png")
+                    left top
+                    no-repeat
+                `
             }).then((result) => {
                 if (result.value) {
                     item._method= 'put'

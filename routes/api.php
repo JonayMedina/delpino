@@ -16,7 +16,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'
 
 // Route::group(['middleware' => 'auth:api'], function () {
 
-    Route::group(['prefix' => 'sales'], function () {
+    Route::group(['prefix' => 'payments'], function () {
         Route::get('/', 'PaymentController@index');
         Route::get('all', 'PaymentController@all');
         Route::post('store', 'PaymentController@store');
@@ -37,7 +37,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'
         Route::get('show/{customer}', 'CustomerController@show');
         Route::get('search/', 'CustomerController@search');
         Route::get('search-admin/{name}', 'CustomerController@searchAdmin');
-        Route::get('edit/{customer}', 'CustomerController@edit');
         Route::put('update/{customer}', 'CustomerController@update');
         Route::put('approve/{customer}', 'CustomerController@approve');
         Route::put('desactive', 'CustomerController@desactive');
@@ -46,7 +45,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'
         Route::get('email-verify/{email}', 'CustomerController@emailV');
         Route::get('dni-verify/{dni}', 'CustomerController@dniV');
         Route::get('phone-verify/{phone}', 'CustomerController@phoneV');
-
         Route::get('total/', 'CustomerController@totalCalculate');
     });
 
@@ -56,9 +54,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'
         Route::post('store', 'BankController@store');
         Route::get('show/{bank}', 'BankController@show');
         Route::get('edit/{bank}', 'BankController@edit');
-        Route::post('update/{bank}', 'BankController@update');
-        Route::post('desactive', 'BankController@desactive');
-        Route::post('activate', 'BankController@activate');
+        Route::put('update/{bank}', 'BankController@update');
+        Route::put('desactive/{bank}', 'BankController@desactive');
+        Route::put('activate/{bank}', 'BankController@activate');
         Route::delete('destroy/{bank}', 'BankController@destroy');
     });
 
@@ -74,20 +72,19 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'
         Route::delete('destroy/{country}', 'CountryController@destroy');
     });
 
-    Route::get('prices', 'PriceController@index');
-    Route::group(['prefix' => 'price'], function () {
+    Route::group(['prefix' => 'prices'], function () {
+        Route::get('/', 'PriceController@index');
         Route::post('store', 'PriceController@store');
         Route::get('show/{id}', 'PriceController@show');
-        Route::get('eur', 'PriceController@getEur');
-        // Route::get('edit/{id}', 'PriceController@edit');
         Route::put('update/{id}', 'PriceController@update');
-        // Route::post('desactive', 'PriceController@desactive');
+        Route::post('desactive', 'PriceController@desactive');
         Route::put('activate', 'PriceController@activate');
-        // Route::delete('destroy/{id}', 'PriceController@destroy');
+        Route::delete('destroy/{id}', 'PriceController@destroy');
     });
 
     Route::group(['prefix' => 'currencies'], function () {
         Route::get('/', 'CurrencyController@index');
+        Route::get('currencies-active/', 'CurrencyController@currencyActive');
         Route::post('store', 'CurrencyController@store');
         Route::get('show/{currency}', 'CurrencyController@show');
         // Route::get('edit/{id}', 'CurrencyController@edit');

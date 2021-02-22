@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Price;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class PriceController extends Controller
 {
@@ -18,7 +20,7 @@ class PriceController extends Controller
 
         $validator = Validator::make($request->all(),[
             'amount' => 'required|numeric',
-            'currrency_id' => 'required|numeric',
+            'currency_id' => 'required|numeric',
         ]);
         if($validator->fails()){
             return response()->json($validator->messages(), 403);
@@ -45,10 +47,10 @@ class PriceController extends Controller
     public function update(Request $request,$id )
     {
         $validator = Validator::make($request->all(),[
-            'amount' => 'required|numeric'
+            'amonunt' => 'required|numeric'
         ]);
         if($validator->fails()){
-            return response()->json($validator->messages(), 403);
+            return response(['error' => $validator->messages()], 403);
         }
 
         Price::where('id',$request->id)->update([

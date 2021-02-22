@@ -1,7 +1,7 @@
 <template>
     <v-alert :value="format.status" cols="6" :type="format.type"
-        dismissible close-icon="mdi-delete"
-        border="left" elevation="2" :color="format.color" dark
+        dismissible close-icon="mdi-trash-can-outline"
+        border="left" elevation="6" :color="format.color" dark
         class="fixed zindex-1 col-12" colored-border
         >
         {{format.text}}
@@ -13,7 +13,8 @@
         data(){
             return{
                 format:{
-                    status:false
+                    status:false,
+                    icon: '',
                 },
                 display: false,
                 status: false,
@@ -30,9 +31,10 @@
                         // pago aprobado 'activePlan()'
                         me.format = {
                             'text' : res,
-                            'color' : 'green',
+                            'color' : 'orange',
                             'status' : true,
-                            'type' : 'success'
+                            'type' : 'success',
+                            'icon' : 'mdi-check'
                         }
                         setTimeout(() => me.format.status = false, 3000);
                         break;
@@ -42,7 +44,8 @@
                             'text' : 'Inactivo',
                             'color' : 'grey',
                             'status' : true,
-                            'type' : 'info'
+                            'type' : 'info',
+                            'icon' : 'mdi-book-off'
                         }
                         setTimeout(() => me.format.status = false, 3000);
                         break;
@@ -53,7 +56,8 @@
                             'text' : res,
                             'color' : 'blue',
                             'status' : true,
-                            'type' : 'warning'
+                            'type' : 'warning',
+                            'icon' : 'mdi-trash-can-outline'
                         }
                         setTimeout(() => me.format.status = false, 3000);
                         break;
@@ -64,7 +68,8 @@
                             'text' : 'Error, no se pudo procesar!. ' +res,
                             'color' : 'red',
                             'status' : true,
-                            'type' : 'error'
+                            'type' : 'error',
+                            'icon' : 'mdi-book-remove-outline'
                         }
                         setTimeout(() => me.format.status = false, 4000);
                         break;
@@ -75,7 +80,8 @@
                             'text' : 'Error!. ' +res,
                             'color' : 'red',
                             'status' : true,
-                            'type' : 'error'
+                            'type' : 'error',
+                            'icon' : 'mdi-book-remove-outline'
                         }
                         setTimeout(() => me.format.status = false, 4000);
                         break;

@@ -6,6 +6,8 @@ use DB;
 use PDF;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class CustomerController extends Controller
 {
@@ -24,6 +26,16 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'name' => "required|string|max:200",
+            // 'dni' => "required|string|max:20|unique:customers",
+            'email' => "required|string|max:50|unique:customers",
+            'name' => "required|string|max:20",
+
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->messages(), 403);
+        }
         $customer = new Customer([
             'name' => strtoupper($this->deleteAccent($request->name)),
             'dni' => $request->dni,
@@ -32,6 +44,8 @@ class CustomerController extends Controller
             'address' => $request->address,
         ]);
         $customer->save();
+
+
 
         return response()->json(['message' =>'Cliente '. $customer->name.' Registrado']);
     }
@@ -42,9 +56,8 @@ class CustomerController extends Controller
         return response()->json($customer);
     }
 
-    public function edit($id)
+    public function edit(Customer $customer)
     {
-        $customer = Customer::find($id);
         return response()->json($customer);
     }
 
@@ -60,7 +73,8 @@ class CustomerController extends Controller
           'address' => $request->address,
         ]);
         DB::commit();
-          return response()->json(['message' => $customer->name. ' actualizado']);
+
+        return response()->json(['message' => $customer->name. ' actualizado']);
       } catch (Exception $e) {
           DB::rollBack();
           return response()->json(['error'=>$e], 400);
@@ -90,8 +104,8 @@ class CustomerController extends Controller
         return response()->json(['message'=>'Cliente Eliminado']);
     }
 
-    public function deleteAccent($string){
-
+    public function deleteAccent($string)
+    {
       //Reemplazamos la A y a
       $string = str_replace(
       array('Á', 'À', 'Â', 'Ä', 'á', 'à', 'ä', 'â', 'ª'),
@@ -131,5 +145,23 @@ class CustomerController extends Controller
       );
 
       return $string;
+    }
+
+    public function emailV($email)
+    {
+        $e = Customer::where('email', $email)->first();
+        return response()->json(['email'=>$e]);
+    }
+
+    public function dniV($dni)
+    {
+        $d = Customer::where('dni', $dni)->first();
+        return response()->json(['dni'=>$d]);
+    }
+
+    public function phoneV($phone)
+    {
+        $p = Customer::where('phone', $phone)->first();
+        return response()->json(['phone'=>$p]);
     }
 }

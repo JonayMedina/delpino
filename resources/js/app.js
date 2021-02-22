@@ -34,7 +34,6 @@ const app = new Vue({
     el: '#app',
     router,
     store,
-
     vuetify,
     i18n,
     render: h => h(App),

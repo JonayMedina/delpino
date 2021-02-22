@@ -37,6 +37,61 @@ export default new Router({
             component: () => import('./views/dashboard/customers/Create'),
         },
         {
+            name: 'edit-customer',
+            text: 'Editar Cliente',
+            path: 'clientes/actualizar/:id',
+            component: () => import('./views/dashboard/customers/Edit'),
+        },
+        {
+            name: 'payments',
+            text: 'Listado Pagos',
+            path: 'remesas/listado',
+            component: () => import('./views/dashboard/payments/Index'),
+        },
+        {
+            name: 'create-payment',
+            text: 'Registrar Remesa',
+            path: 'remesas/registrar-nueva',
+            component: () => import('./views/dashboard/payments/Create'),
+        },
+        {
+            name: 'edit-payment',
+            text: 'Editar Remesa',
+            path: 'remesas/actualizar/:id',
+            component: () => import('./views/dashboard/payments/Edit'),
+        },
+
+        {
+            name: 'prices',
+            text: 'Precios por Remesa',
+            path: 'precios/lista',
+            component: () => import('./views/dashboard/price/Index'),
+        },
+        {
+            name: 'create-price',
+            text: 'Registrar Precio',
+            path: 'precios/registrar-nuevo',
+            component: () => import('./views/dashboard/price/Create'),
+        },
+        {
+            name: 'edit-price',
+            text: 'Editar Precio',
+            path: 'precios/actualizar/:id',
+            component: () => import('./views/dashboard/price/Edit'),
+        },
+        {
+            name: 'banks',
+            text: 'Lista de Bancos',
+            path: 'bancos/todos',
+            component: () => import('./views/dashboard/banks/Index'),
+        },
+        {
+            name: 'currencies',
+            text: 'Monedas',
+            path: 'monedas',
+            component: () => import('./views/dashboard/price/Currencies'),
+        },
+        {
           name: 'notifications',
           text: 'Notificaciones',
           path: 'components/notifications',
@@ -78,7 +133,7 @@ export default new Router({
       ],
     },
     {
-        path:'/access',
+        path:'/entrar',
         component: () => import('./views/dashboard/AuthLayout'),
         children:[
             {
@@ -86,6 +141,12 @@ export default new Router({
                 path: '',
                 text: 'Inicio de sesion',
                 component: () => import('./views/dashboard/pages/Login'),
+            },
+            {
+                name: 'register',
+                path: '/crear-cuenta',
+                text: 'Inicio de sesion',
+                component: () => import('./views/dashboard/pages/Register'),
             },
         ]
     }

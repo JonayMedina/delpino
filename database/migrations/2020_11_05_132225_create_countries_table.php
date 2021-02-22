@@ -19,6 +19,7 @@ class CreateCountriesTable extends Migration
             $table->string('iso', 3);
             $table->boolean('active')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

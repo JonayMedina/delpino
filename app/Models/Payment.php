@@ -3,14 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
-        'amount', 'amount_iso', 'pay', 'pay_iso', 'operation_code', 'operation_method','user_id', 'receiver_id', 'customer_id', 'bank_id', 'description', 'active'
+        'pay', 'pay_iso', 'operation_code', 'operation_method','user_id', 'receiver_id', 'file', 'customer_id', 'bank_id', 'description', 'active'
     ];
 
     // Relations
@@ -18,11 +20,6 @@ class Payment extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    public function receiver()
-    {
-        return $this->belongsTo(Receiver::class, 'receiver_id', 'id');
     }
 
     public function customer()

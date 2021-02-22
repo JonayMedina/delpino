@@ -104,6 +104,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 // import apis from '../../helpers/customer.js'
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -111,7 +142,9 @@ __webpack_require__.r(__webpack_exports__);
       dni: '',
       email: '',
       phone: '',
-      customer: {},
+      customer: {
+        password: ''
+      },
       dialog_title: '',
       countries: [],
       step: 1,
@@ -145,6 +178,9 @@ __webpack_require__.r(__webpack_exports__);
           title: "".concat(response.data.message),
           timer: 3000
         });
+        me.$router.push({
+          name: 'customers'
+        });
       })["catch"](function (error) {
         return console.log(error);
       })["finally"](function () {
@@ -161,7 +197,10 @@ __webpack_require__.r(__webpack_exports__);
       if (!me.customer.email) me.errListC.push("Ingrese un email valido");
       if (!me.customer.birthdate) me.errListC.push("Ingrese fecha de Nacimiento");
       if (me.email) me.errListC.push("E-mail Registrado, por favor introduzca otro");
-      if (me.phone) me.errListC.push("Telefono registrado, por favor introduzca otro");
+      if (!me.customer.phone) me.errListC.push("Ingrese numero de Telefono");
+      if (!me.customer.password) me.errListC.push("Ingrese Contraseña");
+      if (!me.customer.confirm_pass) me.errListC.push("Ingrese Contraseña de confirmación ");
+      if (me.customer.password != me.customer.confirm_pass) me.errListC.push("Las Contraseñas no Coinciden");
       if (me.dni) me.errListC.push("Documento registrado, verifique si el customere esta registrado Cuando realize un Pago.");
       if (me.errListC.length) me.eCustomer = 1;
 
@@ -206,7 +245,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     valpass: function valpass() {
-      this.min = this.agent.password.length;
+      this.min = this.customer.password.length;
     }
   },
   mounted: function mounted() {
@@ -320,9 +359,13 @@ var render = function() {
                               label: "Introduzca Nombre Completo",
                               type: "text",
                               required: "",
+                              outlined: "",
+                              clearable: "",
+                              dense: "",
                               color: "deep-purple",
                               cols: "12",
-                              md: "6"
+                              md: "6",
+                              "prepend-outer-icon": "mdi-account"
                             },
                             model: {
                               value: _vm.customer.name,
@@ -379,7 +422,11 @@ var render = function() {
                             attrs: {
                               type: "text",
                               color: "deep-purple",
-                              label: "Insertar Mail"
+                              label: "Insertar Mail",
+                              outlined: "",
+                              clearable: "",
+                              dense: "",
+                              "prepend-outer-icon": "mdi-email-lock"
                             },
                             on: {
                               change: function($event) {
@@ -409,10 +456,13 @@ var render = function() {
                             attrs: {
                               clearable: "",
                               color: "deep-purple",
+                              outlined: "",
+                              dense: "",
                               items: _vm.countries,
                               "item-text": "name",
                               "item-value": "name",
-                              label: "De Donde Eres"
+                              label: "Pais donde Se ubica",
+                              "prepend-outer-icon": "mdi-book-marker-outline"
                             },
                             model: {
                               value: _vm.customer.country,
@@ -469,7 +519,12 @@ var render = function() {
                             attrs: {
                               type: "text",
                               label: "Numero de Telefono Valido",
-                              color: "deep-purple"
+                              color: "deep-purple",
+                              outlined: "",
+                              dense: "",
+                              clearable: "",
+                              "prepend-outer-icon":
+                                "mdi-card-account-phone-outline"
                             },
                             on: {
                               change: function($event) {
@@ -514,7 +569,11 @@ var render = function() {
                             attrs: {
                               type: "date",
                               color: "deep-purple",
-                              Label: "Ingrese una fecha de nacimiento"
+                              outlined: "",
+                              dense: "",
+                              clearable: "",
+                              Label: "Ingrese una fecha de nacimiento",
+                              "prepend-outer-icon": "mdi-cake-variant"
                             },
                             model: {
                               value: _vm.customer.birthdate,
@@ -539,9 +598,13 @@ var render = function() {
                             attrs: {
                               rows: "1",
                               "auto-grow": "",
-                              filled: "",
                               color: "deep-purple",
-                              label: "Acerca del Cliente"
+                              label: "Acerca del Cliente",
+                              outlined: "",
+                              dense: "",
+                              clearable: "",
+                              "prepend-outer-icon":
+                                "mdi-book-information-variant"
                             },
                             model: {
                               value: _vm.customer.notes,
@@ -592,7 +655,12 @@ var render = function() {
                                       type: "password",
                                       placeholder: "Contraseña",
                                       label: "CONTRASEÑA",
-                                      color: "deep-purple"
+                                      color: "deep-purple",
+                                      outlined: "",
+                                      dense: "",
+                                      clearable: "",
+                                      "prepend-outer-icon":
+                                        "mdi-lock-open-check-outline"
                                     },
                                     on: {
                                       input: function($event) {
@@ -631,15 +699,20 @@ var render = function() {
                                       ],
                                       staticStyle: { color: "red" }
                                     },
-                                    [_vm._v("Deben Coincidir")]
+                                    [_vm._v("No Coinciden")]
                                   ),
                                   _vm._v(" "),
                                   _c("v-text-field", {
                                     attrs: {
                                       type: "password",
-                                      placeholder: "Confirme Su Contraña",
+                                      placeholder: "Instroduzcala de nuevo",
                                       label: "Repita su Contraseña",
-                                      color: "deep-purple"
+                                      color: "deep-purple",
+                                      outlined: "",
+                                      dense: "",
+                                      clearable: "",
+                                      "prepend-outer-icon":
+                                        "mdi-lock-open-check-outline"
                                     },
                                     model: {
                                       value: _vm.customer.confirm_pass,

@@ -124,7 +124,7 @@ var _default = new _vueRouter["default"]({
       }
     }]
   }, {
-    path: '/access',
+    path: '/entrar',
     component: function component() {
       return Promise.resolve().then(function () {
         return _interopRequireWildcard(require('./views/dashboard/AuthLayout'));
@@ -137,6 +137,15 @@ var _default = new _vueRouter["default"]({
       component: function component() {
         return Promise.resolve().then(function () {
           return _interopRequireWildcard(require('./views/dashboard/pages/Login'));
+        });
+      }
+    }, {
+      name: 'register',
+      path: '/crear-cuenta',
+      text: 'Inicio de sesion',
+      component: function component() {
+        return Promise.resolve().then(function () {
+          return _interopRequireWildcard(require('./views/dashboard/pages/Register'));
         });
       }
     }]

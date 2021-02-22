@@ -16,7 +16,7 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('dni')->unique();
+            $table->string('dni')->unique()->nullable();
             $table->string('type_dni', 10)->nullable();
             $table->string('notes')->nullable();
             $table->string('email', 50)->nullable();
@@ -33,6 +33,7 @@ class CreateCustomersTable extends Migration
             $table->foreignId('agent_id')->nullable()->constrained()->onDelete('set null');
             $table->boolean('active')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -7,6 +7,8 @@ use PDF;
 use Auth;
 use Carbon\Carbon;
 use App\Models\Payment;
+use App\Http\Resources\Payment as PaymentResource;
+use App\Http\Resources\PaymentCollection;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -15,10 +17,8 @@ class PaymentController extends Controller
     {
         $date = Carbon::today()->subDays(7);
         $payments = new PaymentCollection(Payment::where('created_at', '>=', $date)->with(['agent:id,username,name,wallet_num', 'client:id,name', 'bank:id,account_holder,name'])->get()->reverse());
-        // $payments = Payment::where('created_at', '>=', $date)->with(['agent:id,username', 'client:id,name', 'bank:id,account_holder,name'])
-                // ->orderBy('id', 'desc')->get();
 
-        return response()->json(['Payments'=> $payments]);
+        return response()->json(['payments'=> $payments]);
     }
 
     public function indexCount()

@@ -17,13 +17,13 @@
       <v-sheet
         v-else
         :class="{
-          'pa-7': !$slots.image
+          'pa-3': !$slots.image
         }"
         :color="color"
-        :max-height="icon ? 90 : undefined"
+        :max-height="icon ? 50 : undefined"
         :width="icon ? 'auto' : '100%'"
         elevation="6"
-        class="text-start v-card--material__heading mb-n6"
+        class="text-start v-card--material__heading mb-n2"
         dark
       >
         <slot
@@ -97,7 +97,7 @@
       },
       color: {
         type: String,
-        default: 'success',
+        default: 'orange',
       },
       icon: {
         type: String,
@@ -137,12 +137,12 @@
   .v-card--material
     &__avatar
       position: relative
-      top: -64px
-      margin-bottom: -32px
+      top: -34px
+      margin-bottom: -12px
 
     &__heading
       position: relative
-      top: -40px
+      top: -20px
       transition: .3s ease
       z-index: 1
 </style>

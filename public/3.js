@@ -122,25 +122,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         title: 'dashboard',
         to: 'Dashboard'
       }, {
+        title: 'customers',
         icon: 'mdi-account',
-        title: 'customer-list',
         to: 'customers'
       }, {
-        title: 'pays',
+        title: 'payments',
         icon: 'mdi-scale-balance',
-        to: 'Regular-Tables'
+        to: 'payments'
+      }, {
+        title: 'prices',
+        icon: 'mdi-format-font',
+        to: 'prices'
+      }, {
+        title: 'list-currency',
+        icon: 'mdi-currency-usd-circle',
+        to: 'currencies'
       }, {
         title: 'bank-list',
-        icon: 'mdi-format-font',
-        to: 'Typography'
-      }, {
-        title: 'currency-list',
-        icon: 'mdi-currency-usd-circle',
-        to: 'icons'
-      }, {
-        title: 'pricing-list',
-        icon: 'mdi-clipboard-list-outline',
-        to: 'gmaps'
+        icon: 'mdi-bank-check',
+        to: 'banks'
       }]
     };
   },

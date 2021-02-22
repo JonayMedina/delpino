@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReceiversTable extends Migration
+class CreateRecipientsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateReceiversTable extends Migration
      */
     public function up()
     {
-        Schema::create('receivers', function (Blueprint $table) {
+        Schema::create('recipients', function (Blueprint $table) {
             $table->id();
             $table->string('bank_name');
             $table->string('dni')->unique()->nullable();
@@ -27,6 +27,7 @@ class CreateReceiversTable extends Migration
             $table->string('description')->nullable();
             $table->boolean('active')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

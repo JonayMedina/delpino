@@ -7,7 +7,7 @@
     <v-col
         v-for="(link, i) in links"
         :key="i"
-        class="text-center mb-sm-0"
+        class="text-center my-0"
         cols="auto"
     >
         <a
@@ -23,7 +23,7 @@
 
     <v-col
         cols="auto"
-        class="text-center mb-sm-0"
+        class="text-right my-0"
     >
         <div class="grey--text text--darken-4">
         &copy; 2020, made with
