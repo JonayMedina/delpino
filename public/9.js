@@ -171,21 +171,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 // import apis from '../../helpers/customer.js'
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -198,13 +183,34 @@ __webpack_require__.r(__webpack_exports__);
       },
       dialog_title: '',
       banks: [],
+      receiver: [],
       step: 1,
       turn: 0,
       saving: false,
-      min: ''
+      min: '',
+      dialog: false
     };
   },
-  computed: {},
+  computed: {
+    width: function width() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '100%';
+
+        case 'sm':
+          return '70%';
+
+        case 'md':
+          return '30%';
+
+        case 'lg':
+          return '30%';
+
+        case 'xl':
+          return '30%';
+      }
+    }
+  },
   methods: {
     getBanks: function getBanks() {
       var me = this;
@@ -270,6 +276,16 @@ __webpack_require__.r(__webpack_exports__);
 
       ;
       return me.eCustomer;
+    },
+    openDialog: function openDialog() {
+      var me = this;
+      me.dialog_title = 'Agregar datos de cuenta';
+      me.dialog = true;
+    },
+    closeDialog: function closeDialog() {
+      var me = this;
+      me.dialog_title = 'Agregar datos de cuenta';
+      me.dialog = false;
     }
   },
   mounted: function mounted() {
@@ -373,43 +389,32 @@ var render = function() {
                     [
                       _c(
                         "v-banner",
-                        {
-                          attrs: { "single-line": "", sticky: _vm.sticky },
-                          scopedSlots: _vm._u([
-                            {
-                              key: "actions",
-                              fn: function() {
-                                return [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        text: "",
-                                        color: "deep-purple accent-4"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.openDialog()
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                            Agregar Remesa\n                            "
-                                      )
-                                    ]
-                                  )
-                                ]
-                              },
-                              proxy: true
-                            }
-                          ])
-                        },
                         [
                           _vm._v(
-                            "\n                        Carga tus pagos en la lista y guardalos\n                        "
-                          )
-                        ]
+                            "\n                        Carga tus pagos en la lista y guardalos\n                            "
+                          ),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                text: "",
+                                color: "deep-purple accent-4"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.openDialog()
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Agregar Remesa\n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v("\\\n                    ")
+                        ],
+                        1
                       )
                     ],
                     1
@@ -424,7 +429,15 @@ var render = function() {
                   _c(
                     "router-link",
                     { attrs: { to: { name: "customers" } } },
-                    [_c("v-btn", [_vm._v(" Cancelar")])],
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { medium: "", filled: "", "elevation-4": "" }
+                        },
+                        [_vm._v(" Cancelar")]
+                      )
+                    ],
                     1
                   ),
                   _vm._v(" "),
@@ -432,8 +445,10 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: {
-                        text: "",
-                        color: "primary",
+                        medium: "",
+                        outlined: "",
+                        "elevation-4": "",
+                        color: "orange darken-4",
                         loading: _vm.saving,
                         right: ""
                       },
@@ -443,7 +458,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Registrar")]
+                    [_vm._v("Registrar\n                ")]
                   )
                 ],
                 1
@@ -465,7 +480,7 @@ var render = function() {
                 "v-dialog",
                 {
                   attrs: {
-                    width: "70%",
+                    width: _vm.width,
                     "hide-overlay": "",
                     transition: "dialog-bottom-transition",
                     scrollable: ""
@@ -485,7 +500,13 @@ var render = function() {
                     [
                       _c(
                         "v-toolbar",
-                        { attrs: { flat: "", dark: "", color: "primary" } },
+                        {
+                          attrs: {
+                            flat: "",
+                            dark: "",
+                            color: "orange darken-4"
+                          }
+                        },
                         [
                           _c(
                             "v-btn",
@@ -511,74 +532,22 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 {
-                                  attrs: { dark: "", text: "" },
+                                  attrs: {
+                                    text: "",
+                                    outlined: "",
+                                    "elevation-4": ""
+                                  },
                                   on: {
                                     click: function($event) {
-                                      _vm.dialog = false
+                                      return _vm.addReceiver()
                                     }
                                   }
                                 },
                                 [
                                   _vm._v(
-                                    "\n                        Save\n                    "
+                                    "\n                                Agregar Cuenta\n                            "
                                   )
                                 ]
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-menu",
-                            {
-                              attrs: { bottom: "", right: "", "offset-y": "" },
-                              scopedSlots: _vm._u([
-                                {
-                                  key: "activator",
-                                  fn: function(ref) {
-                                    var on = ref.on
-                                    var attrs = ref.attrs
-                                    return [
-                                      _c(
-                                        "v-btn",
-                                        _vm._g(
-                                          _vm._b(
-                                            { attrs: { dark: "", icon: "" } },
-                                            "v-btn",
-                                            attrs,
-                                            false
-                                          ),
-                                          on
-                                        ),
-                                        [
-                                          _c("v-icon", [
-                                            _vm._v("mdi-dots-vertical")
-                                          ])
-                                        ],
-                                        1
-                                      )
-                                    ]
-                                  }
-                                }
-                              ])
-                            },
-                            [
-                              _vm._v(" "),
-                              _c(
-                                "v-list",
-                                _vm._l(_vm.items, function(item, i) {
-                                  return _c(
-                                    "v-list-item",
-                                    { key: i, on: { click: function() {} } },
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v(_vm._s(item.title))
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                }),
-                                1
                               )
                             ],
                             1
@@ -591,245 +560,193 @@ var render = function() {
                         "v-card-text",
                         [
                           _c(
+                            "v-row",
+                            { staticClass: "mx-2" },
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pt-0 pl-0",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label:
+                                        "Introduzca Nombre Completo de Quien recibe",
+                                      type: "text",
+                                      required: "",
+                                      outlined: "",
+                                      clearable: "",
+                                      dense: "",
+                                      color: "deep-purple",
+                                      "prepend-outer-icon": "mdi-account"
+                                    },
+                                    model: {
+                                      value: _vm.receiver.name,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.receiver, "name", $$v)
+                                      },
+                                      expression: "receiver.name"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pt-0 pl-0",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Introduzca Cedula",
+                                      type: "text",
+                                      required: "",
+                                      outlined: "",
+                                      clearable: "",
+                                      dense: "",
+                                      color: "deep-purple",
+                                      "prepend-outer-icon": "mdi-account"
+                                    },
+                                    model: {
+                                      value: _vm.receiver.dni,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.receiver, "dni", $$v)
+                                      },
+                                      expression: "receiver.dni"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pt-0 pl-0",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "text",
+                                      color: "deep-purple",
+                                      label: "Insertar Cuenta de quien Recibe",
+                                      outlined: "",
+                                      clearable: "",
+                                      dense: "",
+                                      "prepend-outer-icon": "mdi-bank-plus"
+                                    },
+                                    model: {
+                                      value: _vm.receiver.account,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.receiver, "account", $$v)
+                                      },
+                                      expression: "receiver.account"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pt-0 pl-0",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "text",
+                                      color: "deep-purple",
+                                      label: "Insertar Nombre del Banco",
+                                      outlined: "",
+                                      clearable: "",
+                                      dense: "",
+                                      "prepend-outer-icon": "mdi-bank-plus"
+                                    },
+                                    model: {
+                                      value: _vm.receiver.bank_name,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.receiver, "bank_name", $$v)
+                                      },
+                                      expression: "receiver.bank_name"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pt-0 pl-0",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "text",
+                                      color: "deep-purple",
+                                      label: "Insertar Monto",
+                                      outlined: "",
+                                      clearable: "",
+                                      dense: "",
+                                      "prepend-outer-icon": "mdi-bank-plus"
+                                    },
+                                    model: {
+                                      value: _vm.receiver.amount,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.receiver, "amount", $$v)
+                                      },
+                                      expression: "receiver.amount"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider")
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticStyle: { flex: "1 1 auto" } }),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c(
                             "v-btn",
                             {
-                              staticClass: "ma-2",
-                              attrs: { color: "primary", dark: "" },
+                              attrs: {
+                                outlined: "",
+                                color: "orange darken-4",
+                                "elevation-4": ""
+                              },
                               on: {
                                 click: function($event) {
-                                  _vm.dialog2 = !_vm.dialog2
+                                  return _vm.addReceiver()
                                 }
                               }
                             },
                             [
                               _vm._v(
-                                "\n                    Open Dialog 2\n                    "
+                                "\n                            Agregar Cuenta\n                        "
                               )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-tooltip",
-                            {
-                              attrs: { right: "" },
-                              scopedSlots: _vm._u([
-                                {
-                                  key: "activator",
-                                  fn: function(ref) {
-                                    var on = ref.on
-                                    var attrs = ref.attrs
-                                    return [
-                                      _c(
-                                        "v-btn",
-                                        _vm._g(
-                                          _vm._b(
-                                            { staticClass: "ma-2" },
-                                            "v-btn",
-                                            attrs,
-                                            false
-                                          ),
-                                          on
-                                        ),
-                                        [
-                                          _vm._v(
-                                            "\n                        Tool Tip Activator\n                        "
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  }
-                                }
-                              ])
-                            },
-                            [
-                              _vm._v(
-                                "\n                    Tool Tip\n                    "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-list",
-                            { attrs: { "three-line": "", subheader: "" } },
-                            [
-                              _c("v-subheader", [_vm._v("User Controls")]),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Content filtering")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Set the content filtering level to restrict apps that can be downloaded"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Password")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Require password for purchase or use password to restrict purchase"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-divider"),
-                          _vm._v(" "),
-                          _c(
-                            "v-list",
-                            { attrs: { "three-line": "", subheader: "" } },
-                            [
-                              _c("v-subheader", [_vm._v("General")]),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c("v-checkbox", {
-                                        model: {
-                                          value: _vm.notifications,
-                                          callback: function($$v) {
-                                            _vm.notifications = $$v
-                                          },
-                                          expression: "notifications"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Notifications")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Notify me about updates to apps or games that I downloaded"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c("v-checkbox", {
-                                        model: {
-                                          value: _vm.sound,
-                                          callback: function($$v) {
-                                            _vm.sound = $$v
-                                          },
-                                          expression: "sound"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Sound")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Auto-update apps at any time. Data charges may apply"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c("v-checkbox", {
-                                        model: {
-                                          value: _vm.widgets,
-                                          callback: function($$v) {
-                                            _vm.widgets = $$v
-                                          },
-                                          expression: "widgets"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v("Auto-add widgets")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle", [
-                                        _vm._v(
-                                          "Automatically add home screen widgets"
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
                           )
                         ],
                         1
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticStyle: { flex: "1 1 auto" } })
+                      )
                     ],
                     1
                   )

@@ -8,166 +8,151 @@
                 <v-card-text>
                     <v-row class="mx-2" >
                         <v-banner
-                            single-line
-                            :sticky="sticky"
                             >
                             Carga tus pagos en la lista y guardalos
-                            <template v-slot:actions>
                                 <v-btn
                                 text
                                 color="deep-purple accent-4"
                                 @click="openDialog()"
                                 >
                                 Agregar Remesa
-                                </v-btn>
-                            </template>
+                                </v-btn>\
                         </v-banner>
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
                     <router-link :to="{ name: 'customers'}">
-                        <v-btn> Cancelar</v-btn>
+                        <v-btn
+                            medium
+                            filled
+                            elevation-4
+                        > Cancelar</v-btn>
                     </router-link>
-                    <v-btn text color="primary" :loading="saving" right @click="createPay(customer)" >Registrar</v-btn>
+                    <v-btn
+                        medium
+                        outlined
+                        elevation-4
+                        color="orange darken-4"
+                        :loading="saving"
+                        right
+                        @click="createPay(customer)"
+                        >Registrar
+                    </v-btn>
                 </v-card-actions>
-                
+
             </v-card>
         </v-container>
         <div>
             <v-row>
                 <v-dialog
                     v-model="dialog"
-                    width="70%"
+                    :width="width"
                     hide-overlay
                     transition="dialog-bottom-transition"
                     scrollable
                 >
                     <v-card tile>
-                    <v-toolbar
-                        flat
-                        dark
-                        color="primary"
-                    >
-                        <v-btn
-                        icon
-                        dark
-                        @click="dialog = false"
-                        >
-                        <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                        <v-toolbar-title>Agregar Pago</v-toolbar-title>
-                        <v-spacer></v-spacer>
-                        <v-toolbar-items>
-                        <v-btn
+                        <v-toolbar
+                            flat
                             dark
-                            text
-                            @click="dialog = false"
+                            color="orange darken-4"
                         >
-                            Save
-                        </v-btn>
-                        </v-toolbar-items>
-                        <v-menu
-                        bottom
-                        right
-                        offset-y
-                        >
-                        <template v-slot:activator="{ on, attrs }">
                             <v-btn
-                            dark
                             icon
-                            v-bind="attrs"
-                            v-on="on"
+                            dark
+                            @click="dialog = false"
                             >
-                            <v-icon>mdi-dots-vertical</v-icon>
+                                <v-icon>mdi-close</v-icon>
                             </v-btn>
-                        </template>
-                        <v-list>
-                            <v-list-item
-                            v-for="(item, i) in items"
-                            :key="i"
-                            @click="() => {}"
-                            >
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-                        </v-menu>
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-btn
-                        color="primary"
-                        dark
-                        class="ma-2"
-                        @click="dialog2 = !dialog2"
-                        >
-                        Open Dialog 2
-                        </v-btn>
-                        <v-tooltip right>
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                            class="ma-2"
-                            v-bind="attrs"
-                            v-on="on"
-                            >
-                            Tool Tip Activator
-                            </v-btn>
-                        </template>
-                        Tool Tip
-                        </v-tooltip>
-                        <v-list
-                        three-line
-                        subheader
-                        >
-                        <v-subheader>User Controls</v-subheader>
-                        <v-list-item>
-                            <v-list-item-content>
-                            <v-list-item-title>Content filtering</v-list-item-title>
-                            <v-list-item-subtitle>Set the content filtering level to restrict apps that can be downloaded</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-content>
-                            <v-list-item-title>Password</v-list-item-title>
-                            <v-list-item-subtitle>Require password for purchase or use password to restrict purchase</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                        </v-list>
-                        <v-divider></v-divider>
-                        <v-list
-                        three-line
-                        subheader
-                        >
-                        <v-subheader>General</v-subheader>
-                        <v-list-item>
-                            <v-list-item-action>
-                            <v-checkbox v-model="notifications"></v-checkbox>
-                            </v-list-item-action>
-                            <v-list-item-content>
-                            <v-list-item-title>Notifications</v-list-item-title>
-                            <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-action>
-                            <v-checkbox v-model="sound"></v-checkbox>
-                            </v-list-item-action>
-                            <v-list-item-content>
-                            <v-list-item-title>Sound</v-list-item-title>
-                            <v-list-item-subtitle>Auto-update apps at any time. Data charges may apply</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-action>
-                            <v-checkbox v-model="widgets"></v-checkbox>
-                            </v-list-item-action>
-                            <v-list-item-content>
-                            <v-list-item-title>Auto-add widgets</v-list-item-title>
-                            <v-list-item-subtitle>Automatically add home screen widgets</v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                        </v-list>
-                    </v-card-text>
+                            <v-toolbar-title>Agregar Pago</v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-toolbar-items>
+                                <v-btn
+                                    text
+                                    outlined
+                                    elevation-4
+                                    @click="addReceiver()"
+                                >
+                                    Agregar Cuenta
+                                </v-btn>
+                            </v-toolbar-items>
+                        </v-toolbar>
+                        <v-card-text>
+                            <v-row class="mx-2" >
+                                <v-col cols="12" class="pt-0 pl-0">
+                                    <v-text-field
+                                    label="Introduzca Nombre Completo de Quien recibe"
+                                    type="text" required
+                                    outlined
+                                    clearable
+                                    dense
+                                    color="deep-purple"
+                                    v-model="receiver.name"
+                                    prepend-outer-icon="mdi-account"
+                                    />
+                                </v-col>
+                                <v-col cols="12" class="pt-0 pl-0">
+                                    <v-text-field
+                                    label="Introduzca Cedula"
+                                    type="text" required
+                                    outlined
+                                    clearable
+                                    dense
+                                    color="deep-purple"
+                                    v-model="receiver.dni"
+                                    prepend-outer-icon="mdi-account"
+                                    />
+                                </v-col>
+                                <v-col cols="12" class="pt-0 pl-0">
+                                    <v-text-field type="text"
+                                    color="deep-purple"
+                                    label="Insertar Cuenta de quien Recibe"
+                                    outlined
+                                    clearable
+                                    dense
+                                    v-model="receiver.account"
+                                    prepend-outer-icon="mdi-bank-plus"
+                                    />
+                                </v-col>
+                                <v-col cols="12" class="pt-0 pl-0">
+                                    <v-text-field type="text"
+                                    color="deep-purple"
+                                    label="Insertar Nombre del Banco"
+                                    outlined
+                                    clearable
+                                    dense
+                                    v-model="receiver.bank_name"
+                                    prepend-outer-icon="mdi-bank-plus"
+                                    />
 
-                    <div style="flex: 1 1 auto;"></div>
+                                </v-col>
+                                <v-col cols="12" class="pt-0 pl-0">
+                                    <v-text-field type="text"
+                                    color="deep-purple"
+                                    label="Insertar Monto"
+                                    outlined
+                                    clearable
+                                    dense
+                                    v-model="receiver.amount"
+                                    prepend-outer-icon="mdi-bank-plus"
+                                    />
+
+                                </v-col>
+                            </v-row>
+                            <v-divider></v-divider>
+                        </v-card-text>
+
+                        <div style="flex: 1 1 auto;"></div>
+                        <v-card-actions>
+                            <v-btn
+                                outlined
+                                color="orange darken-4"
+                                elevation-4
+                                @click="addReceiver()"
+                            >
+                                Agregar Cuenta
+                            </v-btn>
+                        </v-card-actions>
                     </v-card>
                 </v-dialog>
             </v-row>
@@ -188,14 +173,24 @@ export default {
                 },
                 dialog_title:'',
                 banks: [],
+                receiver: [],
                 step: 1,
                 turn:0,
                 saving: false,
                 min: '',
-
+                dialog: false,
             }
         },
-        computed: {
+        computed:{
+            width: function() {
+                switch (this.$vuetify.breakpoint.name) {
+                    case 'xs': return '100%'
+                    case 'sm': return '70%'
+                    case 'md': return '30%'
+                    case 'lg': return '30%'
+                    case 'xl': return '30%'
+                }
+            }
         },
         methods: {
             getBanks(){
@@ -260,11 +255,23 @@ export default {
                 };
                 return me.eCustomer;
             },
+            openDialog(){
+                let me = this;
+
+                me.dialog_title = 'Agregar datos de cuenta';
+                me.dialog = true;
+            },
+            closeDialog(){
+                let me = this;
+
+                me.dialog_title = 'Agregar datos de cuenta';
+                me.dialog = false;
+            },
         },
         mounted(){
             this.getBanks();
-        }
-    }
+        },
+    };
 </script>
 <style>
     .v-col {

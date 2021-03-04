@@ -52,11 +52,10 @@
                 :expanded.sync="expanded"
                 item-key="name"
                 show-expand
-                expand-icon="$Ver Mas"
             >
                 <template v-slot:expanded-item-icon="{ item }">
                     <td :col-index="5">
-                        <v-icon :color="item.isValid ? 'success' : 'error'>check</v-icon>
+                        <v-icon :color="item.isValid ? 'success' : 'error'">check</v-icon>
                     </td>
                 </template>
                 <template v-slot:expanded-item="{ headers, item }">

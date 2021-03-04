@@ -12,7 +12,7 @@ class Payment extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'pay', 'pay_iso', 'operation_code', 'operation_method','user_id', 'receiver_id', 'file', 'customer_id', 'bank_id', 'description', 'active'
+        'pay', 'pay_iso', 'operation_code', 'operation_method', 'user_id', 'receiver_id', 'file', 'customer_id', 'bank_id', 'description', 'active'
     ];
 
     // Relations
@@ -30,6 +30,11 @@ class Payment extends Model
     public function bank()
     {
         return $this->belongsTo(Bank::class, 'bank_id', 'id');
+    }
+
+    public function detailpay(): HasMany
+    {
+        return $this->hasMany(DetailPayment::class, 'payment_id', 'id');
     }
 
     // Scopes

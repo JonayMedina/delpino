@@ -20,8 +20,9 @@ class Payment extends JsonResource
             'file' => $this->file,
             'bank_id' => $this->bank_id,
             'bank' => $this->bank,
-            'customer' => $this->customer,
+            'customer_name' => $this->customer->name,
             'customer_id' => $this->customer_id,
+            'detailpay' => $this->detailpay,
             'recipient' => $this->recipient,
             'recipient_id' => $this->recipient_id,
             'description' => $this->description,
@@ -31,10 +32,10 @@ class Payment extends JsonResource
             'amount_iso' => $this->amount_iso,
             'pay' => $this->pay,
             'pay_iso' => $this->pay_iso,
-            'active' =>$this->active,
-            'created_at' =>$this->created_at->format('H:i:s d/m/Y'),
-            'amount_formated' => number_format($this->amount,2,',','.'),
-            'pay_formated' => number_format($this->pay,2,',','.'),
+            'active' => $this->active,
+            'created_at' => $this->created_at->format('H:i:s d/m/Y'),
+            'amount_formated' => number_format($this->amount, 2, ',', '.'),
+            'pay_formated' => number_format($this->pay, 2, ',', '.'),
         ];
     }
 }

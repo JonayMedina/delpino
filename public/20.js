@@ -104,6 +104,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -318,8 +322,7 @@ var render = function() {
               "items-per-page": 20,
               expanded: _vm.expanded,
               "item-key": "name",
-              "show-expand": "",
-              "expand-icon": "Ver Mas"
+              "show-expand": ""
             },
             on: {
               "update:options": function($event) {
@@ -330,6 +333,28 @@ var render = function() {
               }
             },
             scopedSlots: _vm._u([
+              {
+                key: "expanded-item-icon",
+                fn: function(ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "td",
+                      { attrs: { "col-index": 5 } },
+                      [
+                        _c(
+                          "v-icon",
+                          {
+                            attrs: { color: item.isValid ? "success" : "error" }
+                          },
+                          [_vm._v("check")]
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                }
+              },
               {
                 key: "expanded-item",
                 fn: function(ref) {

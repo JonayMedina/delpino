@@ -88,6 +88,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -99,14 +121,14 @@ __webpack_require__.r(__webpack_exports__);
       },
       loading: false,
       searching: false,
-      headers: [{
+      paymentHeader: [{
         text: 'Pago Nro.',
         align: 'right',
         value: 'id'
       }, {
         text: 'Cliente ',
         align: 'right',
-        value: 'customer_name'
+        value: 'customer.name'
       }, {
         text: 'Monto',
         align: 'right',
@@ -208,7 +230,7 @@ var render = function() {
                             { attrs: { elevation: "5", icon: "", large: "" } },
                             [
                               _c("v-icon", { attrs: { color: "orange" } }, [
-                                _vm._v("mdi-account-plus-outline")
+                                _vm._v("mdi-file-plus-outline")
                               ])
                             ],
                             1
@@ -229,7 +251,7 @@ var render = function() {
                           clearable: "",
                           color: "orange",
                           filled: "",
-                          "append-icon": "mdi-magnify",
+                          "append-icon": "mdi-file-find-outline",
                           label: "Buscar Cliente",
                           "single-line": "",
                           "hide-details": ""
@@ -241,26 +263,7 @@ var render = function() {
                           },
                           expression: "search"
                         }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "white--text",
-                          attrs: {
-                            color: "blue-grey darken-4",
-                            loading: _vm.loading
-                          }
-                        },
-                        [
-                          _c(
-                            "v-icon",
-                            { attrs: { right: "", small: "", dark: "" } },
-                            [_vm._v("mdi-magnify ")]
-                          )
-                        ],
-                        1
-                      )
+                      })
                     ],
                     1
                   )
@@ -274,19 +277,97 @@ var render = function() {
           _c("v-data-table", {
             staticClass: "elevation-2",
             attrs: {
-              dark: "",
               search: _vm.search,
-              headers: _vm.headers,
+              headers: _vm.paymentHeader,
               items: _vm.payments,
               options: _vm.pagination,
               loading: "true",
-              "items-per-page": 20
+              "items-per-page": 20,
+              expanded: _vm.expanded,
+              "item-key": "name",
+              "show-expand": ""
             },
             on: {
               "update:options": function($event) {
                 _vm.pagination = $event
+              },
+              "update:expanded": function($event) {
+                _vm.expanded = $event
               }
-            }
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "expanded-item",
+                fn: function(ref) {
+                  var headers = ref.headers
+                  var item = ref.item
+                  return _vm._l(item.detailpay, function(detail) {
+                    return _c("div", { key: detail.id }, [
+                      _c("tr", [
+                        _c("td", { attrs: { colspan: "1" } }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(detail.amount + " " + detail.amount_iso) +
+                              "\n                        "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { attrs: { colspan: "1" } }, [
+                          _vm._v(
+                            "\n                            Nombre: " +
+                              _vm._s(detail.recipient_name) +
+                              "\n                        "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { attrs: { colspan: "2" } }, [
+                          _vm._v(
+                            "\n                            Banco: " +
+                              _vm._s(
+                                detail.recipient_acount +
+                                  " " +
+                                  detail.recipient_bank_name
+                              ) +
+                              "\n                        "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { attrs: { colspan: "1" } })
+                      ])
+                    ])
+                  })
+                }
+              },
+              {
+                key: "item.actions",
+                fn: function(ref) {
+                  var item = ref.item
+                  return [
+                    _c(
+                      "v-btn",
+                      {
+                        staticClass: "ma-1 white--text",
+                        attrs: { color: "deep-orange", "x-small": "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteCustomer(item.id)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(" Eliminar\n                    "),
+                        _c(
+                          "v-icon",
+                          { attrs: { small: "", right: "", dark: "" } },
+                          [_vm._v(" mdi-close-outline ")]
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                }
+              }
+            ])
           }),
           _vm._v(" "),
           _c(

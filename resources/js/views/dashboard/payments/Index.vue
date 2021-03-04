@@ -54,15 +54,22 @@
                 show-expand
             >
                 <template v-slot:expanded-item="{ headers, item }">
-                    <td colspan="2">
-                        {{ item.name }}
-                    </td>
-                    <td colspan="1">
-                        {{ item.email }}
-                    </td>
-                    <td colspan="1">
-                        Telefono: {{ item.phone }}
-                    </td>
+                    <div v-for="detail in item.detailpay" :key="detail.id" >
+                        <tr>
+                            <td colspan="1">
+                                {{ detail.amount + ' ' + detail.amount_iso }}
+                            </td>
+                            <td colspan="1">
+                                Nombre: {{ detail.recipient_name }}
+                            </td>
+                            <td colspan="2">
+                                Banco: {{ detail.recipient_acount + ' ' +  detail.recipient_bank_name}}
+                            </td>
+                            <td colspan="1">
+
+                            </td>
+                        </tr>
+                    </div>
                 </template>
                 <template v-slot:item.actions="{ item }">
                     <v-btn @click="deleteCustomer(item.id)"
@@ -113,7 +120,7 @@ export default {
                 {
                     text:'Cliente ',
                     align: 'right',
-                    value: 'customer_name',
+                    value: 'customer.name',
                 },
                 {
                     text:'Monto',

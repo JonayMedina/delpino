@@ -16,7 +16,10 @@ class DetailPayments extends Model
     ];
 
     protected $cast = [
-        'payed_at'
+        'payed_at' => 'datetime:H:i:s d/m/Y',
+        'created_at' => 'datetime:H:i:s d/m/Y',
+        'updated_at' => 'datetime:H:i:s d/m/Y',
+        'deleted_at' => 'datetime:H:i:s d/m/Y',
     ];
 
     public function payment()

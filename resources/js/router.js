@@ -7,7 +7,7 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/panel/',
       meta:{requiredAuth: true},
       component: () => import('./views/dashboard/Index'),
       children: [

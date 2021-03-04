@@ -15,10 +15,9 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $date = Carbon::today()->subDays(7);
-        $payments = new PaymentCollection(Payment::where('created_at', '>=', $date)->with(['agent:id,username,name,wallet_num', 'client:id,name', 'bank:id,account_holder,name'])->get()->reverse());
+        $payments = new PaymentCollection(Payment::with(['agent:id,username,name,wallet_num', 'customer:id,name', 'bank:id,account_holder,name'])->get()->reverse());
 
-        return response()->json(['payments'=> $payments]);
+        return response()->json(['payments' => $payments]);
     }
 
     public function indexCount()
@@ -31,8 +30,8 @@ class PaymentController extends Controller
         $payments = Payment::whereMonth('created_at', '>=', $month)->get();
 
         $count = $payments->count();
-        for ($d=1; $d <= $day; $d++) {
-            for ($i=0; $i <$count ; $i++) {
+        for ($d = 1; $d <= $day; $d++) {
+            for ($i = 0; $i < $count; $i++) {
                 if (Carbon::parse($payments[$i]->payment_date)->day == $d) {
                     $amount += $payments[$i]->amount;
                 }
@@ -42,7 +41,7 @@ class PaymentController extends Controller
             $amount = 0;
         }
         $count = $payments->count();
-        return response()->json(['count' => $count, 'total'=>$total, 'days' => $days]);
+        return response()->json(['count' => $count, 'total' => $total, 'days' => $days]);
     }
 
     public function agentCount($id)
@@ -52,11 +51,11 @@ class PaymentController extends Controller
         $date = Carbon::now();
         $day = $date->day;
         $month = $date->month;
-        $payments = Payment::where('agent_id',$id)->whereMonth('created_at', '>=', $month)->get();
+        $payments = Payment::where('agent_id', $id)->whereMonth('created_at', '>=', $month)->get();
 
         $count = $payments->count();
-        for ($d=1; $d <= $day; $d++) {
-            for ($i=0; $i <$count ; $i++) {
+        for ($d = 1; $d <= $day; $d++) {
+            for ($i = 0; $i < $count; $i++) {
                 if (Carbon::parse($payments[$i]->payment_date)->day == $d) {
                     $amount += $payments[$i]->amount;
                 }
@@ -66,15 +65,15 @@ class PaymentController extends Controller
             $amount = 0;
         }
         $count = $payments->count();
-        return response()->json(['count' => $count, 'total'=>$total, 'days' => $days]);
+        return response()->json(['count' => $count, 'total' => $total, 'days' => $days]);
     }
 
     public function indexHistory()
     {
         $payments = Payment::with(['agent:id,username', 'client:id,name', 'bank:id,account_holder,name'])
-                ->orderBy('id', 'desc')->get();
+            ->orderBy('id', 'desc')->get();
 
-        return response()->json(['Payments'=>$payments]);
+        return response()->json(['Payments' => $payments]);
     }
 
     public function store(Request $request)
@@ -98,46 +97,46 @@ class PaymentController extends Controller
             if ($request->hasFile('file')) {
 
                 if ($request->file('file')->isValid()) {
-                    $imageName =$payment->id. '-'. $payment->created_at->format('d-m-Y-H-m-s').$request->file->getClientOriginalExtension();
-                    $request->file->move(public_path('/payments/'.$payment->id.'/'), $imageName);
+                    $imageName = $payment->id . '-' . $payment->created_at->format('d-m-Y-H-m-s') . $request->file->getClientOriginalExtension();
+                    $request->file->move(public_path('/payments/' . $payment->id . '/'), $imageName);
 
-                    $url = '/payments/'.$payment->id.'/'.$imageName;
+                    $url = '/payments/' . $payment->id . '/' . $imageName;
 
                     $payment = Payment::where('id', $payment->id)->update(['file' => $url]);
                 }
             }
 
             DB::commit();
-            return response()->json(['message'=> 'Pago Registrado '], 200);
+            return response()->json(['message' => 'Pago Registrado '], 200);
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['error'=>$e], 400);
+            return response()->json(['error' => $e], 400);
         }
     }
 
     public function bankPdf($id)
     {
-      $payment = Payment::with(['client:id,name,dni','bank'])->find($id);
+        $payment = Payment::with(['client:id,name,dni', 'bank'])->find($id);
 
-      // dd($payment);
-      $pdf = PDF::loadView('pdf.Payment-bank', ['Payment' => $payment])->download('Factura-'.$payment->id.'.pdf');
-      return $pdf;
+        // dd($payment);
+        $pdf = PDF::loadView('pdf.Payment-bank', ['Payment' => $payment])->download('Factura-' . $payment->id . '.pdf');
+        return $pdf;
     }
 
     public function indexCustomer()
     {
         $user = Auth::user();
-        $payments = new PaymentCollection(Payment::where('customer_id',$user->id)->with(['recipient:id,name', 'bank:id,account_holder,bank_name'])->get()->reverse());
+        $payments = new PaymentCollection(Payment::where('customer_id', $user->id)->with(['recipient:id,name', 'bank:id,account_holder,bank_name'])->get()->reverse());
 
-        return response()->json(['payments'=> $payments]);
+        return response()->json(['payments' => $payments]);
     }
 
 
-    public function update(Request $request,Payment $payment)
+    public function update(Request $request, Payment $payment)
     {
 
         try {
-            $payment ->update([
+            $payment->update([
                 'amount' => $request->amount,
                 'amount_iso' => $request->amount_iso,
                 'pay' => $request->pay,
@@ -153,10 +152,10 @@ class PaymentController extends Controller
             if ($request->hasFile('file')) {
 
                 if ($request->file('file')->isValid()) {
-                    $imageName =$payment->id. '-'. $payment->created_at->format('d-m-Y-H-m-s').$request->file->getClientOriginalExtension();
-                    $request->file->move(public_path('/payments/'.$payment->id.'/'), $imageName);
+                    $imageName = $payment->id . '-' . $payment->created_at->format('d-m-Y-H-m-s') . $request->file->getClientOriginalExtension();
+                    $request->file->move(public_path('/payments/' . $payment->id . '/'), $imageName);
 
-                    $url = '/payments/'.$payment->id.'/'.$imageName;
+                    $url = '/payments/' . $payment->id . '/' . $imageName;
 
                     $payment = Payment::where('id', $payment->id)->update(['file' => $url]);
                 }
@@ -164,10 +163,10 @@ class PaymentController extends Controller
 
 
             DB::commit();
-            return response()->json(['message'=> 'Pago Registrado '], 200);
+            return response()->json(['message' => 'Pago Registrado '], 200);
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json(['error'=>$e], 400);
+            return response()->json(['error' => $e], 400);
         }
         $payment->update($request->all());
 
@@ -179,7 +178,7 @@ class PaymentController extends Controller
         $payment->active = 0;
         $payment->save();
 
-        return response()->json(['message'=> 'Desaprobado']);
+        return response()->json(['message' => 'Desaprobado']);
     }
 
     public function activate(Payment $payment)
