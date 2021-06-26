@@ -18,8 +18,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
+        'name', 'staff_id',
+        'email', 'customer_id',
         'password',
         'role',
         'active'
@@ -37,6 +37,11 @@ class User extends Authenticatable
     public function customer()
     {
         return $this->hasOne(Customer::class, 'user_id', 'id');
+    }
+
+    public function staff()
+    {
+        return $this->hasOne(Staff::class, 'user_id', 'id');
     }
 
     /**

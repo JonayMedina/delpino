@@ -4,14 +4,9 @@
     fluid
     tag="section"
     >
-         <base-v-component
-            heading="Bancos"
-            link="bancos/listado"
-        />
-
         <base-material-card
             icon="mdi-clipboard-text"
-            title="Tabla de Bancos"
+            title="Lista Bancos"
             class="px-5 py-3"
         >
             <alerts ref="Alerts"> </alerts>
@@ -50,6 +45,55 @@
             >
                 <template v-slot:item.currency_id="{ item }">
                     <div v-if="item.currency"> {{ item.currency.name}}</div>
+                </template>
+                <template v-slot:item.actions="{ item}">
+                    <v-btn
+                        @click="showDialog(dialog_type = 2, item)"
+                        color="orange darken-4"
+                        x-small
+						filled
+						elevation-4
+                        class="ma-1 white--text"
+                    >
+                        Modificar
+                        <v-icon right small dark>mdi-book-edit-outline</v-icon>
+                    </v-btn>
+                    <v-btn
+                        v-if="item.active == 1 "
+                        @click="desactiveBank(item.id)"
+                        color=""
+                        x-small
+						filled
+						elevation-4
+                        class="ma-1"
+                    >
+                        Inhabilitar
+                        <v-icon small right light>mdi-book-off</v-icon>
+                    </v-btn>
+                    <v-btn
+                        v-if="item.active == 0"
+                        @click="activeBank(item.id)"
+                        color="blue darken-2"
+                        x-small
+						filled
+						elevation-4
+                        class="ma-1 white--text"
+                    >
+                        Habilitar
+                        <v-icon small right dark>mdi-check-circle-outline</v-icon>
+                    </v-btn>
+                    <v-btn
+                        @click="deleteBank(item.id)"
+                        color="red darken-3"
+                        x-small
+						filled
+						elevation-4
+                        class="ma-1 white--text"
+                        :disabled="item.active == 3 || item.active == 1"
+                    >
+                        Eliminar
+                        <v-icon small right dark> mdi-close-outline </v-icon>
+                    </v-btn>
                 </template>
             </v-data-table>
         </base-material-card>
@@ -185,7 +229,7 @@ export default {
         }
     },
     methods: {
-        getbanks(){
+        getBanks(){
             let me = this;
             me.loading = true
             axios.get('/api/banks')
@@ -217,6 +261,7 @@ export default {
                 me.bank = bank;
                 me.dialog_icon = 'mdi-update';
             }
+            me.type = type;
             me.dialog = true;
         },
         closeDialog(){
@@ -236,11 +281,20 @@ export default {
             axios
                 .post('/api/banks/store', me.bank)
                 .then(resp => {
-                    me.getbanks();
+                    me.getBanks();
                     me.closeDialog();
                     me.alert(1, resp.data.message);
                 })
-                .catch(error => console.log(error))
+                .catch(error => {
+                    if (error.response.status == 422) {
+                            let data = '';
+                            let errors = error.response.data.errors
+                            for (let field of Object.keys(errors)) {
+                                data = data + '. ' + errors[field].flat();
+                            }
+                            me.alert(4,data);
+                        }
+                })
                 .finally(() => me.saving = false)
         },
         updateBank(bank){
@@ -250,61 +304,69 @@ export default {
             }
             me.saving = true;
             bank._method = 'put';
-            axios
-                .post('/api/banks/update/'+bank.id, bank)
+            axios.post('/api/banks/update/'+bank.id, bank)
                 .then(resp => {
-                    me.getbanks();
+                    me.getBanks();
                     me.closeDialog();
                     me.alert(1, resp.data.message);
                 })
-                .catch(error => console.log(error))
+                .catch(error => {
+                    if (error.response.status == 422) {
+                            let data = '';
+                            let errors = error.response.data.errors
+                            for (let field of Object.keys(errors)) {
+                                data = data + '. ' + errors[field].flat();
+                            }
+                            me.alert(4,data);
+                        }
+                })
                 .finally(() => me.saving = false)
         },
-		activebank(id){
+		activeBank(id){
 			let me = this;
 			const data = {
 				url: "/api/banks/activate/" + id,
-				title: "Activar Precio?",
+				title: "Habilitar Banco?",
 				active: 1
 
 			};
 			Sfire.activeF(data)
 				.then(res => {
-				me.getbanks();
+				me.getBanks();
 				me.alert(1, res);
 				})
 				.catch(error => {
 				me.alert(4, error);
 				});
 		},
-		desactivebank(id){
+		desactiveBank(id){
 			let me = this;
 			const data = {
 				url: "/api/banks/desactive/" + id,
-				title: "Activar Precio?",
+				title: "Inhabilitar Banco?",
 				active: 0
 
 			};
 			Sfire.desactiveF(data)
 				.then(res => {
-				me.getbanks();
+				me.getBanks();
 				me.alert(1, res);
 				})
 				.catch(error => {
 				me.alert(4, error);
 				});
 		},
-		deletebank(id){
+		deleteBank(id){
 			let me = this;
 			const data = {
-				url: "/api/banks/activate/" + id,
-				title: "Activar Precio?",
+				url: "/api/banks/destroy/" + id,
+				title: "Suprimir Banco?",
 				active: 1
 
 			};
-			Sfire.activeS(data)
+			Sfire.deleteF(data)
 				.then(res => {
-				me.getbanks();
+				me.getBanks();
 				me.alert(1, res);
 				})
 				.catch(error => {
@@ -338,7 +400,7 @@ export default {
         },
     },
     mounted() {
-        this.getbanks();
+        this.getBanks();
         this.getCurrencies();
     }
 

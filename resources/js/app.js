@@ -17,6 +17,7 @@ import vuetify from './plugins/vuetify';
 import i18n from './i18n';
 import Sfire from './helpers/swalfire';
 import Alerts from './views/dashboard/component/Alerts'
+import Errors from './views/dashboard/component/Errors'
 
 import { Form, HasError, AlertError } from 'vform';
 window.Form = Form;
@@ -26,6 +27,7 @@ window.Swal = Swal;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 Vue.component('alerts', Alerts)
+Vue.component('error-component', Errors)
 Vue.use(VueAxios, axios);
 Vue.use(Vuetify);
 Vue.use(Vuex);

@@ -5,8 +5,8 @@
         tag="section"
       >
         <base-v-component
-            heading="Panel Pagos"
-            link="pagos/listado"
+            heading="Area de Remesas"
+            link="remesas/listado"
         />
 
         <base-material-card

@@ -128,7 +128,16 @@ export default {
                         });
                         me.$router.push({name: 'customers'});
                     })
-                    .catch(error => console.log(error))
+                    .catch(error => {
+                        if (error.response.status == 422) {
+                            let data = '';
+                            let errors = error.response.data.errors
+                            for (let field of Object.keys(errors)) {
+                                data = data + '. ' + errors[field].flat();
+                            }
+                            me.alert(4,data);
+                        }
+                    })
                     .finally(() => me.saving = false);
 
             },

@@ -1,5 +1,5 @@
 <template>
-  <v-footer
+  <v-footer relative
     id="dashboard-core-footer"
     class="elevation-24 warning justify-center"
     inset

@@ -12,7 +12,7 @@ class DetailPayments extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'payment_id', 'amount', 'amount_iso', 'operation_method', 'receiver_id', 'recipient_acount', 'recipient_bank_name', 'recipient_name', 'recipient_dni', 'recipient_phone', 'description', 'active'
+        'payment_id', 'amount', 'amount_iso', 'operation_method', 'recipient_id', 'bank_account', 'bank_name', 'name', 'dni', 'phone', 'description', 'active'
     ];
 
     protected $cast = [
@@ -27,8 +27,8 @@ class DetailPayments extends Model
         return $this->belongsTo(Payment::class, 'payment_id', 'id');
     }
 
-    public function receiver()
+    public function recipient()
     {
-        return $this->belongsTo(Receiver::class, 'receiver_id', 'id');
+        return $this->belongsTo(Recipient::class, 'receiver_id', 'id');
     }
 }

@@ -36,7 +36,7 @@ class CurrencyController extends Controller
             'country_id' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 403);
+            return response()->json(['errors' => $validator->messages()], 422);
         }
 
         $currency = new Currency([
@@ -70,7 +70,7 @@ class CurrencyController extends Controller
             'country_id' => 'required'
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 403);
+            return response()->json(['errors' => $validator->messages()], 422);
         }
 
         $currency->update([

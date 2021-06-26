@@ -15,48 +15,14 @@ class CreateCurrenciesTable extends Migration
     {
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
-            $table->string('name',30);
-            $table->string('iso',8);
-            $table->string('symbol',8);
+            $table->string('name', 30);
+            $table->string('iso', 8);
+            $table->string('symbol', 8);
+            $table->foreignId('country_id')->nullable()->constrained()->onDelete('set null');
             $table->boolean('active')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
-
-        DB::table('currencies')->insert(
-            [
-                [
-                    'name' => 'Euro',
-                    'iso' => 'EUR',
-                    'symbol' => '€',
-                    'active' => 1
-                ],
-                [
-                    'name' => 'Peso Colombiano',
-                    'iso' => 'COP',
-                    'symbol' => '$',
-                    'active' => 1
-                ],
-                [
-                    'name' => 'Dolar Ecuador',
-                    'iso' => 'USD',
-                    'symbol' => '$',
-                    'active' => 1
-                ],
-                [
-                    'name' => 'Sol Peru',
-                    'iso' => 'PEN',
-                    'symbol' => 'S/',
-                    'active' => 1
-                ],
-                [
-                    'name' => 'Peso Chile',
-                    'iso' => 'CLP',
-                    'symbol' => '$',
-                    'active' => 1
-                ],
-            ]
-        );
     }
 
     /**

@@ -65,13 +65,13 @@
                     case 4:
                         // error
                         me.format = {
-                            'text' : 'Error, no se pudo procesar!. ' +res,
+                            'text' : 'Error, no se pudo procesar! ' +res,
                             'color' : 'red',
                             'status' : true,
                             'type' : 'error',
                             'icon' : 'mdi-book-remove-outline'
                         }
-                        setTimeout(() => me.format.status = false, 4000);
+                        setTimeout(() => me.format.status = false, 5000);
                         break;
 
                     case 5:

@@ -15,8 +15,9 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
-            $table->decimal('amount', 10,2);
-            $table->string('notes',150)->nullable();
+            $table->decimal('amount', 10, 2);
+            $table->string('amount_formated');
+            $table->string('notes', 150)->nullable();
             $table->foreignId('currency_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('country_id')->nullable()->constrained()->onDelete('set null');
             $table->boolean('active')->nullable()->default(1);

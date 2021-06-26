@@ -2,43 +2,55 @@
     <v-layout row wrap>
         <v-container>
             <v-flex xs6>
-                <v-subheader class="display-1">Registrar Cliente</v-subheader>
+                <v-subheader class="display-1">Editar Cliente</v-subheader>
             </v-flex>
             <v-card>
                 <v-card-text>
                     <v-row class="mx-2" >
-                        <v-col cols="12" md="4" class="pt-5 pl-0">
+                        <v-col cols="12" md="4" class="pt-5 pt-xs-0 pl-0">
                             <v-text-field
                             label="Introduzca Nombre Completo"
                             type="text" required
+                            outlined
+                            clearable
+                            dense
                             color="deep-purple"
                             v-model="customer.name"
                             cols="12" md="6"
                             />
                         </v-col>
-                        <v-col cols="12" md="4" class="pt-0 pl-0">
+                        <v-col cols="12" md="4" class="pt-5 pt-xs-0 pl-0">
                             <span style="color:red;" v-show="email">Ya en Uso, Inserte Otro</span>
-                            <span style="color:blue;" v-show="!email">Ingrese Mail valido.</span>
-                            <v-text-field type="text"
+                            <!-- <span style="color:blue;" v-show="!email">Ingrese E-mail valido.</span> -->
+                            <v-text-field type="email"
+                            outlined
+                            clearable
+                            dense
                             color="deep-purple"
-                            label="Insertar Mail"
+                            label="Insertar E-mail Valido"
                             v-model="customer.email"
                             @change="vEmail(customer.email)"
                             />
                         </v-col>
                         <v-col class="align-center justify-space-between" cols="12" md="4">
-                            <v-autocomplete clearable
+                            <v-autocomplete
                             color="deep-purple"
+                            outlined
+                            clearable
+                            dense
                             v-model="customer.country" :items="countries"
                             item-text="name" item-value="name"
                             label="De Donde Eres"
                             ></v-autocomplete>
                         </v-col>
-                        <v-col cols="12" md="4" class="pt-0 pl-0">
+                        <v-col cols="12" md="4" class="pt-5 pt-xs-0 pl-0">
                             <span style="color:red;" v-show="phone">Inserte otro, Este se Encuentra en uso!</span>
-                            <span style="color:blue;" v-show="!phone">Inserte Telefono Unico.</span>
-                            <v-text-field type="text" label="Numero de Telefono Valido"
+                            <!-- <span style="color:blue;" v-show="!phone">Inserte Telefono.</span> -->
+                            <v-text-field type="phone" label="Numero de Telefono Valido"
                             color="deep-purple"
+                            outlined
+                            clearable
+                            dense
                             v-model="customer.phone"
                             @change="vPhone(customer.phone)"
                             />
@@ -46,6 +58,9 @@
                         <v-col cols="12" md="4" class="pt-0 pl-0">
                             <span v-show="!customer.birthdate">Fecha de nacimiento del Cliente.</span>
                             <v-text-field type="date"
+                            outlined
+                            clearable
+                            dense
                             color="deep-purple"
                             Label="Ingrese una fecha de nacimiento" v-model="customer.birthdate"
                             />
@@ -53,6 +68,9 @@
                         <v-col cols="12" md="6" class="pt-0 pl-0">
                             <v-textarea v-model="customer.notes" rows="1"
                             auto-grow filled
+                            outlined
+                            clearable
+                            dense
                             color="deep-purple"
                             label="Acerca del Cliente"
                             ></v-textarea>
@@ -128,7 +146,16 @@ export default {
                         });
                         me.$router.push({name: 'customers'});
                     })
-                    .catch(error => console.log(error))
+                    .catch(error => {
+                        if (error.response.status == 422) {
+                            let data = '';
+                            let errors = error.response.data.errors
+                            for (let field of Object.keys(errors)) {
+                                data = data + '. ' + errors[field].flat();
+                            }
+                            me.alert(4,data);
+                        }
+                    })
                     .finally(() => me.saving = false);
 
             },

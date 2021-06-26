@@ -15,7 +15,7 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $payments = new PaymentCollection(Payment::with(['agent:id,username,name,wallet_num', 'customer:id,name', 'bank:id,account_holder,name'])->get()->reverse());
+        $payments = new PaymentCollection(Payment::with(['agent:id,username,name,wallet_num', 'customer:id,name', 'bank:id,account_holder,name', 'detailpay'])->get()->reverse());
 
         return response()->json(['payments' => $payments]);
     }

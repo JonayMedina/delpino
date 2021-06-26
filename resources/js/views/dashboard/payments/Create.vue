@@ -1,46 +1,116 @@
 <template>
     <v-layout row wrap>
-        <v-container>
-            <v-flex xs6>
-                <v-subheader class="display-1">Nuevo Pago</v-subheader>
-            </v-flex>
-            <v-card>
-                <v-card-text>
+        <v-container
+            id="regular-tables"
+            fluid
+            tag="section"
+        >
+            <base-material-card
+                icon="mdi-file-plus-outline"
+                title="Nuevo Pago"
+                class="px-5 py-3"
+            >
+                <v-card height="100%">
                     <v-row class="mx-2" >
+                        <v-col cols="6">
+                            <v-select
+                            v-model="pay.price_rate"
+                            :items="prices"
+                            menu-props="auto"
+                            label="Select"
+                            hide-details
+                            prepend-icon="map"
+                            single-line
+                            >
+                                <template slot='selection' slot-scope='{ item }'>
+                                    {{ item.calc_format }} {{ item.iso }}
+                                </template>
+                                <template slot='item' slot-scope='{ item }'>
+                                    {{ item.calc_format }} {{ item.iso }}
+                                </template>
+                            </v-select>--
+                        </v-col>
                         <v-banner
                             >
                             Carga tus pagos en la lista y guardalos
                                 <v-btn
-                                text
-                                color="deep-purple accent-4"
-                                @click="openDialog()"
+                                    elevation-5
+                                    color="deep-purple accent-4"
+                                    @click="openDialog()"
                                 >
-                                Agregar Remesa
-                                </v-btn>\
+                                    Agregar Remesa
+                                </v-btn>
                         </v-banner>
                     </v-row>
-                </v-card-text>
-                <v-card-actions>
-                    <router-link :to="{ name: 'customers'}">
+                    <v-card-text v-show="recipients">
+                        <v-simple-table
+                            fixed-header
+                        >
+                            <template v-slot:default>
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Eliminar</th>
+                                        <th class="text-left">
+                                            Nombre
+                                        </th>
+                                        <th class="text-left">
+                                            C.I/D.N.I.
+                                        </th>
+                                        <th class="text-left">
+                                            Banco
+                                        </th>
+                                        <th class="text-left">
+                                            Cuenta
+                                        </th>
+                                        <th class="text-center">
+                                            Monto
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                    v-for="( r, index) in receivers"
+                                    :key="r.name"
+                                    >
+                                    <td class="text-center">
+                                        <v-icon size="40" @click="deleteReceiver(index)" color="red">mdi-delete-forever-outline</v-icon>
+                                    </td>
+                                    <td>{{ r.name }}</td>
+                                    <td>{{ r.dni }}</td>
+                                    <td>{{ r.bank_name }}</td>
+                                    <td>{{ r.bank_account}}</td>
+                                    <td></td>
+                                    </tr>
+                                </tbody>
+                            </template>
+                        </v-simple-table>
+
+
+                    </v-card-text>
+                    <v-card-actions v-show="recipients">
+
+                        <router-link :to="{ name: 'payments'}">
+                            <v-btn
+                                medium
+                                filled
+                                elevation-4
+                            > Cancelar</v-btn>
+                        </router-link>
                         <v-btn
                             medium
-                            filled
+                            outlined
                             elevation-4
-                        > Cancelar</v-btn>
-                    </router-link>
-                    <v-btn
-                        medium
-                        outlined
-                        elevation-4
-                        color="orange darken-4"
-                        :loading="saving"
-                        right
-                        @click="createPay(customer)"
-                        >Registrar
-                    </v-btn>
-                </v-card-actions>
+                            color="orange darken-4"
+                            :loading="saving"
+                            right
+                            @click="createPay(customer)"
+                            >Registrar
+                        </v-btn>
+                    </v-card-actions>
 
-            </v-card>
+                </v-card>
+
+            </base-material-card>
         </v-container>
         <div>
             <v-row>
@@ -71,7 +141,7 @@
                                     text
                                     outlined
                                     elevation-4
-                                    @click="addReceiver()"
+                                    @click="addReceiver(receiver)"
                                 >
                                     Agregar Cuenta
                                 </v-btn>
@@ -148,7 +218,7 @@
                                 outlined
                                 color="orange darken-4"
                                 elevation-4
-                                @click="addReceiver()"
+                                @click="addReceiver(receiver)"
                             >
                                 Agregar Cuenta
                             </v-btn>
@@ -165,15 +235,12 @@
 export default {
         data() {
             return {
-                dni:'',
-                email:'',
-                phone:'',
-                customer: {
-                    password: '',
-                },
-                dialog_title:'',
+                pay : {},
+                detail_pay:[],
+                customers: [],
+                prices:[],
+                dialog_title: 'Agregar datos de cuenta',
                 banks: [],
-                receiver: [],
                 step: 1,
                 turn:0,
                 saving: false,
@@ -193,6 +260,14 @@ export default {
             }
         },
         methods: {
+            getCurrencies(){
+                let me = this;
+                axios.get('/api/prices')
+                    .then( res => {
+                        me.prices = res.data.prices
+                    })
+                    .catch(err => {console.log(err)})
+            },
             getBanks(){
                 let me = this;
                 axios.get('/api/banks/active')
@@ -200,6 +275,27 @@ export default {
                         me.banks = res.data.banks;
                     })
                     .catch(err => { console.log(err) })
+            },
+            addReceiver(data = []){
+                let me = this;
+
+                if (me.find(data['account'])) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error...',
+                        text: 'Cuenta ya agregada!.',
+                        footer: 'Guardar pago o Seguir Agregando?.'
+                    });
+                }else {
+                    me.receivers.push({
+                        bank_account: data['account'],
+                        bank_name: data['bank_name'],
+                        name: data['name'],
+                        dni: data['dni'],
+                        description: '',
+                    });
+                }
+
             },
             createPay() {
                 let me = this;
@@ -216,7 +312,16 @@ export default {
                         });
                         me.$router.push({name: 'customers'});
                     })
-                    .catch(error => console.log(error))
+                    .catch(error =>{
+                        if (error.response.status == 422) {
+                            let data = '';
+                            let errors = error.response.data.errors
+                            for (let field of Object.keys(errors)) {
+                                data = data + '. ' + errors[field].flat();
+                            }
+                            me.alert(4,data);
+                        }
+                    })
                     .finally(() => me.saving = false);
 
             },
@@ -255,16 +360,27 @@ export default {
                 };
                 return me.eCustomer;
             },
+            find(account){
+                var src = 0;
+                if (this.receivers) {
+                    src = this.receivers.some( pay => pay.bank_account == account)
+
+                }
+                return src;
+            },
+            deleteReceiver(index){
+                this.receivers.splice(index, 1);
+            },
             openDialog(){
                 let me = this;
-
-                me.dialog_title = 'Agregar datos de cuenta';
                 me.dialog = true;
+            },
+            clearDialog(){
+                let me = this;
+                me.receiver = [];
             },
             closeDialog(){
                 let me = this;
-
-                me.dialog_title = 'Agregar datos de cuenta';
                 me.dialog = false;
             },
         },

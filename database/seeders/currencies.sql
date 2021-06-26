@@ -1,0 +1,12 @@
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Argentina', 'Pesos', 'ARS', '$', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Bolivia', 'Bolivianos', 'BOB', '$b', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Brazil', 'Reais', 'BRL', 'R$', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Britain (United Kingdom)', 'Pounds', 'GBP', '£', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Canada', 'Dollars', 'CAD', '$', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Chile', 'Pesos', 'CLP', '$', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Colombia', 'Pesos', 'COP', '$', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Mexico', 'Pesos', 'MXN', '$', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Peru', 'Nuevos Soles', 'PEN', 'S/.', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Spain', 'Euro', 'EUR', '€', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('United States of America', 'Dollars', 'USD', '$', 1);
+INSERT INTO currencies (country, currency, code, symbol, active) VALUES ('Venezuela', 'Bolivares Fuertes', 'VEF', 'Bs', 1);

@@ -18,12 +18,13 @@ class CreateBanksTable extends Migration
             $table->string('bank_name', 100);
             $table->string('account_holder');
             $table->string('account_code');
-            $table->string('account_email',100)->nullable();
-            $table->string('account_dni',20)->nullable();
+            $table->string('account_email', 100)->nullable();
+            $table->string('account_dni', 20)->nullable();
             $table->string('account_phone', 20)->nullable();
             $table->text('address')->nullable();
             $table->string('description')->nullable();
             $table->foreignId('country_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('currency_id')->nullable()->constrained()->onDelete('set null');
             $table->boolean('system')->default(0);
             $table->boolean('active')->default(1);
             $table->timestamps();

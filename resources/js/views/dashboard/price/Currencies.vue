@@ -226,7 +226,16 @@ export default {
                     me.closeDialog();
                     me.alert(1, resp.data.message);
                 })
-                .catch(error => console.log(error))
+                .catch(error => {
+                    if (error.response.status == 422) {
+                            let data = '';
+                            let errors = error.response.data.errors
+                            for (let field of Object.keys(errors)) {
+                                data = data + '. ' + errors[field].flat();
+                            }
+                            me.alert(4,data);
+                        }
+                })
                 .finally(() => me.saving = false)
         },
         updateCurrency(){
@@ -242,7 +251,16 @@ export default {
                     me.closeDialog();
                     me.alert(1, resp.data.message);
                 })
-                .catch(error => console.log(error))
+                .catch(error => {
+                    if (error.response.status == 422) {
+                            let data = '';
+                            let errors = error.response.data.errors
+                            for (let field of Object.keys(errors)) {
+                                data = data + '. ' + errors[field].flat();
+                            }
+                            me.alert(4,data);
+                        }
+                })
                 .finally(() => me.saving = false)
 
             bank._method = 'put';

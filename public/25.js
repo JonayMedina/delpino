@@ -1,14 +1,20 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[25],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -169,28 +175,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      prices: [],
-      price: {},
       currencies: [],
+      currency: {},
       loading: false,
       search: '',
       dialog_title: '',
       dialog: false,
       dialog_type: 1,
-      saving: false,
-      errors: [],
+      saving: '',
       headers: [{
-        text: 'Moneda',
+        text: 'Nombre de Moneda',
         align: 'right',
-        value: 'currency'
+        value: 'name'
       }, {
-        text: 'Monto',
+        text: 'Codigo Iso',
         align: 'right',
-        value: 'amount'
+        value: 'iso'
       }, {
-        text: 'Descrip.',
+        text: 'Simbolo',
         align: 'right',
-        value: 'notes'
+        value: 'symbol'
       }, {
         text: 'Opciones',
         value: 'actions',
@@ -199,16 +203,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getPrices: function getPrices() {
-      var me = this;
-      me.loading = true;
-      axios.get('/api/prices').then(function (res) {
-        me.prices = res.data.prices;
-      })["catch"](function (err) {
-        console.log(err.data);
-      })["finally"](me.loading = false);
-    },
-    getCurrency: function getCurrency() {
+    getCurrencies: function getCurrencies() {
       var me = this;
       axios.get('/api/currencies').then(function (res) {
         me.currencies = res.data.currencies;
@@ -216,115 +211,164 @@ __webpack_require__.r(__webpack_exports__);
         console.log(err);
       });
     },
-    showDialog: function showDialog(type, price) {
+    showDialog: function showDialog(type, currency) {
       var me = this;
-
-      if (!me.currencies.lenght) {
-        me.getCurrency();
-      }
 
       if (type == 1) {
         me.dialog_title = 'Guardar Monto';
-        me.price = {};
+        me.currency = {};
       } else {
         me.dialog_title = 'Actualizar Monto';
-        me.price = price;
+        me.currency = currency;
       }
 
       me.dialog = true;
     },
-    createPrice: function createPrice() {
+    createCurrency: function createCurrency() {
       var me = this;
+
+      if (me.validateCurrency()) {
+        return;
+      }
+
       me.saving = true;
-      axios.post('/api/prices/store', me.price).then(function (resp) {
-        me.getPrices();
+      axios.post('/api/currencies/store', me.currency).then(function (resp) {
+        me.getCurrencies();
         me.closeDialog();
         me.alert(1, resp.data.message);
       })["catch"](function (error) {
-        return console.log(error);
+        if (error.response.status == 422) {
+          var data = '';
+          var errors = error.response.data.errors;
+
+          for (var _i = 0, _Object$keys = Object.keys(errors); _i < _Object$keys.length; _i++) {
+            var field = _Object$keys[_i];
+            data = data + '. ' + errors[field].flat();
+          }
+
+          me.alert(4, data);
+        }
       })["finally"](function () {
         return me.saving = false;
       });
     },
-    updatePrice: function updatePrice() {
+    updateCurrency: function updateCurrency() {
       var me = this;
+
+      if (me.validateCurrency()) {
+        return;
+      }
+
       me.saving = true;
-      me.price._method = 'put';
-      axios.post('/api/prices/update/' + me.price.id, me.price).then(function (resp) {
-        me.getPrices();
+      axios.post('/api/currencies/update/' + me.currency.id, me.currency).then(function (resp) {
+        me.getCurrencies();
         me.closeDialog();
         me.alert(1, resp.data.message);
-      })["catch"](function (e) {
-        e.response.data.error.map(function (element) {
-          me.alert(4, element);
-        });
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          var data = '';
+          var errors = error.response.data.errors;
+
+          for (var _i2 = 0, _Object$keys2 = Object.keys(errors); _i2 < _Object$keys2.length; _i2++) {
+            var field = _Object$keys2[_i2];
+            data = data + '. ' + errors[field].flat();
+          }
+
+          me.alert(4, data);
+        }
       })["finally"](function () {
         return me.saving = false;
-      }, me.closeDialog());
+      });
+      bank._method = 'put';
     },
     closeDialog: function closeDialog() {
       var me = this;
-      me.dialog_title = 'Crear Nuevo Precio';
-      me.price = {};
+      me.dialog_title = 'Registrar Moneda';
+      me.currency = {};
       me.dialog = false;
     },
-    activePrice: function activePrice(id) {
+    activeCurrency: function activeCurrency(id) {
       var me = this;
       var data = {
-        url: "/api/prices/activate/" + id,
-        title: "Activar Precio?",
+        url: "/api/currencies/activate/" + id,
+        title: "Activar Moneda?",
         active: 1
       };
-      fire.activeS(data).then(function (res) {
-        me.getPrices();
+      Sfire.activeF(data).then(function (res) {
+        me.getCurrencies();
         me.alert(1, res);
       })["catch"](function (error) {
         me.alert(4, error);
       });
     },
-    desactivePrice: function desactivePrice(id) {
+    desactiveCurrency: function desactiveCurrency(id) {
       var me = this;
       var data = {
-        url: "/api/prices/activate/" + id,
-        title: "Activar Precio?",
-        active: 1
+        url: "/api/currencies/desactive/" + id,
+        title: "Desactivar Moneda?",
+        active: 0
       };
-      fire.activeS(data).then(function (res) {
-        me.getPrices();
+      Sfire.desactiveF(data).then(function (res) {
+        me.getCurrencies();
         me.alert(1, res);
       })["catch"](function (error) {
         me.alert(4, error);
       });
     },
-    deletePrice: function deletePrice(id) {
+    deleteCurrency: function deleteCurrency(id) {
       var me = this;
       var data = {
-        url: "/api/prices/activate/" + id,
-        title: "Activar Precio?",
+        url: "/api/currencies/activate/" + id,
+        title: "BORRAR Moneda?",
         active: 1
       };
-      fire.activeS(data).then(function (res) {
-        me.getPrices();
+      Sfire.activeS(data).then(function (res) {
+        me.getCurrencies();
         me.alert(1, res);
       })["catch"](function (error) {
         me.alert(4, error);
       });
+    },
+    validateCurrency: function validateCurrency() {
+      var me = this;
+      me.errorSmsS = 0;
+      me.errorSmsListS = [];
+      if (!me.currency.name) me.errorSmsListS.push("Por favor Ingrese el nombre de la moneda");
+      if (!me.currency.iso) me.errorSmsListS.push("Por favor Inserte Codigo ISO ejemplo 'USD, EUR, COP'");
+      if (!me.currency.symbol) me.errPayL.push("Por favor Ingrese simbolo de la moneda ejemplo: ' €, $' ");
+      if (me.errorSmsListS.length) me.errorSmsS = 1;
+
+      if (me.errorSmsListS.length >= 1) {
+        Swal.fire({
+          title: 'Hey!! Nos falta(n) Datos',
+          icon: 'info',
+          confirmButtonText: 'Aceptar!',
+          confirmButtonColor: '#3085d6',
+          html: "".concat(me.errorSmsListS.map(function (er) {
+            return "<br><span style=\"color:red;\" class=\"mb-3\"><i class=\"mdi mdi-minus-circle-outline mdi-spin mr-3\"></i> ".concat(er, "</span>");
+          })),
+          showCancelButton: false
+        });
+      }
+
+      ;
+      return me.errorSmsS;
     },
     alert: function alert(display, res) {
       this.$refs.Alerts.showAlert(display, res);
     }
   },
   mounted: function mounted() {
-    this.getPrices();
+    this.getCurrencies();
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc& ***!
-  \*******************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f& ***!
+  \************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -338,17 +382,17 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    { attrs: { id: "prices", fluid: "", tag: "section" } },
+    { attrs: { id: "currencies", fluid: "", tag: "section" } },
     [
       _c("base-v-component", {
-        attrs: { heading: "Lisado de Precios", link: "precios/listado" }
+        attrs: { heading: "Lisado de Monedas", link: "Monedas/listado" }
       }),
       _vm._v(" "),
       _c(
         "base-material-card",
         {
           staticClass: "px-3 py-2",
-          attrs: { icon: "mdi-clipboard-text", title: "Tabla de Precios" }
+          attrs: { icon: "mdi-clipboard-text", title: "Tabla de Monedas" }
         },
         [
           _c("alerts", { ref: "Alerts" }),
@@ -372,7 +416,7 @@ var render = function() {
                             click: function($event) {
                               return _vm.showDialog(
                                 (_vm.dialog_type = 1),
-                                (_vm.price = {})
+                                (_vm.currency = {})
                               )
                             }
                           }
@@ -424,18 +468,11 @@ var render = function() {
             attrs: {
               search: _vm.search,
               headers: _vm.headers,
-              items: _vm.prices,
+              items: _vm.currencies,
               loading: "true",
               "items-per-page": 20
             },
             scopedSlots: _vm._u([
-              {
-                key: "item.currency",
-                fn: function(ref) {
-                  var item = ref.item
-                  return [_c("div", [_vm._v(_vm._s(item.currency.iso))])]
-                }
-              },
               {
                 key: "item.actions",
                 fn: function(ref) {
@@ -483,7 +520,7 @@ var render = function() {
                             },
                             on: {
                               click: function($event) {
-                                return _vm.desactivePrice(item.id)
+                                return _vm.desactiveCurrency(item.id)
                               }
                             }
                           },
@@ -514,7 +551,7 @@ var render = function() {
                             },
                             on: {
                               click: function($event) {
-                                return _vm.activePrice(item.id)
+                                return _vm.activeCurrency(item.id)
                               }
                             }
                           },
@@ -545,7 +582,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            return _vm.deletePrice(item.id)
+                            return _vm.deleteCurrency(item.id)
                           }
                         }
                       },
@@ -577,12 +614,7 @@ var render = function() {
           _c(
             "v-dialog",
             {
-              attrs: {
-                cols: "6",
-                width: "60%",
-                "overlay-color": "blue darken-5",
-                transition: "dialog-top-transition"
-              },
+              attrs: { cols: "10" },
               model: {
                 value: _vm.dialog,
                 callback: function($$v) {
@@ -595,114 +627,118 @@ var render = function() {
               _c(
                 "v-card",
                 [
-                  _c(
-                    "v-card-title",
-                    { staticClass: "orange white--text elevation-4" },
-                    [
-                      _c(
-                        "v-icon",
-                        { attrs: { large: "", left: "", color: "white" } },
-                        [_vm._v("mdi-pencil")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "span",
-                        {
-                          staticClass:
-                            "title font-weight-light text-right display-1"
-                        },
-                        [_vm._v("EDITAR MONEDA")]
-                      )
-                    ],
-                    1
-                  ),
+                  _c("v-card-title", {
+                    staticClass: "grey darken-2",
+                    domProps: { textContent: _vm._s("Editar Moneda") }
+                  }),
                   _vm._v(" "),
                   _c(
                     "v-container",
                     [
                       _c(
                         "v-row",
-                        { staticClass: "mr-0", attrs: { align: "center" } },
+                        { staticClass: "mx-2" },
                         [
                           _c(
                             "v-col",
-                            { attrs: { cols: "12", md: "6" } },
+                            {
+                              staticClass: "align-center justify-space-between",
+                              attrs: { cols: "12" }
+                            },
                             [
-                              _vm.price.currency
-                                ? _c("div", {
-                                    domProps: {
-                                      textContent: _vm._s(
-                                        _vm.price.currency.iso
-                                      )
-                                    }
-                                  })
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _c("v-text-field", {
-                                attrs: {
-                                  type: "number",
-                                  color: "deep-purple",
-                                  required: "",
-                                  outlined: "",
-                                  clearable: "",
-                                  dense: "",
-                                  label: "Ingrese precio de Venta",
-                                  "prepend-outer-icon": "mdi-cash-check"
+                              _c(
+                                "v-row",
+                                {
+                                  staticClass: "mr-0",
+                                  attrs: { align: "center" }
                                 },
-                                model: {
-                                  value: _vm.price.amount,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.price, "amount", $$v)
-                                  },
-                                  expression: "price.amount"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12", md: "6" } },
-                            [
-                              _c("v-select", {
-                                attrs: {
-                                  items: _vm.currencies,
-                                  label: "Seleccione Moneda",
-                                  "item-text": "name",
-                                  "item-value": "id"
-                                },
-                                model: {
-                                  value: _vm.price.currency_id,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.price, "currency_id", $$v)
-                                  },
-                                  expression: "price.currency_id"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "6" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  type: "text",
-                                  "prepend-icon":
-                                    "mdi-account-card-details-outline",
-                                  placeholder: "informacion sobre el Precio"
-                                },
-                                model: {
-                                  value: _vm.price.notes,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.price, "notes", $$v)
-                                  },
-                                  expression: "price.notes"
-                                }
-                              })
+                                [
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12", md: "6" } },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          type: "text",
+                                          color: "deep-purple",
+                                          required: "",
+                                          outlined: "",
+                                          clearable: "",
+                                          dense: "",
+                                          label: "Ingrese Nombre de Moneda",
+                                          "prepend-outer-icon": "mdi-cash-check"
+                                        },
+                                        model: {
+                                          value: _vm.currency.name,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.currency, "name", $$v)
+                                          },
+                                          expression: "currency.name"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12", md: "6" } },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          type: "text",
+                                          color: "deep-purple",
+                                          required: "",
+                                          outlined: "",
+                                          clearable: "",
+                                          dense: "",
+                                          label:
+                                            "ingrese Codigo ISO ejemp: 'USD'",
+                                          "prepend-outer-icon": "mdi-cash-check"
+                                        },
+                                        model: {
+                                          value: _vm.currency.name,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.currency, "name", $$v)
+                                          },
+                                          expression: "currency.name"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "6" } },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          type: "text",
+                                          color: "deep-purple",
+                                          required: "",
+                                          outlined: "",
+                                          clearable: "",
+                                          dense: "",
+                                          "prepend-icon":
+                                            "mdi-account-card-details-outline",
+                                          placeholder:
+                                            "Ingrese simbolo ejemp: '$' "
+                                        },
+                                        model: {
+                                          value: _vm.currency.notes,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.currency, "notes", $$v)
+                                          },
+                                          expression: "currency.notes"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
@@ -719,34 +755,28 @@ var render = function() {
                       _c(
                         "v-btn",
                         {
-                          attrs: { text: "", color: "secondary" },
+                          attrs: { text: "", color: "primary" },
                           on: {
                             click: function($event) {
                               _vm.dialog = false
                             }
                           }
                         },
-                        [_vm._v(" Cerrar")]
+                        [_vm._v(" Cancelar")]
                       ),
-                      _vm._v(" "),
-                      _c("v-spacer"),
                       _vm._v(" "),
                       _vm.dialog_type == 1
                         ? _c(
                             "v-btn",
                             {
-                              staticClass: "text-right",
-                              attrs: {
-                                loading: _vm.saving,
-                                color: "orange darken-4"
-                              },
+                              attrs: { text: "" },
                               on: {
                                 click: function($event) {
-                                  return _vm.createPrice(_vm.price)
+                                  return _vm.createCurrency(_vm.currency)
                                 }
                               }
                             },
-                            [_vm._v("Registrar")]
+                            [_vm._v("Guardar")]
                           )
                         : _vm._e(),
                       _vm._v(" "),
@@ -754,18 +784,14 @@ var render = function() {
                         ? _c(
                             "v-btn",
                             {
-                              staticClass: "white--text",
-                              attrs: {
-                                loading: _vm.saving,
-                                color: "orange darken-4"
-                              },
+                              attrs: { text: "" },
                               on: {
                                 click: function($event) {
-                                  return _vm.updatePrice(_vm.price)
+                                  return _vm.updateCurrency(_vm.list)
                                 }
                               }
                             },
-                            [_vm._v("Guardar Cambios")]
+                            [_vm._v("Actualizar")]
                           )
                         : _vm._e()
                     ],
@@ -791,17 +817,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/views/dashboard/price/Index.vue":
-/*!******************************************************!*\
-  !*** ./resources/js/views/dashboard/price/Index.vue ***!
-  \******************************************************/
+/***/ "./resources/js/views/dashboard/price/Currencies.vue":
+/*!***********************************************************!*\
+  !*** ./resources/js/views/dashboard/price/Currencies.vue ***!
+  \***********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=04469cfc& */ "./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc&");
-/* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Currencies.vue?vue&type=template&id=2e89036f& */ "./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f&");
+/* harmony import */ var _Currencies_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Currencies.vue?vue&type=script&lang=js& */ "./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -811,9 +837,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Currencies_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -823,38 +849,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/dashboard/price/Index.vue"
+component.options.__file = "resources/js/views/dashboard/price/Currencies.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************/
+/***/ "./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Currencies.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f& ***!
+  \******************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=template&id=04469cfc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Currencies.vue?vue&type=template&id=2e89036f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

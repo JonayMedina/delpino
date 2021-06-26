@@ -1,6 +1,8 @@
+import store from '../store'
+const image = store.state.barImage;
 export default {
     updateF(data, item) {
-        return new Promise((res,rej)=>{
+        return new Promise((res, rej) => {
             Swal.fire({
                 title: data.title,
                 icon: 'question',
@@ -18,24 +20,24 @@ export default {
                 `
             }).then((result) => {
                 if (result.value) {
-                    item._method= 'put'
-                    axios.post(data.url ,item)
-                    .then((response)=>{
-                        res(response.data.message)
-                    }) .catch((err)=> {
-                        console.log(err)
-                        rej(err)
-                    });
+                    item._method = 'put'
+                    axios.post(data.url, item)
+                        .then((response) => {
+                            res(response.data.message)
+                        }).catch((err) => {
+                            console.log(err)
+                            rej(err)
+                        });
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
-                    ){
+                ) {
 
                 }
             })
         })
     },
     activeF(data) {
-        return new Promise((res,rej)=>{
+        return new Promise((res, rej) => {
             Swal.fire({
                 title: data.title,
                 icon: 'question',
@@ -47,26 +49,26 @@ export default {
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    let me=this;
-                    axios.post(data.url ,{
+                    let me = this;
+                    axios.post(data.url, {
                         _method: 'put'
                     })
-                    .then((response)=>{
-                        res(response.data.message)
-                    }) .catch((err)=> {
-                        console.log(err)
-                        rej(err)
-                    });
+                        .then((response) => {
+                            res(response.data.message)
+                        }).catch((err) => {
+                            console.log(err)
+                            rej(err)
+                        });
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
-                    ){
+                ) {
 
                 }
             })
         })
     },
     desactiveF(data) {
-        return new Promise((res,rej)=>{
+        return new Promise((res, rej) => {
 
             Swal.fire({
                 title: data.title,
@@ -79,19 +81,19 @@ export default {
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    let me=this;
-                    axios.post(data.url ,{
+                    let me = this;
+                    axios.post(data.url, {
                         _method: 'put'
                     })
-                    .then((response)=>{
-                        res(response.data.message)
-                    }) .catch((err)=> {
-                        console.log(err)
-                        rej(err)
-                    });
+                        .then((response) => {
+                            res(response.data.message)
+                        }).catch((err) => {
+                            console.log(err)
+                            rej(err)
+                        });
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
-                    ){
+                ) {
 
                 }
             })
@@ -99,7 +101,7 @@ export default {
     },
 
     deleteF(data) {
-        return new Promise((res,rej)=>{
+        return new Promise((res, rej) => {
 
             Swal.fire({
                 title: data.title,
@@ -112,24 +114,52 @@ export default {
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    let me=this;
-                    axios.post(data.url ,{
+                    let me = this;
+                    axios.post(data.url, {
                         _method: 'delete'
                     })
-                    .then((response)=>{
-                        res(response.data.message)
-                    }) .catch((err)=> {
-                        console.log(err)
-                        rej(err)
-                    });
+                        .then((response) => {
+                            res(response.data.message)
+                        }).catch((err) => {
+                            console.log(err)
+                            rej(err)
+                        });
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
-                    ){
+                ) {
 
                 }
             })
         })
+    },
+    validateF(data) {
+        return new Promise((res, rej) => {
+            console.log(store.state.barImage);
+            Swal.fire({
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                },
+                title: 'Falta(n) Datos',
+                imageUrl: image,
+                imageWidth: 300,
+                icon: 'error',
+                confirmButtonText: 'Aceptar!',
+                confirmButtonColor: '#3085d6',
+                html: `${data.map(er => `<br><span class="mb-3"><i class="mdi-close-circle-outline mr-3 red"></i> ${er}</span>`)}`,
+                showCancelButton: false
+            });
+        });
+    },
+    moneyFormatF(data) {
+        const formatter = new Intl.NumberFormat('es-Ve', {
+            style: 'currency',
+            currency: 'VES',
+            minimumFractionDigits: 2
+        });
+        return formatter.format(data);
     }
-
 }
 

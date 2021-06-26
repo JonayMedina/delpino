@@ -15,8 +15,10 @@ class CreateCountriesTable extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
-            $table->string('iso', 3);
+            $table->string('name', 80)->nullable();
+            $table->string('currency', 80)->nullable();
+            $table->string('iso', 3)->nullable();
+            $table->integer('symbol')->nullable();
             $table->boolean('active')->default(1);
             $table->timestamps();
             $table->softDeletes();

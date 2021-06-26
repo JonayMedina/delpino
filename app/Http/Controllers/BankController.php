@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BankRequest;
 use PDF;
 use App\Models\Bank;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class BankController extends Controller
         return response()->json(['banks' => $banks]);
     }
 
-    public function store(Request $request)
+    public function store(BankRequest $request)
     {
 
         DB::beginTransaction();
@@ -37,13 +38,14 @@ class BankController extends Controller
                 'account_holder' => strtoupper($this->deleteAccent($request->account_holder)),
                 'currency_id' => $request->currency_id,
                 'active' => 1,
+                'system' => 1
             ]);
             $bank->save();
             DB::commit();
             return response()->json(['message' => 'Cuenta ' . $bank->name . ' Guardada']);
         } catch (Throwable $e) {
             DB::rollBack();
-            return response()->json(['error' => $e], 400);
+            return response()->json(['errors' => $e], 400);
         }
     }
 
@@ -78,19 +80,21 @@ class BankController extends Controller
      * @param  \App\Sale  $bank
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bank $bank)
+    public function update(BankRequest $request, Bank $bank)
     {
         try {
             DB::beginTransaction();
             $bank->update([
-                'bank_name' => strtoupper($this->deleteAccent($request->name)),
-                'account_code' => strtoupper($this->deleteAccent($request->account_code)),
+                'bank_name' => strtoupper($this->deleteAccent($request->bank_name)),
+                'account_code' => $request->account_code,
+                'account_email' => $request->email,
+                'account_phone' => $request->phone,
                 'account_holder' => strtoupper($this->deleteAccent($request->account_holder)),
                 'description' => $request->description,
                 'currency_id' => $request->currency_id,
             ]);
             DB::commit();
-            return response()->json(['message' => 'actualizado']);
+            return response()->json(['message' => 'Actualizado']);
         } catch (Throwable $e) {
             DB::rollBack();
             return response()->json(['error' => $e], 400);
