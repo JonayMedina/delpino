@@ -16,7 +16,7 @@ class CreateDetailPaymentsTable extends Migration
         Schema::create('detail_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('payment_id')->nullable()->constrained()->onDelete('set null');
-            $table->decimal('amount', 15, 2)->nullable();
+            $table->decimal('amount', 20, 2)->nullable();
             $table->string('amount_iso', 10)->nullable();
             $table->string('operation_method', 10)->nullable();
             $table->string('bank_account')->nullable();
@@ -26,7 +26,7 @@ class CreateDetailPaymentsTable extends Migration
             $table->string('phone')->nullable();
             $table->foreignId('recipient_id')->nullable()->constrained()->onDelete('set null');
             $table->string('description', 50)->nullable();
-            $table->timestamp('payed_at');
+            $table->timestamp('payed_at')->nullable();
             $table->boolean('active')->default(0);
             $table->timestamps();
             $table->softDeletes();

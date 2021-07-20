@@ -19,6 +19,7 @@ Route::group([
 // Bank
 Route::group(['prefix' => 'banks'], function () {
     Route::get('/', 'BankController@index');
+    Route::get('by-currency/{id}', 'BankController@byCurrency');
     Route::get('active', 'BankController@indexActive');
     Route::post('store', 'BankController@store');
     Route::get('show/{bank}', 'BankController@show');
@@ -64,7 +65,8 @@ Route::group(['prefix' => 'customers'], function () {
 
 Route::group(['prefix' => 'payments'], function () {
     Route::get('/', 'PaymentController@index');
-    Route::get('all', 'PaymentController@all');
+    Route::get('all', 'PaymentController@indexAll');
+    Route::get('all-active', 'PaymentController@indexActive');
     Route::post('store', 'PaymentController@store');
     Route::get('count', 'PaymentController@indexCount');
     Route::get('agent/{id}', 'PaymentController@indexAgent');
@@ -89,6 +91,7 @@ Route::group(['prefix' => 'prices'], function () {
 
 Route::group(['prefix' => 'currencies'], function () {
     Route::get('/', 'CurrencyController@index');
+    Route::get('actives', 'CurrencyController@actives');
     Route::get('currencies-active/', 'CurrencyController@currencyActive');
     Route::post('store', 'CurrencyController@store');
     Route::get('show/{currency}', 'CurrencyController@show');

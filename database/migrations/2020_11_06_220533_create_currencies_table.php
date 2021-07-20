@@ -18,6 +18,7 @@ class CreateCurrenciesTable extends Migration
             $table->string('name', 30);
             $table->string('iso', 8);
             $table->string('symbol', 8);
+            $table->string('locale', 8);
             $table->foreignId('country_id')->nullable()->constrained()->onDelete('set null');
             $table->boolean('active')->default(0);
             $table->timestamps();

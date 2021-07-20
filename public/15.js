@@ -701,32 +701,6 @@ var render = function() {
                         ]
                       },
                       proxy: true
-                    },
-                    {
-                      key: "actions",
-                      fn: function() {
-                        return [
-                          _c(
-                            "v-icon",
-                            { staticClass: "mr-1", attrs: { small: "" } },
-                            [
-                              _vm._v(
-                                "\n            mdi-clock-outline\n          "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass:
-                                "caption grey--text font-weight-light"
-                            },
-                            [_vm._v("updated 10 minutes ago")]
-                          )
-                        ]
-                      },
-                      proxy: true
                     }
                   ])
                 },

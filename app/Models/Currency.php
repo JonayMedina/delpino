@@ -12,7 +12,7 @@ class Currency extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'iso', 'symbol', 'country_id', 'active',
+        'name', 'iso', 'symbol', 'locale', 'country_id', 'active',
     ];
 
     public function country()

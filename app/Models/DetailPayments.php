@@ -12,7 +12,7 @@ class DetailPayments extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'payment_id', 'amount', 'amount_iso', 'operation_method', 'recipient_id', 'bank_account', 'bank_name', 'name', 'dni', 'phone', 'description', 'active'
+        'payment_id', 'amount', 'amount_iso', 'operation_method', 'recipient_id', 'bank_account', 'bank_name', 'name', 'dni', 'phone', 'description', 'payed_at', 'active'
     ];
 
     protected $cast = [
@@ -22,13 +22,22 @@ class DetailPayments extends Model
         'deleted_at' => 'datetime:H:i:s d/m/Y',
     ];
 
+    // Relations
+
     public function payment()
     {
         return $this->belongsTo(Payment::class, 'payment_id', 'id');
     }
 
-    public function recipient()
+    // Scopes
+
+    public function scopeActive($query)
     {
-        return $this->belongsTo(Recipient::class, 'receiver_id', 'id');
+        return $query->where('active', 1);
+    }
+
+    public function scopePaied($query)
+    {
+        return $query->whereNotNull('payed_at');
     }
 }

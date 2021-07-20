@@ -21,6 +21,13 @@ class BankController extends Controller
         return response()->json(['banks' => $banks]);
     }
 
+    public function byCurrency($id)
+    {
+        $banks = Bank::select('id', 'bank_name', 'account_code', 'account_dni')->where('currency_id', $id)->active()->get();
+
+        return response()->json(['banks' => $banks]);
+    }
+
     public function indexActive()
     {
         $banks = Bank::orderBy('id', 'desc')->active()->get();

@@ -31,7 +31,7 @@ export default {
           errors: function(data){
               if (Object.keys(data).length) {
                   this.datalength = Object.keys(data).length;
-                  console.log([this.datalength, Object.keys(data).length]);
+                //   console.log([this.datalength, Object.keys(data).length]);
                   this.status = true;
                   setTimeout(() => this.status = false, this.datalength * 3000);
               }

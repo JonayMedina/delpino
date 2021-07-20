@@ -18,7 +18,7 @@ class CreateCountriesTable extends Migration
             $table->string('name', 80)->nullable();
             $table->string('currency', 80)->nullable();
             $table->string('iso', 3)->nullable();
-            $table->integer('symbol')->nullable();
+            $table->string('symbol')->nullable();
             $table->boolean('active')->default(1);
             $table->timestamps();
             $table->softDeletes();

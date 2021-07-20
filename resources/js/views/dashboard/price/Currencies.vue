@@ -132,7 +132,21 @@
                                         clearable
                                         dense
                                         label="ingrese Codigo ISO ejemp: 'USD'"
-                                        v-model="currency.name"
+                                        v-model="currency.iso"
+                                        prepend-outer-icon="mdi-cash-check"
+                                        >
+                                        </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <v-text-field
+                                        type="text"
+                                        color="deep-purple"
+                                        required
+                                        outlined
+                                        clearable
+                                        dense
+                                        label="Codigo Locale: 'en-US'"
+                                        v-model="currency.locale"
                                         prepend-outer-icon="mdi-cash-check"
                                         >
                                         </v-text-field>
@@ -329,6 +343,7 @@ export default {
 
             if (!me.currency.name) me.errorSmsListS.push("Por favor Ingrese el nombre de la moneda");
             if (!me.currency.iso)me.errorSmsListS.push("Por favor Inserte Codigo ISO ejemplo 'USD, EUR, COP'");
+            if (!me.currency.locale)me.errorSmsListS.push("Por favor Inserte Codigo Locale ejemplo 'en-US, es-ES, es-CO'");
             if (!me.currency.symbol)me.errPayL.push("Por favor Ingrese simbolo de la moneda ejemplo: ' €, $' ");
             if (me.errorSmsListS.length) me.errorSmsS = 1;
             if (me.errorSmsListS.length >= 1) {

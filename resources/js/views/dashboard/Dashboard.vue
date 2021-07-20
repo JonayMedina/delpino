@@ -61,7 +61,7 @@
             Last Campaign Performance
           </p>
 
-          <template v-slot:actions>
+          <!-- <template v-slot:actions>
             <v-icon
               class="mr-1"
               small
@@ -69,7 +69,7 @@
               mdi-clock-outline
             </v-icon>
             <span class="caption grey--text font-weight-light">updated 10 minutes ago</span>
-          </template>
+          </template> -->
         </base-material-chart-card>
       </v-col>
 

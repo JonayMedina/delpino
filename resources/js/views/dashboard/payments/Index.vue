@@ -17,18 +17,19 @@
             <alerts ref="Alerts"> </alerts>
             <div class="text-center">
                 <v-row>
-                    <v-col cols="2">
+                    <v-col cols="9" md="3">
                         <router-link :to="{name: 'create-payment'}">
                             <v-btn
                             elevation="5"
-                            icon
                             large
+                            color="primary"
+                            rounded
                             >
-                                <v-icon color="orange">mdi-file-plus-outline</v-icon>
+                                Nuevo Pago <v-icon color="orange">mdi-file-plus-outline</v-icon>
                             </v-btn>
                         </router-link>
                     </v-col>
-                    <v-col>
+                    <v-col cols="12" md="9">
                         <v-text-field v-model="search"
                             outlined
                             clearable

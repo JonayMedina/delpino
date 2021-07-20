@@ -1,132 +1,133 @@
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Albania', 'Leke', 'ALL', 'Lek', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('America', 'Dollars', 'USD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Afghanistan', 'Afghanis', 'AFN', '؋', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Argentina', 'Pesos', 'ARS', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Aruba', 'Guilders', 'AWG', 'ƒ', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Australia', 'Dollars', 'AUD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Azerbaijan', 'New Manats', 'AZN', 'ман', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Bahamas', 'Dollars', 'BSD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Barbados', 'Dollars', 'BBD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Belarus', 'Rubles', 'BYR', 'p.', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Belgium', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Beliz', 'Dollars', 'BZD', 'BZ$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Bermuda', 'Dollars', 'BMD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Bolivia', 'Bolivianos', 'BOB', '$b', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Bosnia and Herzegovina', 'Convertible Marka', 'BAM', 'KM', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Botswana', 'Pula', 'BWP', 'P', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Bulgaria', 'Leva', 'BGN', 'лв', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Brazil', 'Reais', 'BRL', 'R$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Britain (United Kingdom)', 'Pounds', 'GBP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Brunei Darussalam', 'Dollars', 'BND', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Cambodia', 'Riels', 'KHR', '៛', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Canada', 'Dollars', 'CAD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Cayman Islands', 'Dollars', 'KYD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Chile', 'Pesos', 'CLP', '$', 1);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('China', 'Yuan Renminbi', 'CNY', '¥', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Colombia', 'Pesos', 'COP', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Costa Rica', 'Colón', 'CRC', '₡', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Croatia', 'Kuna', 'HRK', 'kn', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Cuba', 'Pesos', 'CUP', '₱', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Cyprus', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Czech Republic', 'Koruny', 'CZK', 'Kč', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Denmark', 'Kroner', 'DKK', 'kr', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Dominican Republic', 'Pesos', 'DOP ', 'RD$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('East Caribbean', 'Dollars', 'XCD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Egypt', 'Pounds', 'EGP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('El Salvador', 'Colones', 'SVC', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('England (United Kingdom)', 'Pounds', 'GBP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Euro', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Falkland Islands', 'Pounds', 'FKP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Fiji', 'Dollars', 'FJD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('France', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Ghana', 'Cedis', 'GHC', '¢', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Gibraltar', 'Pounds', 'GIP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Greece', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Guatemala', 'Quetzales', 'GTQ', 'Q', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Guernsey', 'Pounds', 'GGP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Guyana', 'Dollars', 'GYD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Holland (Netherlands)', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Honduras', 'Lempiras', 'HNL', 'L', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Hong Kong', 'Dollars', 'HKD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Hungary', 'Forint', 'HUF', 'Ft', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Iceland', 'Kronur', 'ISK', 'kr', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('India', 'Rupees', 'INR', 'Rp', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Indonesia', 'Rupiahs', 'IDR', 'Rp', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Iran', 'Rials', 'IRR', '﷼', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Ireland', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Isle of Man', 'Pounds', 'IMP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Israel', 'New Shekels', 'ILS', '₪', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Italy', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Jamaica', 'Dollars', 'JMD', 'J$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Japan', 'Yen', 'JPY', '¥', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Jersey', 'Pounds', 'JEP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Kazakhstan', 'Tenge', 'KZT', 'лв', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Korea (North)', 'Won', 'KPW', '₩', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Korea (South)', 'Won', 'KRW', '₩', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Kyrgyzstan', 'Soms', 'KGS', 'лв', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Laos', 'Kips', 'LAK', '₭', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Latvia', 'Lati', 'LVL', 'Ls', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Lebanon', 'Pounds', 'LBP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Liberia', 'Dollars', 'LRD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Liechtenstein', 'Switzerland Francs', 'CHF', 'CHF', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Lithuania', 'Litai', 'LTL', 'Lt', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Luxembourg', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Macedonia', 'Denars', 'MKD', 'ден', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Malaysia', 'Ringgits', 'MYR', 'RM', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Malta', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Mauritius', 'Rupees', 'MUR', '₨', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Mexico', 'Pesos', 'MXN', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Mongolia', 'Tugriks', 'MNT', '₮', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Mozambique', 'Meticais', 'MZN', 'MT', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Namibia', 'Dollars', 'NAD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Nepal', 'Rupees', 'NPR', '₨', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Netherlands Antilles', 'Guilders', 'ANG', 'ƒ', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Netherlands', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('New Zealand', 'Dollars', 'NZD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Nicaragua', 'Cordobas', 'NIO', 'C$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Nigeria', 'Nairas', 'NGN', '₦', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('North Korea', 'Won', 'KPW', '₩', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Norway', 'Krone', 'NOK', 'kr', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Oman', 'Rials', 'OMR', '﷼', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Pakistan', 'Rupees', 'PKR', '₨', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Panama', 'Balboa', 'PAB', 'B/.', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Paraguay', 'Guarani', 'PYG', 'Gs', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Peru', 'Nuevos Soles', 'PEN', 'S/.', 1);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Philippines', 'Pesos', 'PHP', 'Php', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Poland', 'Zlotych', 'PLN', 'zł', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Qatar', 'Rials', 'QAR', '﷼', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Romania', 'New Lei', 'RON', 'lei', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Russia', 'Rubles', 'RUB', 'руб', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Saint Helena', 'Pounds', 'SHP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Saudi Arabia', 'Riyals', 'SAR', '﷼', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Serbia', 'Dinars', 'RSD', 'Дин.', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Seychelles', 'Rupees', 'SCR', '₨', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Singapore', 'Dollars', 'SGD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Slovenia', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Solomon Islands', 'Dollars', 'SBD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Somalia', 'Shillings', 'SOS', 'S', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('South Africa', 'Rand', 'ZAR', 'R', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('South Korea', 'Won', 'KRW', '₩', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Spain', 'Euro', 'EUR', '€', 1);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Sri Lanka', 'Rupees', 'LKR', '₨', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Sweden', 'Kronor', 'SEK', 'kr', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Switzerland', 'Francs', 'CHF', 'CHF', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Suri`name`', 'Dollars', 'SRD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Syria', 'Pounds', 'SYP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Taiwan', 'New Dollars', 'TWD', 'NT$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Thailand', 'Baht', 'THB', '฿', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Trinidad and Tobago', 'Dollars', 'TTD', 'TT$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Turkey', 'Lira', 'TRY', 'TL', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Turkey', 'Liras', 'TRL', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Tuvalu', 'Dollars', 'TVD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Ukraine', 'Hryvnia', 'UAH', '₴', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('United Kingdom', 'Pounds', 'GBP', '£', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('United States of America', 'Dollars', 'USD', '$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Uruguay', 'Pesos', 'UYU', '$U', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Uzbekistan', 'Sums', 'UZS', 'лв', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Vatican City', 'Euro', 'EUR', '€', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Venezuela', 'Bolivares Soberanos', 'VES', 'Bs.S', 1);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Vietnam', 'Dong', 'VND', '₫', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Yemen', 'Rials', 'YER', '﷼', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('Zimbabwe', 'Zimbabwe Dollars', 'ZWD', 'Z$', 0);
-INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES ('India', 'Rupees', 'INR', '₹', 0);
+INSERT INTO `countries` (`name`, `currency`, `iso`, `symbol`, `active`) VALUES
+('Albania', 'Leke', 'ALL', 'Lek', 0),
+('America', 'Dollars', 'USD', '$', 0),
+('Afghanistan', 'Afghanis', 'AFN', '؋', 0),
+('Argentina', 'Pesos', 'ARS', '$', 0),
+('Aruba', 'Guilders', 'AWG', 'ƒ', 0),
+('Australia', 'Dollars', 'AUD', '$', 0),
+('Azerbaijan', 'New Manats', 'AZN', 'ман', 0),
+('Bahamas', 'Dollars', 'BSD', '$', 0),
+('Barbados', 'Dollars', 'BBD', '$', 0),
+('Belarus', 'Rubles', 'BYR', 'p.', 0),
+('Belgium', 'Euro', 'EUR', '€', 0),
+('Beliz', 'Dollars', 'BZD', 'BZ$', 0),
+('Bermuda', 'Dollars', 'BMD', '$', 0),
+('Bolivia', 'Bolivianos', 'BOB', '$b', 0),
+('Bosnia and Herzegovina', 'Convertible Marka', 'BAM', 'KM', 0),
+('Botswana', 'Pula', 'BWP', 'P', 0),
+('Bulgaria', 'Leva', 'BGN', 'лв', 0),
+('Brazil', 'Reais', 'BRL', 'R$', 0),
+('Britain (United Kingdom)', 'Pounds', 'GBP', '£', 0),
+('Brunei Darussalam', 'Dollars', 'BND', '$', 0),
+('Cambodia', 'Riels', 'KHR', '៛', 0),
+('Canada', 'Dollars', 'CAD', '$', 0),
+('Cayman Islands', 'Dollars', 'KYD', '$', 0),
+('Chile', 'Pesos', 'CLP', '$', 1),
+('China', 'Yuan Renminbi', 'CNY', '¥', 0),
+('Colombia', 'Pesos', 'COP', '$', 0),
+('Costa Rica', 'Colón', 'CRC', '₡', 0),
+('Croatia', 'Kuna', 'HRK', 'kn', 0),
+('Cuba', 'Pesos', 'CUP', '₱', 0),
+('Cyprus', 'Euro', 'EUR', '€', 0),
+('Czech Republic', 'Koruny', 'CZK', 'Kč', 0),
+('Denmark', 'Kroner', 'DKK', 'kr', 0),
+('Dominican Republic', 'Pesos', 'DOP ', 'RD$', 0),
+('East Caribbean', 'Dollars', 'XCD', '$', 0),
+('Egypt', 'Pounds', 'EGP', '£', 0),
+('El Salvador', 'Colones', 'SVC', '$', 0),
+('England (United Kingdom)', 'Pounds', 'GBP', '£', 0),
+('Euro', 'Euro', 'EUR', '€', 0),
+('Falkland Islands', 'Pounds', 'FKP', '£', 0),
+('Fiji', 'Dollars', 'FJD', '$', 0),
+('France', 'Euro', 'EUR', '€', 0),
+('Ghana', 'Cedis', 'GHC', '¢', 0),
+('Gibraltar', 'Pounds', 'GIP', '£', 0),
+('Greece', 'Euro', 'EUR', '€', 0),
+('Guatemala', 'Quetzales', 'GTQ', 'Q', 0),
+('Guernsey', 'Pounds', 'GGP', '£', 0),
+('Guyana', 'Dollars', 'GYD', '$', 0),
+('Holland (Netherlands)', 'Euro', 'EUR', '€', 0),
+('Honduras', 'Lempiras', 'HNL', 'L', 0),
+('Hong Kong', 'Dollars', 'HKD', '$', 0),
+('Hungary', 'Forint', 'HUF', 'Ft', 0),
+('Iceland', 'Kronur', 'ISK', 'kr', 0),
+('India', 'Rupees', 'INR', 'Rp', 0),
+('Indonesia', 'Rupiahs', 'IDR', 'Rp', 0),
+('Iran', 'Rials', 'IRR', '﷼', 0),
+('Ireland', 'Euro', 'EUR', '€', 0),
+('Isle of Man', 'Pounds', 'IMP', '£', 0),
+('Israel', 'New Shekels', 'ILS', '₪', 0),
+('Italy', 'Euro', 'EUR', '€', 0),
+('Jamaica', 'Dollars', 'JMD', 'J$', 0),
+('Japan', 'Yen', 'JPY', '¥', 0),
+('Jersey', 'Pounds', 'JEP', '£', 0),
+('Kazakhstan', 'Tenge', 'KZT', 'лв', 0),
+('Korea (North)', 'Won', 'KPW', '₩', 0),
+('Korea (South)', 'Won', 'KRW', '₩', 0),
+('Kyrgyzstan', 'Soms', 'KGS', 'лв', 0),
+('Laos', 'Kips', 'LAK', '₭', 0),
+('Latvia', 'Lati', 'LVL', 'Ls', 0),
+('Lebanon', 'Pounds', 'LBP', '£', 0),
+('Liberia', 'Dollars', 'LRD', '$', 0),
+('Liechtenstein', 'Switzerland Francs', 'CHF', 'CHF', 0),
+('Lithuania', 'Litai', 'LTL', 'Lt', 0),
+('Luxembourg', 'Euro', 'EUR', '€', 0),
+('Macedonia', 'Denars', 'MKD', 'ден', 0),
+('Malaysia', 'Ringgits', 'MYR', 'RM', 0),
+('Malta', 'Euro', 'EUR', '€', 0),
+('Mauritius', 'Rupees', 'MUR', '₨', 0),
+('Mexico', 'Pesos', 'MXN', '$', 0),
+('Mongolia', 'Tugriks', 'MNT', '₮', 0),
+('Mozambique', 'Meticais', 'MZN', 'MT', 0),
+('Namibia', 'Dollars', 'NAD', '$', 0),
+('Nepal', 'Rupees', 'NPR', '₨', 0),
+('Netherlands Antilles', 'Guilders', 'ANG', 'ƒ', 0),
+('Netherlands', 'Euro', 'EUR', '€', 0),
+('New Zealand', 'Dollars', 'NZD', '$', 0),
+('Nicaragua', 'Cordobas', 'NIO', 'C$', 0),
+('Nigeria', 'Nairas', 'NGN', '₦', 0),
+('North Korea', 'Won', 'KPW', '₩', 0),
+('Norway', 'Krone', 'NOK', 'kr', 0),
+('Oman', 'Rials', 'OMR', '﷼', 0),
+('Pakistan', 'Rupees', 'PKR', '₨', 0),
+('Panama', 'Balboa', 'PAB', 'B/.', 0),
+('Paraguay', 'Guarani', 'PYG', 'Gs', 0),
+('Peru', 'Nuevos Soles', 'PEN', 'S/.', 1),
+('Philippines', 'Pesos', 'PHP', 'Php', 0),
+('Poland', 'Zlotych', 'PLN', 'zł', 0),
+('Qatar', 'Rials', 'QAR', '﷼', 0),
+('Romania', 'New Lei', 'RON', 'lei', 0),
+('Russia', 'Rubles', 'RUB', 'руб', 0),
+('Saint Helena', 'Pounds', 'SHP', '£', 0),
+('Saudi Arabia', 'Riyals', 'SAR', '﷼', 0),
+('Serbia', 'Dinars', 'RSD', 'Дин.', 0),
+('Seychelles', 'Rupees', 'SCR', '₨', 0),
+('Singapore', 'Dollars', 'SGD', '$', 0),
+('Slovenia', 'Euro', 'EUR', '€', 0),
+('Solomon Islands', 'Dollars', 'SBD', '$', 0),
+('Somalia', 'Shillings', 'SOS', 'S', 0),
+('South Africa', 'Rand', 'ZAR', 'R', 0),
+('South Korea', 'Won', 'KRW', '₩', 0),
+('Spain', 'Euro', 'EUR', '€', 1),
+('Sri Lanka', 'Rupees', 'LKR', '₨', 0),
+('Sweden', 'Kronor', 'SEK', 'kr', 0),
+('Switzerland', 'Francs', 'CHF', 'CHF', 0),
+('Suri`name`', 'Dollars', 'SRD', '$', 0),
+('Syria', 'Pounds', 'SYP', '£', 0),
+('Taiwan', 'New Dollars', 'TWD', 'NT$', 0),
+('Thailand', 'Baht', 'THB', '฿', 0),
+('Trinidad and Tobago', 'Dollars', 'TTD', 'TT$', 0),
+('Turkey', 'Lira', 'TRY', 'TL', 0),
+('Turkey', 'Liras', 'TRL', '£', 0),
+('Tuvalu', 'Dollars', 'TVD', '$', 0),
+('Ukraine', 'Hryvnia', 'UAH', '₴', 0),
+('United Kingdom', 'Pounds', 'GBP', '£', 0),
+('United States of America', 'Dollars', 'USD', '$', 0),
+('Uruguay', 'Pesos', 'UYU', '$U', 0),
+('Uzbekistan', 'Sums', 'UZS', 'лв', 0),
+('Vatican City', 'Euro', 'EUR', '€', 0),
+('Venezuela', 'Bolivares Soberanos', 'VES', 'Bs.S', 1),
+('Vietnam', 'Dong', 'VND', '₫', 0),
+('Yemen', 'Rials', 'YER', '﷼', 0),
+('Zimbabwe', 'Zimbabwe Dollars', 'ZWD', 'Z$', 0),
+('India', 'Rupees', 'INR', '₹', 0);

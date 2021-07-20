@@ -18,21 +18,23 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        $currencies = Currency::with('country:id,nicename,iso')->get();
+        $currencies = Currency::with('country:id,name,iso')->get();
         return response()->json(['currencies' => $currencies]);
     }
 
-    public function create()
+    public function actives()
     {
-        //
+        $currencies = Currency::active()->get();
+        return response()->json(['currencies' => $currencies]);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:currencies,name,',
             'iso' => 'required|string',
             'symbol' => 'required|string',
+            'locale' => 'required|string',
             'country_id' => 'required'
         ]);
         if ($validator->fails()) {
@@ -43,7 +45,9 @@ class CurrencyController extends Controller
             'name' => $request->name,
             'iso' => $request->iso,
             'symbol' => $request->symbol,
-            'country_id' => $request->country_id
+            'locale' => $request->locale,
+            'country_id' => $request->country_id,
+            'active' => 0
         ]);
 
         $currency->save();
@@ -64,7 +68,7 @@ class CurrencyController extends Controller
     public function update(Request $request, Currency $currency)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:currencies,name,' . $currency->id,
             'iso' => 'required|string',
             'symbol' => 'required|string',
             'country_id' => 'required'
@@ -73,13 +77,11 @@ class CurrencyController extends Controller
             return response()->json(['errors' => $validator->messages()], 422);
         }
 
-        $currency->update([
-            'name' => $request->name,
-            'iso' => $request->iso,
-            'symbol' => $request->symbol,
-            'country_id' => $request->country_id
-        ]);
-
+        $currency->name = $request->name;
+        $currency->iso = $request->iso;
+        $currency->symbol = $request->symbol;
+        $currency->locale = $request->locale;
+        $currency->country_id = $request->country_id;
         $currency->save();
 
         return response()->json(['message' => 'Moneda actualizada']);

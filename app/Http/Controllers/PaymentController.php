@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Models\Payment;
 use App\Http\Resources\Payment as PaymentResource;
 use App\Http\Resources\PaymentCollection;
+use App\Models\DetailPayments;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -79,6 +80,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         try {
+            DB::beginTransaction();
             $payment = new Payment([
                 'amount' => $request->amount,
                 'amount_iso' => $request->amount_iso,
@@ -87,12 +89,11 @@ class PaymentController extends Controller
                 'operatiton_code' => $request->operatiton_code,
                 'operation_metod' => $request->operation_metod,
                 'customer_id' => $request->customer_id,
-                'recipient_id' => $request->recipient_id,
                 'bank_id' => $request->bank_id,
                 'description' => $request->description,
                 'active' => 0,
             ]);
-            $payment->save();
+
 
             if ($request->hasFile('file')) {
 
@@ -102,8 +103,22 @@ class PaymentController extends Controller
 
                     $url = '/payments/' . $payment->id . '/' . $imageName;
 
-                    $payment = Payment::where('id', $payment->id)->update(['file' => $url]);
+                    $payment->file = $url;
+                    $payment->save();
                 }
+            }
+
+            $detail = $request->detail_pay;
+
+            foreach ($detail as $d) {
+                DetailPayments::create([
+                    'paiment_id' => $payment->id,
+                    'amount' => $d->amount,
+                    'bank_account' => $d->bank_account,
+                    'bank_name' => $d->bank_name,
+                    'dni' => $d->dni,
+                    'active' => 1
+                ]);
             }
 
             DB::commit();
@@ -157,10 +172,10 @@ class PaymentController extends Controller
 
                     $url = '/payments/' . $payment->id . '/' . $imageName;
 
-                    $payment = Payment::where('id', $payment->id)->update(['file' => $url]);
+                    $payment->file = $url;
+                    $payment->save();
                 }
             }
-
 
             DB::commit();
             return response()->json(['message' => 'Pago Registrado '], 200);

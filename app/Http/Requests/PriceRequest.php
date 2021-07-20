@@ -24,8 +24,8 @@ class PriceRequest extends FormRequest
     {
         return [
             'amount' => 'required|string|between:2,100',
-            'currency_id' => 'required|extist:currencies,id',
-            'description' => 'nullable|string',
+            'currency_id' => 'required|exists:currencies,id',
+            'notes' => 'nullable|string',
         ];
     }
 
@@ -34,7 +34,7 @@ class PriceRequest extends FormRequest
         return [
             'amount' => 'Precio de Venta',
             'currency_id' => 'Moneda',
-            'description' => 'Descripcion',
+            'notes' => 'Descripcion',
         ];
     }
 

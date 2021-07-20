@@ -134,7 +134,6 @@ export default {
     },
     validateF(data) {
         return new Promise((res, rej) => {
-            console.log(store.state.barImage);
             Swal.fire({
                 showClass: {
                     popup: 'animate__animated animate__fadeInDown'

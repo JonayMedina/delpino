@@ -11,7 +11,7 @@ class Price extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['amount', 'notes',  'active', 'currency_id', 'country_id'];
+    protected $fillable = ['amount', 'amount_formated', 'notes',  'active', 'currency_id', 'country_id'];
 
     public function currency()
     {
@@ -19,7 +19,7 @@ class Price extends Model
     }
 
     protected $casts = [
-	    'created_at' => 'datetime:H:i:s d/m/Y ', // Change format
-	    'updated_at' => 'datetime:H:i:s d/m/Y',
-	];
+        'created_at' => 'datetime:H:i:s d/m/Y ', // Change format
+        'updated_at' => 'datetime:H:i:s d/m/Y',
+    ];
 }

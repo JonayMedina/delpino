@@ -172,6 +172,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -335,6 +349,7 @@ __webpack_require__.r(__webpack_exports__);
       me.errorSmsListS = [];
       if (!me.currency.name) me.errorSmsListS.push("Por favor Ingrese el nombre de la moneda");
       if (!me.currency.iso) me.errorSmsListS.push("Por favor Inserte Codigo ISO ejemplo 'USD, EUR, COP'");
+      if (!me.currency.locale) me.errorSmsListS.push("Por favor Inserte Codigo Locale ejemplo 'en-US, es-ES, es-CO'");
       if (!me.currency.symbol) me.errPayL.push("Por favor Ingrese simbolo de la moneda ejemplo: ' €, $' ");
       if (me.errorSmsListS.length) me.errorSmsS = 1;
 
@@ -697,11 +712,42 @@ var render = function() {
                                           "prepend-outer-icon": "mdi-cash-check"
                                         },
                                         model: {
-                                          value: _vm.currency.name,
+                                          value: _vm.currency.iso,
                                           callback: function($$v) {
-                                            _vm.$set(_vm.currency, "name", $$v)
+                                            _vm.$set(_vm.currency, "iso", $$v)
                                           },
-                                          expression: "currency.name"
+                                          expression: "currency.iso"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
+                                    { attrs: { cols: "12", md: "6" } },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          type: "text",
+                                          color: "deep-purple",
+                                          required: "",
+                                          outlined: "",
+                                          clearable: "",
+                                          dense: "",
+                                          label: "Codigo Locale: 'en-US'",
+                                          "prepend-outer-icon": "mdi-cash-check"
+                                        },
+                                        model: {
+                                          value: _vm.currency.locale,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.currency,
+                                              "locale",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "currency.locale"
                                         }
                                       })
                                     ],

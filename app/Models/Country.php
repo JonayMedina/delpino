@@ -10,7 +10,7 @@ class Country extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['iso', 'name', 'nicename', 'iso3', 'num_country', 'phone_code'];
+    protected $fillable = ['name', 'currency', 'iso', 'symbol', 'active'];
 
     public function currencies()
     {

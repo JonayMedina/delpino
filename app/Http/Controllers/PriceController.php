@@ -24,6 +24,7 @@ class PriceController extends Controller
     {
         $price = new Price([
             'amount' => $request->amount,
+            'amount_formated' => $request->amount_formated,
             'notes' => $request->notes,
             'currency_id' => $request->currency_id,
             'country_id' => $request->country_id,
@@ -43,6 +44,7 @@ class PriceController extends Controller
     public function update(PriceRequest $request, Price $price)
     {
         $price->amount = $request->amount;
+        $price->amount_formated = $request->amount_formated;
         $price->notes = $request->notes;
         $price->currency_id = $request->currency_id;
         $price->country_id = $request->country_id;

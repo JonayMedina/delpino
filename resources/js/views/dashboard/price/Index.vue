@@ -40,7 +40,7 @@
 				:headers="headers"
 				:items="prices"
 				class="elevation-2"
-				loading="true"
+				:loading="loading"
 				:items-per-page="20"
 			>
 				<template v-slot:item.currency="{ item }">
@@ -133,7 +133,7 @@
 								</v-text-field>
 							</v-col>
 							<v-col cols="12" md="6">
-								<div display-3 color="grey darken-4">{{ price.formated }}</div>
+								<div display-3 color="grey darken-4">{{ price.amount_formated }}</div>
 							</v-col>
 							<v-col cols="12" md="6">
 								<v-select
@@ -187,7 +187,7 @@
 			return {
 				prices: [],
 				price: {
-					formated: "",
+					amount_formated: "",
 					amount: 0.0,
 				},
 				formated: 0.0,
@@ -375,7 +375,7 @@
 					});
 			},
 			calcformated(newFormated) {
-				this.price.formated = Sfire.moneyFormatF(newFormated);
+				this.price.amount_formated = Sfire.moneyFormatF(newFormated);
 			},
 			alert: function (display, res) {
 				this.$refs.Alerts.showAlert(display, res);

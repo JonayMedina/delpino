@@ -110,6 +110,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -219,7 +220,7 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    { attrs: { cols: "2" } },
+                    { attrs: { cols: "9", md: "3" } },
                     [
                       _c(
                         "router-link",
@@ -227,8 +228,18 @@ var render = function() {
                         [
                           _c(
                             "v-btn",
-                            { attrs: { elevation: "5", icon: "", large: "" } },
+                            {
+                              attrs: {
+                                elevation: "5",
+                                large: "",
+                                color: "primary",
+                                rounded: ""
+                              }
+                            },
                             [
+                              _vm._v(
+                                "\n                            Nuevo Pago "
+                              ),
                               _c("v-icon", { attrs: { color: "orange" } }, [
                                 _vm._v("mdi-file-plus-outline")
                               ])
@@ -244,6 +255,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
+                    { attrs: { cols: "12", md: "9" } },
                     [
                       _c("v-text-field", {
                         attrs: {

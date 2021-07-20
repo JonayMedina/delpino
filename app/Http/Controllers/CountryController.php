@@ -15,13 +15,13 @@ class CountryController extends Controller
     public function index()
     {
         $countries = Country::orderBy('id', 'asc')->get();
-        return response()->json(['countries'=>$countries]);
+        return response()->json(['countries' => $countries]);
     }
 
     public function indexActive()
     {
         $countries = Country::orderBy('id', 'desc')->active()->get();
-        return response()->json(['countries'=>$countries]);
+        return response()->json(['countries' => $countries]);
     }
     /**
      * Show the form for creating a new resource.
@@ -38,11 +38,13 @@ class CountryController extends Controller
         $country = new Country([
             'name' => strtoupper($request->name),
             'iso' => strtoupper($request->iso),
-            'active' => 1
+            'currency' => strtoupper($request->currency),
+            'symbol' => strtoupper($request->symbol),
+            'active' => 0
         ]);
         $country->save();
 
-        return response()->json(['message' =>$country->name.' Guardado']);
+        return response()->json(['message' => $country->name . ' Guardado']);
     }
 
     public function show(Country $country)
@@ -64,13 +66,14 @@ class CountryController extends Controller
      */
     public function update(Request $request, Country $country)
     {
-        $country->update([
-            'name' => strtoupper($request->name),
-            'iso' => strtoupper($request->iso),
-            'active' => 1
-        ]);
+        $country->name = strtoupper($request->name);
+        $country->iso = strtoupper($request->iso);
+        $country->symbol = strtoupper($request->symbol);
+        $country->currency = strtoupper($request->currency);
 
-        return response()->json(['message' =>$country->name.' Actualizado']);
+        $country->save();
+
+        return response()->json(['message' => $country->name . ' Actualizado']);
     }
 
     public function desactive(Country $country)
@@ -78,15 +81,15 @@ class CountryController extends Controller
         $country->active = 0;
         $country->save();
 
-        return response()->json(['message'=> $country->name. ' Desactivado']);
+        return response()->json(['message' => $country->name . ' Desactivado']);
     }
 
     public function activate(Country $country)
     {
-        $bank->active = 1;
-        $bank->save();
+        $country->active = 1;
+        $country->save();
 
-        return response()->json(['message'=> $country->name. ' activado']);
+        return response()->json(['message' => $country->name . ' activado']);
     }
 
     /**
@@ -99,6 +102,6 @@ class CountryController extends Controller
     {
         $country->delete();
 
-        return response()->json(['message'=>'Pais Eliminado']);
+        return response()->json(['message' => 'Pais Eliminado']);
     }
 }

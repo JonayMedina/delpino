@@ -205,7 +205,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       prices: [],
       price: {
-        formated: "",
+        amount_formated: "",
         amount: 0.0
       },
       formated: 0.0,
@@ -421,7 +421,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     calcformated: function calcformated(newFormated) {
-      this.price.formated = Sfire.moneyFormatF(newFormated);
+      this.price.amount_formated = Sfire.moneyFormatF(newFormated);
     },
     alert: function alert(display, res) {
       this.$refs.Alerts.showAlert(display, res);
@@ -538,7 +538,7 @@ var render = function() {
               search: _vm.search,
               headers: _vm.headers,
               items: _vm.prices,
-              loading: "true",
+              loading: _vm.loading,
               "items-per-page": 20
             },
             scopedSlots: _vm._u([
@@ -792,7 +792,7 @@ var render = function() {
                                   color: "grey darken-4"
                                 }
                               },
-                              [_vm._v(_vm._s(_vm.price.formated))]
+                              [_vm._v(_vm._s(_vm.price.amount_formated))]
                             )
                           ]),
                           _vm._v(" "),
