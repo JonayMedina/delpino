@@ -4,7 +4,6 @@ import Vue from 'vue';
 window.Vue = require('vue');
 import App from './App.vue';
 import Vuetify from 'vuetify';
-import '@mdi/font/css/materialdesignicons.css';
 import router from './router';
 import Vuex from 'vuex';
 import store from './store';
@@ -21,7 +20,6 @@ import Alerts from './views/dashboard/component/Alerts';
 import Money from './views/dashboard/component/Money';
 import Errors from './views/dashboard/component/Errors';
 import 'vuetify/dist/vuetify.min.css'
-// import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import { Form, HasError, AlertError } from 'vform';
 window.Form = Form;
@@ -45,5 +43,4 @@ const app = new Vue({
     i18n,
     render: h => h(App),
     vuetify: new Vuetify(),
-    iconfont: 'mdi',
 });
