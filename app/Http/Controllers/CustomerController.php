@@ -26,6 +26,12 @@ class CustomerController extends Controller
         return response()->json(['customers' => $customers]);
     }
 
+    public function lastest()
+    {
+        $customers = Customer::orderBy('id', 'asc')->latest()->take(10)->get();
+        return response()->json(['customers' => $customers]);
+    }
+
     public function indexActive()
     {
         $customers = Customer::orderBy('id', 'desc')->active()->get();
@@ -36,6 +42,7 @@ class CustomerController extends Controller
     {
 
         $customer = new Customer([
+            'country' => $request->country,
             'name' => strtoupper($this->deleteAccent($request->name)),
             'dni' => $request->dni,
             'email' => $request->email,

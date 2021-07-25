@@ -27,7 +27,7 @@
 
     <v-icon
       :color="subIconColor"
-      size="16"
+      size="12"
       class="ml-2 mr-1"
     >
       {{ subIcon }}

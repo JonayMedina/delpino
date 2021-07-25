@@ -16,7 +16,7 @@ class BankSeeder extends Seeder
         $faker = Faker::create();
         $currencies = Currency::all();
         for ($j = 0; $j < count($currencies); $j++) {
-            for ($i = 1; $i < 2; $i++) {
+            for ($i = 0; $i < 2; $i++) {
                 DB::table('banks')->insert([
                     'bank_name' => $faker->company,
                     'account_holder' => $faker->name,

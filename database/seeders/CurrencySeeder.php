@@ -21,30 +21,35 @@ class CurrencySeeder extends Seeder
                 'name' => 'Euro',
                 'iso' => 'EUR',
                 'symbol' => '€',
+                'locale' => 'es-Es',
                 'active' => 1
             ],
             [
                 'name' => 'Peso Colombiano',
                 'iso' => 'COP',
                 'symbol' => '$',
+                'locale' => 'es-CO',
                 'active' => 1
             ],
             [
                 'name' => 'Dolar Ecuador',
                 'iso' => 'USD',
                 'symbol' => '$',
+                'locale' => 'es-EC',
                 'active' => 1
             ],
             [
                 'name' => 'Sol Peru',
                 'iso' => 'PEN',
                 'symbol' => 'S/',
+                'locale' => 'es-PE',
                 'active' => 1
             ],
             [
                 'name' => 'Peso Chile',
                 'iso' => 'CLP',
                 'symbol' => '$',
+                'locale' => 'es-CL',
                 'active' => 1
             ],
         ];
@@ -56,6 +61,7 @@ class CurrencySeeder extends Seeder
                 'name' => $value['name'],
                 'iso' => $value['iso'],
                 'symbol' => $value['symbol'],
+                'locale' => $value['locale'],
                 'active' => $value['active'],
                 'country_id' => $country->id
             ]);

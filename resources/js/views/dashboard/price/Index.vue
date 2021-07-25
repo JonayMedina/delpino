@@ -10,15 +10,27 @@
 			<alerts ref="Alerts"> </alerts>
 			<div class="text-center">
 				<v-row>
-					<v-col cols="2">
-						<v-btn
+					<v-col cols="9" md="3">
+                        <v-card color="teal" class="my-0" outlined rounded >
+                            <v-list class="my-0">
+                                <v-list-item @click="showDialog((dialog_type = 1), (price = {}))" link>
+                                    <v-list-item-avatar>
+                                        <v-icon large color="teal">mdi-cash-plus</v-icon>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content>
+                                        <v-list-item-title color="teal" v-text="'Nuevo Precio +'"></v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-card>
+						<!-- <v-btn
 							@click="showDialog((dialog_type = 1), (price = {}))"
 							elevation="5"
 							icon
 							large
 						>
 							<v-icon color="orange">mdi-cash-plus</v-icon>
-						</v-btn>
+						</v-btn> -->
 					</v-col>
 					<v-col>
 						<v-text-field
@@ -52,6 +64,8 @@
 						color="orange darken-4"
 						small
 						filled
+                        outlined
+                        rounded
 						elevation-4
 						class="ma-1 white--text"
 					>
@@ -63,6 +77,8 @@
 						color=""
 						x-small
 						filled
+                        outlined
+                        rounded
 						elevation-4
 						class="ma-1"
 					>
@@ -75,6 +91,8 @@
 						color="blue darken-2"
 						x-small
 						filled
+                        outlined
+                        rounded
 						elevation-4
 						class="ma-1 white--text"
 					>
@@ -86,6 +104,8 @@
 						color="red darken-3"
 						small
 						filled
+                        outlined
+                        rounded
 						elevation-4
 						class="ma-1 white--text"
 						:disabled="item.active == 3 || item.active == 1"

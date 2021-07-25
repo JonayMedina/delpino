@@ -16,6 +16,17 @@ Route::group([
 
 // Route::group(['middleware' => 'auth:api'], function () {
 
+// Balances
+Route::group(['prefix' => 'balances'], function () {
+    Route::get('/', 'BalanceController@index');
+    Route::post('store', 'BalanceController@store');
+    Route::put('update/{balance}', 'BalanceController@update');
+    Route::put('add-btc/{balance}', 'BalanceController@addBtc');
+    Route::put('desactive/{balance}', 'BalanceController@desactive');
+    Route::put('activate/{balance}', 'BalanceController@activate');
+    Route::delete('destroy/{balance}', 'BalanceController@destroy');
+});
+
 // Bank
 Route::group(['prefix' => 'banks'], function () {
     Route::get('/', 'BankController@index');
@@ -43,10 +54,24 @@ Route::group(['prefix' => 'countries'], function () {
     Route::delete('destroy/{country}', 'CountryController@destroy');
 });
 
+Route::group(['prefix' => 'currencies'], function () {
+    Route::get('/', 'CurrencyController@index');
+    Route::get('actives', 'CurrencyController@actives');
+    Route::get('currencies-active/', 'CurrencyController@currencyActive');
+    Route::post('store', 'CurrencyController@store');
+    Route::get('show/{currency}', 'CurrencyController@show');
+    // Route::get('edit/{id}', 'CurrencyController@edit');
+    Route::put('update/{currency}', 'CurrencyController@update');
+    Route::put('desactive/{currency}', 'CurrencyController@desactive');
+    Route::put('activate/{currency}', 'CurrencyController@activate');
+    Route::delete('destroy/{currency}', 'CurrencyController@destroy');
+});
+
 // Customers
 Route::group(['prefix' => 'customers'], function () {
     Route::get('/', 'CustomerController@index');
     Route::get('/all', 'CustomerController@indexAll');
+    Route::get('/latest', 'CustomerController@atest');
     Route::post('store', 'CustomerController@store');
     Route::get('count', 'CustomerController@indexCount');
     Route::get('show/{customer}', 'CustomerController@show');
@@ -79,40 +104,6 @@ Route::group(['prefix' => 'payments'], function () {
     Route::delete('destroy/{id}', 'PaymentController@destroy');
 });
 
-// Prices
-Route::group(['prefix' => 'prices'], function () {
-    Route::get('/', 'PriceController@index');
-    Route::post('store', 'PriceController@store');
-    Route::get('show/{price}', 'PriceController@show');
-    Route::put('update/{price}', 'PriceController@update');
-    Route::put('desactive/{price}', 'PriceController@desactive');
-    Route::put('activate/{price}', 'PriceController@activate');
-    Route::delete('destroy/{price}', 'PriceController@destroy');
-});
-
-Route::group(['prefix' => 'currencies'], function () {
-    Route::get('/', 'CurrencyController@index');
-    Route::get('actives', 'CurrencyController@actives');
-    Route::get('currencies-active/', 'CurrencyController@currencyActive');
-    Route::post('store', 'CurrencyController@store');
-    Route::get('show/{currency}', 'CurrencyController@show');
-    // Route::get('edit/{id}', 'CurrencyController@edit');
-    Route::put('update/{currency}', 'CurrencyController@update');
-    Route::put('desactive/{currency}', 'CurrencyController@desactive');
-    Route::put('activate/{currency}', 'CurrencyController@activate');
-    Route::delete('destroy/{currency}', 'CurrencyController@destroy');
-});
-
-Route::group(['prefix' => 'balances'], function () {
-    Route::get('/', 'BalanceController@index');
-    Route::post('store', 'BalanceController@store');
-    Route::put('update/{balance}', 'BalanceController@update');
-    Route::put('add-btc/{balance}', 'BalanceController@addBtc');
-    Route::put('desactive/{balance}', 'BalanceController@desactive');
-    Route::put('activate/{balance}', 'BalanceController@activate');
-    Route::delete('destroy/{balance}', 'BalanceController@destroy');
-});
-
 Route::get('percents', 'PercentController@index');
 Route::group(['prefix' => 'percent'], function () {
     Route::post('store', 'PercentController@store');
@@ -122,6 +113,17 @@ Route::group(['prefix' => 'percent'], function () {
     Route::put('activate/{percent}', 'PercentController@activate');
     Route::get('get', 'PercentController@getActive');
     Route::get('set', 'PercentController@setPrice');
+});
+
+// Prices
+Route::group(['prefix' => 'prices'], function () {
+    Route::get('/', 'PriceController@index');
+    Route::post('store', 'PriceController@store');
+    Route::get('show/{price}', 'PriceController@show');
+    Route::put('update/{price}', 'PriceController@update');
+    Route::put('desactive/{price}', 'PriceController@desactive');
+    Route::put('activate/{price}', 'PriceController@activate');
+    Route::delete('destroy/{price}', 'PriceController@destroy');
 });
 
 // });

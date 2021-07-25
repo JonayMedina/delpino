@@ -16,9 +16,11 @@ import './plugins/vee-validate';
 import vuetify from './plugins/vuetify';
 import i18n from './i18n';
 import Sfire from './helpers/swalfire';
-import Alerts from './views/dashboard/component/Alerts'
-import Money from './views/dashboard/component/Money'
-import Errors from './views/dashboard/component/Errors'
+import Alerts from './views/dashboard/component/Alerts';
+import Money from './views/dashboard/component/Money';
+import Errors from './views/dashboard/component/Errors';
+import 'vuetify/dist/vuetify.min.css'
+// import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 import { Form, HasError, AlertError } from 'vform';
 window.Form = Form;

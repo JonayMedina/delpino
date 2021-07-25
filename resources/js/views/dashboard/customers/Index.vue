@@ -4,11 +4,6 @@
     fluid
     tag="section"
     >
-         <base-v-component
-            heading="Panel Clientes"
-            link="clientes/listado"
-        />
-
         <base-material-card
             icon="mdi-account-box-outline"
             title="Tabla de Clientes"
@@ -17,16 +12,19 @@
             <alerts ref="Alerts"> </alerts>
             <div class="text-center">
                 <v-row>
-                    <v-col cols="2">
-                        <router-link :to="{name: 'create-customer'}">
-                            <v-btn
-                            elevation="5"
-                            icon
-                            large
-                            >
-                                <v-icon color="orange">mdi-account-plus-outline</v-icon>
-                            </v-btn>
-                        </router-link>
+                    <v-col cols="9" md="3">
+                        <v-card color="teal" class="my-0" outlined rounded >
+                            <v-list class="my-0">
+                                <v-list-item :to="{name: 'create-customer'}" link>
+                                    <v-list-item-avatar>
+                                        <v-icon large color="teal">mdi-account-plus-outline</v-icon>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content>
+                                        <v-list-item-title color="teal" v-text="'Cliente Nuevo +'"></v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-card>
                     </v-col>
                     <v-col>
                         <v-text-field v-model="search"
@@ -76,8 +74,9 @@
                     <v-btn
                         v-if="item.active == 1 "
                         @click="desactiveCustomer(item.id)"
-                        color=""
+                        color="grey"
                         x-small
+                        outlined rounded
 						filled
 						elevation-4
                         class="ma-1"
@@ -90,18 +89,19 @@
                         @click="activeCustomer(item.id)"
                         color="blue darken-2"
                         x-small
+                        outlined rounded
 						filled
 						elevation-4
                         class="ma-1 white--text"
                     >
                         Habilitar
-                        <v-icon small right dark>mdi-check-circle-outline</v-icon>
+                        <v-icon small right light>mdi-check-circle-outline</v-icon>
                     </v-btn>
                     <v-btn @click="deleteCustomer(item.id)"
-                        color="deep-orange" x-small
+                        color="deep-orange" x-small outlined rounded filled
                         class="ma-1 white--text"
                     > Eliminar
-                        <v-icon small right dark> mdi-close-outline </v-icon>
+                        <v-icon small right light> mdi-close-outline </v-icon>
                     </v-btn>
                 </template>
             </v-data-table>

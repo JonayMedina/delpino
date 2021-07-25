@@ -12,15 +12,19 @@
             <alerts ref="Alerts"> </alerts>
             <div class="text-center">
                 <v-row>
-                    <v-col cols="2">
-                        <v-btn
-                        @click="showDialog(type = 1, bank = {})"
-                        elevation="5"
-                        icon
-                        large
-                        >
-                            <v-icon color="orange">mdi-cash-plus</v-icon>
-                        </v-btn>
+                    <v-col cols="9" md="3">
+                        <v-card color="teal" class="my-0" outlined rounded >
+                            <v-list class="my-0">
+                                <v-list-item @click="showDialog(type = 1, bank = {})" link>
+                                    <v-list-item-avatar>
+                                        <v-icon large color="teal">mdi-bank-plus</v-icon>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content>
+                                        <v-list-item-title color="teal" v-text="'Registrar Cuenta +'"></v-list-item-title>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-card>
                     </v-col>
                     <v-col>
                         <v-text-field v-model="search"
@@ -52,17 +56,21 @@
                         color="orange darken-4"
                         x-small
 						filled
+                        outlined
+                        rounded
 						elevation-4
                         class="ma-1 white--text"
                     >
                         Modificar
-                        <v-icon right small dark>mdi-book-edit-outline</v-icon>
+                        <v-icon right small light>mdi-book-edit-outline</v-icon>
                     </v-btn>
                     <v-btn
                         v-if="item.active == 1 "
                         @click="desactiveBank(item.id)"
-                        color=""
+                        color="warning"
                         x-small
+                        outlined
+                        rounded
 						filled
 						elevation-4
                         class="ma-1"
@@ -73,26 +81,30 @@
                     <v-btn
                         v-if="item.active == 0"
                         @click="activeBank(item.id)"
-                        color="blue darken-2"
+                        color="cyan darken-4"
                         x-small
+                        outlined
+                        rounded
 						filled
 						elevation-4
                         class="ma-1 white--text"
                     >
                         Habilitar
-                        <v-icon small right dark>mdi-check-circle-outline</v-icon>
+                        <v-icon small right light>mdi-check-circle-outline</v-icon>
                     </v-btn>
                     <v-btn
                         @click="deleteBank(item.id)"
                         color="red darken-3"
                         x-small
+                        outlined
+                        rounded
 						filled
 						elevation-4
                         class="ma-1 white--text"
                         :disabled="item.active == 3 || item.active == 1"
                     >
                         Eliminar
-                        <v-icon small right dark> mdi-close-outline </v-icon>
+                        <v-icon small right light> mdi-close-outline </v-icon>
                     </v-btn>
                 </template>
             </v-data-table>

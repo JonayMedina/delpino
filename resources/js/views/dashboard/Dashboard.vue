@@ -235,7 +235,6 @@
 
       <v-col
         cols="12"
-        md="7"
       >
         <base-material-card
           color="warning"
@@ -263,10 +262,35 @@
         </base-material-card>
       </v-col>
 
-      <v-col
+     <!-- <v-col
         cols="12"
         md="5"
       >
+
+        <base-material-card
+            color="warning"
+            class="py-3"
+            >
+            <template v-slot:heading>
+                <div class="display-2 font-weight-light">
+                Ultimas Clientes Registrados
+                </div>
+
+                <div class="subtitle-1 font-weight-light">
+                New employees on 15th September, 2016
+                </div>
+            </template>
+            <v-card-text class="no-pad">
+                <v-data-table
+                :headers="paymentHeader"
+                :items="payments_for_stats"
+                >
+                    <template v-slot:item.pay="{ item }">
+                        <div>{{ item.pay_formated }} {{ item.pay_iso }}</div>
+                    </template>
+                </v-data-table>
+            </v-card-text>
+            </base-material-card>
         <base-material-card class="px-5 py-3">
           <template v-slot:heading>
             <v-tabs
@@ -349,7 +373,7 @@
             </v-tab-item>
           </v-tabs-items>
         </base-material-card>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
@@ -360,6 +384,7 @@
 
     data () {
       return {
+        customers: [],
         loadPayments: false,
         payments_by_iso: [],
         payments_for_stats: [],
@@ -591,6 +616,22 @@
     methods: {
       complete (index) {
         this.list[index] = !this.list[index]
+      },
+      getCustomers(){
+        let me = this;
+        me.loading = true
+        axios.get('/api/payments/counts')
+        .then( res => {
+            var res = res.data;
+            me.payments_by_iso = res.total_by_iso
+        })
+        .catch(err => {
+            console.log(err.data);
+        })
+        .finally(
+            me.loading = false,
+            me.getPaymetnsForStats()
+            );
       },
       getPayments(){
         let me = this;
