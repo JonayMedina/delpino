@@ -14,11 +14,16 @@
                     <v-row class="mx-2" >
                         <v-col cols="12">
                             <v-card-text elevation-2>
-                                Orden de Selecion: <span class="red--text text--darken-4"><v-icon dark>gavel</v-icon> Seleccione Cliente, <v-icon dark>gavel</v-icon> Seleccione Moneda de Remesa,  <v-icon dark>gavel</v-icon> Luego El Banco donde Deposito, <v-icon dark>gavel</v-icon> Inserte el monto de Remesa y  <v-icon dark>gavel</v-icon> Luego agrege los datos del (Los) Beneficiario(s). </span>
+                                Orden de Selecion: <span class="red--text text--darken-4">
+                                <v-icon>mdi-information-variant</v-icon> Seleccione Cliente,
+                                <v-icon>mdi-information-variant</v-icon> Seleccione Moneda de Remesa,
+                                <v-icon>mdi-information-variant</v-icon> Luego El Banco donde Deposito,
+                                <v-icon>mdi-information-variant</v-icon> Inserte el monto de Remesa y
+                                <v-icon>mdi-information-variant</v-icon> Luego agrege los datos del (Los) Beneficiario(s). </span>
                             </v-card-text>
                         </v-col>
                         <v-col cols="2" md="6">
-                            <v-autocomplete prepend-icon="mdi-account" clearable v-model="pay.customer_id" :items="customers"
+                            <v-autocomplete prepend-icon="mdi-account" clearable v-model="pay.customer_id" :items="customers" :loading="loadingCustomers"
                             item-text="name" item-value="id"
                             label="Buscar Cliente">
                         </v-autocomplete>
@@ -96,7 +101,7 @@
                         <v-col cols="12" md="6">
                             <money
                                 color="deep-purple"
-                                label="Total en Bs"
+                                label="Restante en Bs"
                                 :outlined="vmoney.outlined"
                                 :clearable="true"
                                 :dense="vmoney.outlined"
@@ -120,6 +125,22 @@
                                 >
                                     Agregar Remesa
                                 </v-btn>
+                                <money
+                                color="deep-purple"
+                                label="Total en Bs"
+                                :outlined="vmoney.outlined"
+                                :clearable="true"
+                                :dense="vmoney.outlined"
+                                :placeholder="'Total Calculado'"
+                                :readonly="true"
+                                :disabled="true"
+                                :valueWhenIsEmpty="vmoney.valueWhenIsEmpty"
+                                :options.sync="vmoney.options"
+                                :properties="vmoney.properties"
+                                v-model="total_pay"
+                                prepend-outer-icon="mdi-cash-plus"
+                                />
+
                         </v-banner>
                     </v-row>
                     <v-card-text v-show="receivers">
@@ -227,6 +248,21 @@
                                 >
                                     Agregar Cuenta
                                 </v-btn>
+                                <money
+                                color="deep-purple"
+                                label="Restante en Bs"
+                                :outlined="vmoney.outlined"
+                                :clearable="true"
+                                :dense="vmoney.outlined"
+                                :placeholder="remaining_text"
+                                :readonly="true"
+                                :disabled="true"
+                                :valueWhenIsEmpty="vmoney.valueWhenIsEmpty"
+                                :options.sync="vmoney.options"
+                                :properties="vmoney.properties"
+                                v-model="remaining"
+                                prepend-outer-icon="mdi-cash-plus"
+                                />
                             </v-toolbar-items>
                         </v-toolbar>
                         <v-card-text>
@@ -331,14 +367,14 @@ export default {
                 prices:[],
                 dialog_title: 'Agregar datos de cuenta',
                 banks: [],
-                currencies: [],
-                currency : {},
                 receivers: [],
                 receiver: {},
+                total_pay: 0.0,
                 remaining: 0.0,
                 remaining_text: 'Restante',
                 step: 1,
                 turn:0,
+                loadingCustomers: false,
                 saving: false,
                 min: '',
                 dialog: false,
@@ -357,7 +393,7 @@ export default {
                 customer : {},
                 pmoney: {
                     value: "",
-                    placeholder: "INgrese Monto depositado",
+                    placeholder: "Ingrese Monto depositado",
                     readonly: false,
                     disabled: false,
                     outlined: true,
@@ -427,14 +463,16 @@ export default {
                     })
                     .catch(err => {console.log(err)})
             },
-            getCustomer(){
+            getCustomers(){
                 let me = this;
-                axios.get('/api/cutomers/)
+                me.loadingCustomers = true;
+                axios.get('/api/customers/all')
                     .then(res => {
                         me.customers = res.data.customers;
                         me.bankDisabled = false
                     })
                     .catch(err => { console.log(err) })
+                    .finally(() => me.loadingCustomers = false);
             },
             getBanks(data){
                 let me = this;
@@ -445,26 +483,15 @@ export default {
                     })
                     .catch(err => { console.log(err) })
             },
-            getCurrencies(){
-                let me = this;
-                axios.get('/api/currencies/actives')
-                    .then(res => {
-                        me.currencies = res.data.currencies;
-                    })
-                    .catch(err => { console.log(err) })
-            },
             setPrice(data){
                 let me = this;
                 me.bankDisabled= true;
                 me.pay.price_rate = data.amount;
                 me.disable_pay = false;
-                me.currency = me.currencies.find(cur => {
-                    return cur.id == data.id
-                });
-                me.pay.pay_iso = me.currency.iso;
-                me.pay.currency_id = me.currency.id;
-                me.pmoney.options.currency = me.currency.iso;
-                me.pmoney.options.locale = me.currency.locale;
+                me.pay.pay_iso = data.iso;
+                me.pay.currency_id = data.currency_id;
+                me.pmoney.options.currency = data.iso;
+                me.pmoney.options.locale = data.locale;
                 me.getBanks(data.currency_id);
             },
             addReceiver(data){
@@ -495,8 +522,8 @@ export default {
             createPay() {
                 let me = this;
 
+                me.pay.detail_pay = me.receivers;
                 console.log(me.pay)
-                me.pay.detail_pay = me.detail_pay;
                 if (me.validatePay()) { return; }
                 me.saving = true
                 axios.post('/api/payments/store', me.pay)
@@ -535,7 +562,9 @@ export default {
 
                 if (!me.pay.pay)me.epayList.push("Se necesita el Monto Depositado.");
 
-                if (me.pay.detail_pay.length == 0)me.epayList.push("Ingrese algun Beneficiario.");
+                if (me.remaining > 0)me.epayList.push("Asigne el monto Calculado a algún Beneficiario.");
+
+                if (me.pay.detail_pay.length == 0)me.epayList.push("Ingrese algún Beneficiario.");
                 if (me.epayList.length) me.epay = 1;
                 if (me.epayList.length >= 1) {
                     Sfire.validateF(me.epayList);
@@ -548,6 +577,7 @@ export default {
 				me.emodalList = [];
 
 				if (!me.receiver.amount) me.emodalList.push("Ingrese un Monto");
+                if (me.receiver.amount > me.reminder) me.emodalList.push("Monto superior a su total disponible");
 				if (!me.receiver.bank_account) me.emodalList.push("Ingrese Cuenta");
                 if (!me.receiver.name) me.emodalList.push("Ingrese Nombre de Beneficiario");
                 if (!me.receiver.dni) me.emodalList.push("Ingrese C.i. del Beneficiario");
@@ -567,19 +597,22 @@ export default {
                 return src;
             },
             deleteReceiver(index, r){
-                let rec = this.receivers.find(cur => {
-                    return cur.amount == r.amount
-                });
-                this.increaseReaming(rec.amount);
-                this.receivers.splice(index, 1);
+                // let rec = this.receivers.find(cur => {
+                //     return cur.bank_account == r.bank_account
+                // });
+
+                let rec = this.receivers.splice(index, 1);
+                console.log(rec);
+                this.increaseReaming(rec[0]['amount']);
             },
             openDialog(){
                 let me = this;
                 me.dialog = true;
+                me.receiver.amount = me.remaining;
             },
             clearDialog(){
                 let me = this;
-                me.receivers = [];
+                me.receiver = {};
             },
             closeDialog(){
                 let me = this;
@@ -587,7 +620,9 @@ export default {
                 me.dialog = false;
             },
             setRemaining(){
-                this.remaining = this.pay.pay * this.pay.price_rate
+                this.total_pay = this.pay.pay * this.pay.price_rate;
+                this.remaining = this.pay.pay * this.pay.price_rate;
+
             },
             decreaseRemaining(amount){
                 this.remaining = this.remaining - amount;
@@ -602,7 +637,7 @@ export default {
         mounted(){
             // this.getBanks();
             this.getPrices();
-            this.getCurrencies();
+            this.getCustomers()
         },
     };
 </script>

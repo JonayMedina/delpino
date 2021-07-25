@@ -1,14 +1,28 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[25],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -189,201 +203,241 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      prices: [],
+      price: {
+        amount_formated: "",
+        amount: 0.0
+      },
+      formated: 0.0,
       currencies: [],
-      currency: {},
       loading: false,
-      search: '',
-      dialog_title: '',
+      search: "",
+      dialog_title: "",
       dialog: false,
       dialog_type: 1,
-      saving: '',
+      saving: false,
+      allErrors: {},
+      ePrice: 0,
+      errListP: [],
       headers: [{
-        text: 'Nombre de Moneda',
-        align: 'right',
-        value: 'name'
+        text: "Moneda",
+        align: "right",
+        value: "currency"
       }, {
-        text: 'Codigo Iso',
-        align: 'right',
-        value: 'iso'
+        text: "Monto",
+        align: "right",
+        value: "amount_formated"
       }, {
-        text: 'Simbolo',
-        align: 'right',
-        value: 'symbol'
+        text: "Descrip.",
+        align: "right",
+        value: "notes"
       }, {
-        text: 'Opciones',
-        value: 'actions',
+        text: "Opciones",
+        value: "actions",
         sortable: false
       }]
     };
   },
+  computed: {},
   methods: {
-    getCurrencies: function getCurrencies() {
+    getPrices: function getPrices() {
       var me = this;
-      axios.get('/api/currencies').then(function (res) {
+      me.loading = true;
+      axios.get("/api/prices").then(function (res) {
+        me.prices = res.data.prices;
+      })["catch"](function (err) {
+        console.log(err.data);
+      })["finally"](me.loading = false);
+    },
+    getCurrency: function getCurrency() {
+      var me = this;
+      axios.get("/api/currencies").then(function (res) {
         me.currencies = res.data.currencies;
       })["catch"](function (err) {
         console.log(err);
       });
     },
-    showDialog: function showDialog(type, currency) {
+    showDialog: function showDialog(type, price) {
       var me = this;
+
+      if (!me.currencies.lenght) {
+        me.getCurrency();
+      }
 
       if (type == 1) {
-        me.dialog_title = 'Guardar Monto';
-        me.currency = {};
+        me.dialog_title = "Guardar Monto";
+        me.price = {};
       } else {
-        me.dialog_title = 'Actualizar Monto';
-        me.currency = currency;
+        me.dialog_title = "Actualizar Monto";
+        me.price = price;
       }
 
+      me.dialog_type = type;
       me.dialog = true;
     },
-    createCurrency: function createCurrency() {
-      var me = this;
+    createPrice: function createPrice() {
+      var _this = this;
 
-      if (me.validateCurrency()) {
-        return;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var me;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                me = _this;
 
-      me.saving = true;
-      axios.post('/api/currencies/store', me.currency).then(function (resp) {
-        me.getCurrencies();
-        me.closeDialog();
-        me.alert(1, resp.data.message);
-      })["catch"](function (error) {
-        if (error.response.status == 422) {
-          var data = '';
-          var errors = error.response.data.errors;
+                if (!me.validatePrice()) {
+                  _context.next = 3;
+                  break;
+                }
 
-          for (var _i = 0, _Object$keys = Object.keys(errors); _i < _Object$keys.length; _i++) {
-            var field = _Object$keys[_i];
-            data = data + '. ' + errors[field].flat();
+                return _context.abrupt("return");
+
+              case 3:
+                me.allErrors = [];
+                me.saving = true;
+                axios.post("/api/prices/store", me.price).then(function (resp) {
+                  me.getPrices();
+                  me.closeDialog();
+                  me.alert(1, resp.data.message);
+                })["catch"](function (error) {
+                  if (error.response.status == 422) {
+                    me.allErrors = error.response.data.errors;
+                  }
+                })["finally"](function () {
+                  return me.saving = false;
+                });
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
           }
-
-          me.alert(4, data);
-        }
-      })["finally"](function () {
-        return me.saving = false;
-      });
+        }, _callee);
+      }))();
     },
-    updateCurrency: function updateCurrency() {
-      var me = this;
+    updatePrice: function updatePrice() {
+      var _this2 = this;
 
-      if (me.validateCurrency()) {
-        return;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var me;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                me = _this2;
+
+                if (!me.validatePrice()) {
+                  _context2.next = 3;
+                  break;
+                }
+
+                return _context2.abrupt("return");
+
+              case 3:
+                me.allErrors = [];
+                me.saving = true;
+                me.price._method = "put";
+                axios.post("/api/prices/update/" + me.price.id, me.price).then(function (resp) {
+                  me.getPrices();
+                  me.closeDialog();
+                  me.alert(1, resp.data.message);
+                })["catch"](function (e) {
+                  if (e.response.status == 422) {
+                    me.allErrors = e.response.data.errors;
+                  }
+                })["finally"](function () {
+                  return me.saving = false;
+                }, me.closeDialog());
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    validatePrice: function validatePrice() {
+      var me = this;
+      me.ePrice = 0;
+      me.errListP = [];
+      if (!me.price.amount) me.errListP.push("Ingrese un Monto");
+      if (!me.price.currency_id) me.errListP.push("Ingrese un Monto");
+      if (me.errListP.length) me.ePrice = 1;
+
+      if (me.errListP.length >= 1) {
+        Sfire.validateF(me.errListP);
       }
 
-      me.saving = true;
-      axios.post('/api/currencies/update/' + me.currency.id, me.currency).then(function (resp) {
-        me.getCurrencies();
-        me.closeDialog();
-        me.alert(1, resp.data.message);
-      })["catch"](function (error) {
-        if (error.response.status == 422) {
-          var data = '';
-          var errors = error.response.data.errors;
-
-          for (var _i2 = 0, _Object$keys2 = Object.keys(errors); _i2 < _Object$keys2.length; _i2++) {
-            var field = _Object$keys2[_i2];
-            data = data + '. ' + errors[field].flat();
-          }
-
-          me.alert(4, data);
-        }
-      })["finally"](function () {
-        return me.saving = false;
-      });
-      bank._method = 'put';
+      return me.ePrice;
     },
     closeDialog: function closeDialog() {
       var me = this;
-      me.dialog_title = 'Registrar Moneda';
-      me.currency = {};
+      me.dialog_title = "Crear Nuevo Precio";
+      me.price = {};
       me.dialog = false;
     },
-    activeCurrency: function activeCurrency(id) {
+    activePrice: function activePrice(id) {
       var me = this;
       var data = {
-        url: "/api/currencies/activate/" + id,
-        title: "Activar Moneda?",
+        url: "/api/prices/activate/" + id,
+        title: "Habilitar Precio?",
         active: 1
       };
       Sfire.activeF(data).then(function (res) {
-        me.getCurrencies();
+        me.getPrices();
         me.alert(1, res);
       })["catch"](function (error) {
         me.alert(4, error);
       });
     },
-    desactiveCurrency: function desactiveCurrency(id) {
+    desactivePrice: function desactivePrice(id) {
       var me = this;
       var data = {
-        url: "/api/currencies/desactive/" + id,
-        title: "Desactivar Moneda?",
-        active: 0
-      };
-      Sfire.desactiveF(data).then(function (res) {
-        me.getCurrencies();
-        me.alert(1, res);
-      })["catch"](function (error) {
-        me.alert(4, error);
-      });
-    },
-    deleteCurrency: function deleteCurrency(id) {
-      var me = this;
-      var data = {
-        url: "/api/currencies/activate/" + id,
-        title: "BORRAR Moneda?",
+        url: "/api/prices/desactive/" + id,
+        title: "Inhabilitar Precio?",
         active: 1
       };
-      Sfire.activeS(data).then(function (res) {
-        me.getCurrencies();
+      Sfire.desactiveF(data).then(function (res) {
+        me.getPrices();
         me.alert(1, res);
       })["catch"](function (error) {
         me.alert(4, error);
       });
     },
-    validateCurrency: function validateCurrency() {
+    deletePrice: function deletePrice(id) {
       var me = this;
-      me.errorSmsS = 0;
-      me.errorSmsListS = [];
-      if (!me.currency.name) me.errorSmsListS.push("Por favor Ingrese el nombre de la moneda");
-      if (!me.currency.iso) me.errorSmsListS.push("Por favor Inserte Codigo ISO ejemplo 'USD, EUR, COP'");
-      if (!me.currency.locale) me.errorSmsListS.push("Por favor Inserte Codigo Locale ejemplo 'en-US, es-ES, es-CO'");
-      if (!me.currency.symbol) me.errPayL.push("Por favor Ingrese simbolo de la moneda ejemplo: ' €, $' ");
-      if (me.errorSmsListS.length) me.errorSmsS = 1;
-
-      if (me.errorSmsListS.length >= 1) {
-        Swal.fire({
-          title: 'Hey!! Nos falta(n) Datos',
-          icon: 'info',
-          confirmButtonText: 'Aceptar!',
-          confirmButtonColor: '#3085d6',
-          html: "".concat(me.errorSmsListS.map(function (er) {
-            return "<br><span style=\"color:red;\" class=\"mb-3\"><i class=\"mdi mdi-minus-circle-outline mdi-spin mr-3\"></i> ".concat(er, "</span>");
-          })),
-          showCancelButton: false
-        });
-      }
-
-      ;
-      return me.errorSmsS;
+      var data = {
+        url: "/api/prices/destroy/" + id,
+        title: "Borrar Precio?",
+        active: 1
+      };
+      Sfire.deleteF(data).then(function (res) {
+        me.getPrices();
+        me.alert(1, res);
+      })["catch"](function (error) {
+        me.alert(4, error);
+      });
+    },
+    calcformated: function calcformated(newFormated) {
+      this.price.amount_formated = Sfire.moneyFormatF(newFormated);
     },
     alert: function alert(display, res) {
       this.$refs.Alerts.showAlert(display, res);
     }
   },
   mounted: function mounted() {
-    this.getCurrencies();
+    this.getPrices();
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f&":
-/*!************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f& ***!
-  \************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc& ***!
+  \*******************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -397,17 +451,17 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    { attrs: { id: "currencies", fluid: "", tag: "section" } },
+    { attrs: { id: "prices", fluid: "", tag: "section" } },
     [
       _c("base-v-component", {
-        attrs: { heading: "Lisado de Monedas", link: "Monedas/listado" }
+        attrs: { heading: "Precios", link: "precios/listado" }
       }),
       _vm._v(" "),
       _c(
         "base-material-card",
         {
           staticClass: "px-3 py-2",
-          attrs: { icon: "mdi-clipboard-text", title: "Tabla de Monedas" }
+          attrs: { icon: "mdi-clipboard-text", title: "Tabla de Precios" }
         },
         [
           _c("alerts", { ref: "Alerts" }),
@@ -429,9 +483,9 @@ var render = function() {
                           attrs: { elevation: "5", icon: "", large: "" },
                           on: {
                             click: function($event) {
-                              return _vm.showDialog(
+                              _vm.showDialog(
                                 (_vm.dialog_type = 1),
-                                (_vm.currency = {})
+                                (_vm.price = {})
                               )
                             }
                           }
@@ -483,11 +537,26 @@ var render = function() {
             attrs: {
               search: _vm.search,
               headers: _vm.headers,
-              items: _vm.currencies,
-              loading: "true",
+              items: _vm.prices,
+              loading: _vm.loading,
               "items-per-page": 20
             },
             scopedSlots: _vm._u([
+              {
+                key: "item.currency",
+                fn: function(ref) {
+                  var item = ref.item
+                  return [
+                    _c("div", [
+                      _vm._v(
+                        _vm._s(item.currency.iso) +
+                          " " +
+                          _vm._s(item.currency.name)
+                      )
+                    ])
+                  ]
+                }
+              },
               {
                 key: "item.actions",
                 fn: function(ref) {
@@ -499,24 +568,21 @@ var render = function() {
                         staticClass: "ma-1 white--text",
                         attrs: {
                           color: "orange darken-4",
-                          medium: "",
+                          small: "",
                           filled: "",
                           "elevation-4": ""
                         },
                         on: {
                           click: function($event) {
-                            return _vm.showDialog((_vm.dialog_type = 2), item)
+                            _vm.showDialog((_vm.dialog_type = 2), item)
                           }
                         }
                       },
                       [
-                        _vm._v(
-                          "\n                        Editar\n                        "
-                        ),
                         _c(
                           "v-icon",
-                          { attrs: { right: "", small: "", dark: "" } },
-                          [_vm._v("mdi-book-edit-outline")]
+                          { attrs: { rigth: "", small: "", dark: "" } },
+                          [_vm._v("mdi-circle-edit-outline")]
                         )
                       ],
                       1
@@ -529,23 +595,21 @@ var render = function() {
                             staticClass: "ma-1",
                             attrs: {
                               color: "",
-                              medium: "",
+                              "x-small": "",
                               filled: "",
                               "elevation-4": ""
                             },
                             on: {
                               click: function($event) {
-                                return _vm.desactiveCurrency(item.id)
+                                return _vm.desactivePrice(item.id)
                               }
                             }
                           },
                           [
-                            _vm._v(
-                              "\n                        Colocar Inactivo\n                        "
-                            ),
+                            _vm._v("\n\t\t\t\t\tInhabilitar\n\t\t\t\t\t"),
                             _c(
                               "v-icon",
-                              { attrs: { medium: "", right: "", light: "" } },
+                              { attrs: { small: "", rigth: "", light: "" } },
                               [_vm._v("mdi-book-off")]
                             )
                           ],
@@ -560,23 +624,21 @@ var render = function() {
                             staticClass: "ma-1 white--text",
                             attrs: {
                               color: "blue darken-2",
-                              medium: "",
+                              "x-small": "",
                               filled: "",
                               "elevation-4": ""
                             },
                             on: {
                               click: function($event) {
-                                return _vm.activeCurrency(item.id)
+                                return _vm.activePrice(item.id)
                               }
                             }
                           },
                           [
-                            _vm._v(
-                              "\n                        Colocar Activo\n                        "
-                            ),
+                            _vm._v("\n\t\t\t\t\tHabilitar\n\t\t\t\t\t"),
                             _c(
                               "v-icon",
-                              { attrs: { small: "", right: "", dark: "" } },
+                              { attrs: { small: "", rigth: "", dark: "" } },
                               [_vm._v("mdi-check-circle-outline")]
                             )
                           ],
@@ -589,25 +651,22 @@ var render = function() {
                       {
                         staticClass: "ma-1 white--text",
                         attrs: {
-                          color: "deep-red",
-                          medium: "",
+                          color: "red darken-3",
+                          small: "",
                           filled: "",
                           "elevation-4": "",
                           disabled: item.active == 3 || item.active == 1
                         },
                         on: {
                           click: function($event) {
-                            return _vm.deleteCurrency(item.id)
+                            return _vm.deletePrice(item.id)
                           }
                         }
                       },
                       [
-                        _vm._v(
-                          "\n                        Eliminar\n                        "
-                        ),
                         _c(
                           "v-icon",
-                          { attrs: { small: "", right: "", dark: "" } },
+                          { attrs: { small: "", rigth: "", dark: "" } },
                           [_vm._v(" mdi-close-outline ")]
                         )
                       ],
@@ -629,7 +688,12 @@ var render = function() {
           _c(
             "v-dialog",
             {
-              attrs: { cols: "10" },
+              attrs: {
+                cols: "6",
+                width: "60%",
+                "overlay-color": "blue darken-5",
+                transition: "dialog-top-transition"
+              },
               model: {
                 value: _vm.dialog,
                 callback: function($$v) {
@@ -642,149 +706,136 @@ var render = function() {
               _c(
                 "v-card",
                 [
-                  _c("v-card-title", {
-                    staticClass: "grey darken-2",
-                    domProps: { textContent: _vm._s("Editar Moneda") }
-                  }),
+                  _vm.allErrors
+                    ? _c("error-component", {
+                        attrs: { errors: _vm.allErrors }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-title",
+                    { staticClass: "orange white--text elevation-4" },
+                    [
+                      _c(
+                        "v-icon",
+                        { attrs: { large: "", left: "", color: "white" } },
+                        [_vm._v("mdi-pencil")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          staticClass:
+                            "title font-weight-light text-right display-1"
+                        },
+                        [_vm._v(_vm._s(_vm.dialog_title))]
+                      )
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c(
                     "v-container",
                     [
                       _c(
                         "v-row",
-                        { staticClass: "mx-2" },
+                        { staticClass: "mr-0", attrs: { align: "center" } },
                         [
                           _c(
                             "v-col",
-                            {
-                              staticClass: "align-center justify-space-between",
-                              attrs: { cols: "12" }
-                            },
+                            { attrs: { cols: "12", md: "6" } },
                             [
-                              _c(
-                                "v-row",
-                                {
-                                  staticClass: "mr-0",
-                                  attrs: { align: "center" }
+                              _vm.price.currency
+                                ? _c("div", {
+                                    domProps: {
+                                      textContent: _vm._s(_vm.price.iso)
+                                    }
+                                  })
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c("v-text-field", {
+                                attrs: {
+                                  type: "number",
+                                  color: "deep-purple",
+                                  required: "",
+                                  outlined: "",
+                                  clearable: "",
+                                  dense: "",
+                                  label: "Ingrese Tasa de Cambio",
+                                  "prepend-outer-icon": "mdi-cash-check"
                                 },
-                                [
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "12", md: "6" } },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          type: "text",
-                                          color: "deep-purple",
-                                          required: "",
-                                          outlined: "",
-                                          clearable: "",
-                                          dense: "",
-                                          label: "Ingrese Nombre de Moneda",
-                                          "prepend-outer-icon": "mdi-cash-check"
-                                        },
-                                        model: {
-                                          value: _vm.currency.name,
-                                          callback: function($$v) {
-                                            _vm.$set(_vm.currency, "name", $$v)
-                                          },
-                                          expression: "currency.name"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "12", md: "6" } },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          type: "text",
-                                          color: "deep-purple",
-                                          required: "",
-                                          outlined: "",
-                                          clearable: "",
-                                          dense: "",
-                                          label:
-                                            "ingrese Codigo ISO ejemp: 'USD'",
-                                          "prepend-outer-icon": "mdi-cash-check"
-                                        },
-                                        model: {
-                                          value: _vm.currency.iso,
-                                          callback: function($$v) {
-                                            _vm.$set(_vm.currency, "iso", $$v)
-                                          },
-                                          expression: "currency.iso"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "12", md: "6" } },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          type: "text",
-                                          color: "deep-purple",
-                                          required: "",
-                                          outlined: "",
-                                          clearable: "",
-                                          dense: "",
-                                          label: "Codigo Locale: 'en-US'",
-                                          "prepend-outer-icon": "mdi-cash-check"
-                                        },
-                                        model: {
-                                          value: _vm.currency.locale,
-                                          callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.currency,
-                                              "locale",
-                                              $$v
-                                            )
-                                          },
-                                          expression: "currency.locale"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "6" } },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          type: "text",
-                                          color: "deep-purple",
-                                          required: "",
-                                          outlined: "",
-                                          clearable: "",
-                                          dense: "",
-                                          "prepend-icon":
-                                            "mdi-account-card-details-outline",
-                                          placeholder:
-                                            "Ingrese simbolo ejemp: '$' "
-                                        },
-                                        model: {
-                                          value: _vm.currency.notes,
-                                          callback: function($$v) {
-                                            _vm.$set(_vm.currency, "notes", $$v)
-                                          },
-                                          expression: "currency.notes"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
+                                on: {
+                                  input: function($event) {
+                                    return _vm.calcformated(_vm.price.amount)
+                                  }
+                                },
+                                model: {
+                                  value: _vm.price.amount,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.price, "amount", $$v)
+                                  },
+                                  expression: "price.amount"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-col", { attrs: { cols: "12", md: "6" } }, [
+                            _c(
+                              "div",
+                              {
+                                attrs: {
+                                  "display-3": "",
+                                  color: "grey darken-4"
+                                }
+                              },
+                              [_vm._v(_vm._s(_vm.price.amount_formated))]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", md: "6" } },
+                            [
+                              _c("v-select", {
+                                attrs: {
+                                  items: _vm.currencies,
+                                  label: "Seleccione Moneda",
+                                  "item-text": "name",
+                                  "item-value": "id"
+                                },
+                                model: {
+                                  value: _vm.price.currency_id,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.price, "currency_id", $$v)
+                                  },
+                                  expression: "price.currency_id"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "6" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  type: "text",
+                                  "prepend-icon":
+                                    "mdi-account-card-details-outline",
+                                  placeholder: "informacion sobre el Precio"
+                                },
+                                model: {
+                                  value: _vm.price.notes,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.price, "notes", $$v)
+                                  },
+                                  expression: "price.notes"
+                                }
+                              })
                             ],
                             1
                           )
@@ -801,28 +852,34 @@ var render = function() {
                       _c(
                         "v-btn",
                         {
-                          attrs: { text: "", color: "primary" },
+                          attrs: { text: "", color: "secondary" },
                           on: {
                             click: function($event) {
                               _vm.dialog = false
                             }
                           }
                         },
-                        [_vm._v(" Cancelar")]
+                        [_vm._v("\n\t\t\t\t\t\tCerrar")]
                       ),
+                      _vm._v(" "),
+                      _c("v-spacer"),
                       _vm._v(" "),
                       _vm.dialog_type == 1
                         ? _c(
                             "v-btn",
                             {
-                              attrs: { text: "" },
+                              staticClass: "text-right",
+                              attrs: {
+                                loading: _vm.saving,
+                                color: "orange darken-4"
+                              },
                               on: {
                                 click: function($event) {
-                                  return _vm.createCurrency(_vm.currency)
+                                  return _vm.createPrice(_vm.price)
                                 }
                               }
                             },
-                            [_vm._v("Guardar")]
+                            [_vm._v("Registrar")]
                           )
                         : _vm._e(),
                       _vm._v(" "),
@@ -830,14 +887,18 @@ var render = function() {
                         ? _c(
                             "v-btn",
                             {
-                              attrs: { text: "" },
+                              staticClass: "white--text",
+                              attrs: {
+                                loading: _vm.saving,
+                                color: "orange darken-4"
+                              },
                               on: {
                                 click: function($event) {
-                                  return _vm.updateCurrency(_vm.list)
+                                  return _vm.updatePrice(_vm.price)
                                 }
                               }
                             },
-                            [_vm._v("Actualizar")]
+                            [_vm._v("Guardar Cambios")]
                           )
                         : _vm._e()
                     ],
@@ -851,7 +912,8 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(".\n")
     ],
     1
   )
@@ -863,17 +925,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/views/dashboard/price/Currencies.vue":
-/*!***********************************************************!*\
-  !*** ./resources/js/views/dashboard/price/Currencies.vue ***!
-  \***********************************************************/
+/***/ "./resources/js/views/dashboard/price/Index.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/views/dashboard/price/Index.vue ***!
+  \******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Currencies.vue?vue&type=template&id=2e89036f& */ "./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f&");
-/* harmony import */ var _Currencies_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Currencies.vue?vue&type=script&lang=js& */ "./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=04469cfc& */ "./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc&");
+/* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -883,9 +945,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Currencies_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -895,38 +957,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/dashboard/price/Currencies.vue"
+component.options.__file = "resources/js/views/dashboard/price/Index.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js&":
-/*!************************************************************************************!*\
-  !*** ./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************/
+/***/ "./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Currencies.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Currencies.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Index.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f&":
-/*!******************************************************************************************!*\
-  !*** ./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f& ***!
-  \******************************************************************************************/
+/***/ "./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc& ***!
+  \*************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Currencies.vue?vue&type=template&id=2e89036f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Currencies.vue?vue&type=template&id=2e89036f&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Index.vue?vue&type=template&id=04469cfc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/price/Index.vue?vue&type=template&id=04469cfc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Currencies_vue_vue_type_template_id_2e89036f___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Index_vue_vue_type_template_id_04469cfc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

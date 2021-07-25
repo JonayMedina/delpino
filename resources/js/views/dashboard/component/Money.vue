@@ -139,6 +139,7 @@ export default {
       } else {
         // number = Number(number).toLocaleString(this.options.locale, {maximumFractionDigits: 2, minimumFractionDigits: 2, style: 'currency', currency: 'BRL'});
         number = Number(number).toLocaleString(this.options.locale, {
+
           maximumFractionDigits: this.options.precision,
           minimumFractionDigits: this.options.precision,
           style: 'currency',

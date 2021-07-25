@@ -1,14 +1,64 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[22],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/pages/Login.vue?vue&type=script&lang=js&":
-/*!***************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/pages/Login.vue?vue&type=script&lang=js& ***!
-  \***************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/pages/Register.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/pages/Register.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -89,9 +139,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      dni: '',
       email: '',
-      password: '',
-      errorMessages: 'Incorrect login info',
+      phone: '',
+      customer: {},
+      dialog_title: '',
+      countries: [],
+      step: 1,
+      turn: 0,
+      saving: false,
+      min: '',
+      errorMessages: 'Credenciales Incorrectas',
       snackbar: false,
       color: 'general',
       showPassword: false
@@ -121,17 +179,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   metaInfo: function metaInfo() {
     return {
-      title: 'Super Secret | Login'
+      title: 'Para Enviar Remesas | Registrarse'
     };
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/pages/Login.vue?vue&type=template&id=1ea8f554&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/pages/Login.vue?vue&type=template&id=1ea8f554& ***!
-  \*******************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/pages/Register.vue?vue&type=template&id=a3a399f0&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/dashboard/pages/Register.vue?vue&type=template&id=a3a399f0& ***!
+  \**********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -153,7 +211,7 @@ var render = function() {
         [
           _c(
             "v-flex",
-            { attrs: { xs12: "", sm8: "", md4: "" } },
+            { attrs: { xs12: "", sm8: "", md8: "" } },
             [
               _c(
                 "v-card",
@@ -161,9 +219,11 @@ var render = function() {
                 [
                   _c(
                     "v-toolbar",
-                    { attrs: { color: "general" } },
+                    { staticClass: "white--text", attrs: { color: "#fb8c00" } },
                     [
-                      _c("v-toolbar-title", [_vm._v("Acceso al Sitema ")]),
+                      _c("v-toolbar-title", [
+                        _vm._v("Registrarse en DELPINOEXPRESS ")
+                      ]),
                       _vm._v(" "),
                       _c("v-spacer")
                     ],
@@ -176,76 +236,392 @@ var render = function() {
                       _c(
                         "v-form",
                         [
-                          _c("v-text-field", {
-                            ref: "email",
-                            attrs: {
-                              rules: [
-                                function() {
-                                  return !!_vm.email || "This field is required"
-                                }
-                              ],
-                              "prepend-icon": "mdi-account",
-                              label: "Login",
-                              placeholder: "TotallyNotThanos",
-                              required: ""
-                            },
-                            model: {
-                              value: _vm.email,
-                              callback: function($$v) {
-                                _vm.email = $$v
-                              },
-                              expression: "email"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("v-text-field", {
-                            ref: "password",
-                            attrs: {
-                              rules: [
-                                function() {
-                                  return (
-                                    !!_vm.password || "This field is required"
+                          _c(
+                            "v-row",
+                            { staticClass: "mx-2" },
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pt-5 pl-0",
+                                  attrs: { cols: "12", md: "4" }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Introduzca Nombre Completo",
+                                      type: "text",
+                                      required: "",
+                                      color: "deep-purple",
+                                      cols: "12",
+                                      md: "6"
+                                    },
+                                    model: {
+                                      value: _vm.customer.name,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.customer, "name", $$v)
+                                      },
+                                      expression: "customer.name"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pt-0 pl-0",
+                                  attrs: { cols: "12", md: "4" }
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.email,
+                                          expression: "email"
+                                        }
+                                      ],
+                                      staticStyle: { color: "red" }
+                                    },
+                                    [_vm._v("Ya en Uso, Inserte Otro")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: !_vm.email,
+                                          expression: "!email"
+                                        }
+                                      ],
+                                      staticStyle: { color: "#fb8c00" }
+                                    },
+                                    [_vm._v("Ingrese Mail valido.")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "text",
+                                      color: "deep-purple",
+                                      label: "Insertar Mail"
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.vEmail(_vm.customer.email)
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.customer.email,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.customer, "email", $$v)
+                                      },
+                                      expression: "customer.email"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass:
+                                    "align-center justify-space-between",
+                                  attrs: { cols: "12", md: "4" }
+                                },
+                                [
+                                  _c("v-autocomplete", {
+                                    attrs: {
+                                      clearable: "",
+                                      color: "deep-purple",
+                                      items: _vm.countries,
+                                      "item-text": "name",
+                                      "item-value": "name",
+                                      label: "De Donde Eres"
+                                    },
+                                    model: {
+                                      value: _vm.customer.country,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.customer, "country", $$v)
+                                      },
+                                      expression: "customer.country"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pt-0 pl-0",
+                                  attrs: { cols: "12", md: "4" }
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: _vm.phone,
+                                          expression: "phone"
+                                        }
+                                      ],
+                                      staticStyle: { color: "red" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "Inserte otro, Este se Encuentra en uso!"
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: !_vm.phone,
+                                          expression: "!phone"
+                                        }
+                                      ],
+                                      staticStyle: { color: "#fb8c00" }
+                                    },
+                                    [_vm._v("Inserte Telefono Unico.")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "text",
+                                      label: "Numero de Telefono Valido",
+                                      color: "deep-purple"
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.vPhone(_vm.customer.phone)
+                                      }
+                                    },
+                                    model: {
+                                      value: _vm.customer.phone,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.customer, "phone", $$v)
+                                      },
+                                      expression: "customer.phone"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pt-0 pl-0",
+                                  attrs: { cols: "12", md: "4" }
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: !_vm.customer.birthdate,
+                                          expression: "!customer.birthdate"
+                                        }
+                                      ]
+                                    },
+                                    [_vm._v("Fecha de nacimiento del Cliente.")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      type: "date",
+                                      color: "deep-purple",
+                                      Label: "Ingrese una fecha de nacimiento"
+                                    },
+                                    model: {
+                                      value: _vm.customer.birthdate,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.customer, "birthdate", $$v)
+                                      },
+                                      expression: "customer.birthdate"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12" } },
+                                [
+                                  _c(
+                                    "v-row",
+                                    {
+                                      staticClass: "mr-0",
+                                      attrs: { align: "center" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "6" } },
+                                        [
+                                          _c(
+                                            "span",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value: _vm.min < 6,
+                                                  expression: "min < 6"
+                                                }
+                                              ],
+                                              staticStyle: { color: "red" }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "Ingrese Constraseña minimo 6 Caracteres"
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              type: "password",
+                                              placeholder: "Contraseña",
+                                              label: "CONTRASEÑA",
+                                              color: "deep-purple",
+                                              rules: [
+                                                function() {
+                                                  return (
+                                                    !!_vm.password ||
+                                                    "Campo Obligatorio"
+                                                  )
+                                                }
+                                              ],
+                                              "append-icon": _vm.showPassword
+                                                ? "mdi-eye-off"
+                                                : "mdi-eye",
+                                              type: _vm.showPassword
+                                                ? "text"
+                                                : "password",
+                                              "prepend-icon": "mdi-lock"
+                                            },
+                                            on: {
+                                              input: function($event) {
+                                                return _vm.valpass()
+                                              },
+                                              "click:append": function($event) {
+                                                _vm.showPassword = !_vm.showPassword
+                                              }
+                                            },
+                                            model: {
+                                              value: _vm.customer.password,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.customer,
+                                                  "password",
+                                                  $$v
+                                                )
+                                              },
+                                              expression: "customer.password"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-col",
+                                        { attrs: { cols: "6" } },
+                                        [
+                                          _c(
+                                            "span",
+                                            {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.customer.password !=
+                                                    _vm.customer.confirm_pass,
+                                                  expression:
+                                                    "customer.password != customer.confirm_pass"
+                                                }
+                                              ],
+                                              staticStyle: { color: "red" }
+                                            },
+                                            [_vm._v("Deben Coincidir")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-text-field", {
+                                            attrs: {
+                                              type: "password",
+                                              placeholder:
+                                                "Confirme Su Contraña",
+                                              label: "Repita su Contraseña",
+                                              color: "deep-purple",
+                                              rules: [
+                                                function() {
+                                                  return (
+                                                    !!_vm.confirm_pass ||
+                                                    "TCampo Obligatorio"
+                                                  )
+                                                }
+                                              ],
+                                              "append-icon": _vm.showPassword
+                                                ? "mdi-eye-off"
+                                                : "mdi-eye",
+                                              type: _vm.showPassword
+                                                ? "text"
+                                                : "password",
+                                              "prepend-icon": "mdi-lock"
+                                            },
+                                            on: {
+                                              "click:append": function($event) {
+                                                _vm.showPassword = !_vm.showPassword
+                                              }
+                                            },
+                                            model: {
+                                              value: _vm.customer.confirm_pass,
+                                              callback: function($$v) {
+                                                _vm.$set(
+                                                  _vm.customer,
+                                                  "confirm_pass",
+                                                  $$v
+                                                )
+                                              },
+                                              expression:
+                                                "customer.confirm_pass"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
                                   )
-                                }
-                              ],
-                              "append-icon": _vm.showPassword
-                                ? "mdi-eye-off"
-                                : "mdi-eye",
-                              type: _vm.showPassword ? "text" : "password",
-                              "prepend-icon": "mdi-lock",
-                              label: "Password",
-                              placeholder: "*********",
-                              counter: "",
-                              required: ""
-                            },
-                            on: {
-                              keydown: function($event) {
-                                if (
-                                  !$event.type.indexOf("key") &&
-                                  _vm._k(
-                                    $event.keyCode,
-                                    "enter",
-                                    13,
-                                    $event.key,
-                                    "Enter"
-                                  )
-                                ) {
-                                  return null
-                                }
-                                return _vm.login($event)
-                              },
-                              "click:append": function($event) {
-                                _vm.showPassword = !_vm.showPassword
-                              }
-                            },
-                            model: {
-                              value: _vm.password,
-                              callback: function($$v) {
-                                _vm.password = $$v
-                              },
-                              expression: "password"
-                            }
-                          })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
@@ -261,16 +637,28 @@ var render = function() {
                       _c("v-spacer"),
                       _vm._v(" "),
                       _c(
+                        "a",
+                        { attrs: { href: "/" } },
+                        [_c("v-btn", [_vm._v(" Cancelar")])],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
                         "v-btn",
                         {
                           attrs: {
-                            "align-center": "",
-                            "justify-center": "",
-                            color: "general"
+                            text: "",
+                            color: "primary",
+                            loading: _vm.saving,
+                            right: ""
                           },
-                          on: { click: _vm.login }
+                          on: {
+                            click: function($event) {
+                              return _vm.createCustomer(_vm.customer)
+                            }
+                          }
                         },
-                        [_vm._v("Login\n          ")]
+                        [_vm._v("Registrar")]
                       )
                     ],
                     1
@@ -329,17 +717,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/js/views/dashboard/pages/Login.vue":
-/*!******************************************************!*\
-  !*** ./resources/js/views/dashboard/pages/Login.vue ***!
-  \******************************************************/
+/***/ "./resources/js/views/dashboard/pages/Register.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/views/dashboard/pages/Register.vue ***!
+  \*********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Login_vue_vue_type_template_id_1ea8f554___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Login.vue?vue&type=template&id=1ea8f554& */ "./resources/js/views/dashboard/pages/Login.vue?vue&type=template&id=1ea8f554&");
-/* harmony import */ var _Login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Login.vue?vue&type=script&lang=js& */ "./resources/js/views/dashboard/pages/Login.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Register_vue_vue_type_template_id_a3a399f0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Register.vue?vue&type=template&id=a3a399f0& */ "./resources/js/views/dashboard/pages/Register.vue?vue&type=template&id=a3a399f0&");
+/* harmony import */ var _Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Register.vue?vue&type=script&lang=js& */ "./resources/js/views/dashboard/pages/Register.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -349,9 +737,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Login_vue_vue_type_template_id_1ea8f554___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Login_vue_vue_type_template_id_1ea8f554___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Register_vue_vue_type_template_id_a3a399f0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Register_vue_vue_type_template_id_a3a399f0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -361,38 +749,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/views/dashboard/pages/Login.vue"
+component.options.__file = "resources/js/views/dashboard/pages/Register.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/views/dashboard/pages/Login.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************!*\
-  !*** ./resources/js/views/dashboard/pages/Login.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************/
+/***/ "./resources/js/views/dashboard/pages/Register.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/views/dashboard/pages/Register.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Login.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/pages/Login.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Register.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/pages/Register.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Register_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/views/dashboard/pages/Login.vue?vue&type=template&id=1ea8f554&":
-/*!*************************************************************************************!*\
-  !*** ./resources/js/views/dashboard/pages/Login.vue?vue&type=template&id=1ea8f554& ***!
-  \*************************************************************************************/
+/***/ "./resources/js/views/dashboard/pages/Register.vue?vue&type=template&id=a3a399f0&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/views/dashboard/pages/Register.vue?vue&type=template&id=a3a399f0& ***!
+  \****************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_1ea8f554___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Login.vue?vue&type=template&id=1ea8f554& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/pages/Login.vue?vue&type=template&id=1ea8f554&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_1ea8f554___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Register_vue_vue_type_template_id_a3a399f0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Register.vue?vue&type=template&id=a3a399f0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/dashboard/pages/Register.vue?vue&type=template&id=a3a399f0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Register_vue_vue_type_template_id_a3a399f0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Login_vue_vue_type_template_id_1ea8f554___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Register_vue_vue_type_template_id_a3a399f0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

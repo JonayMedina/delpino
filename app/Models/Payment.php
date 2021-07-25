@@ -32,9 +32,9 @@ class Payment extends Model
         return $this->belongsTo(Bank::class, 'bank_id', 'id');
     }
 
-    public function detailpay()
+    public function detailPayments()
     {
-        return $this->hasMany(DetailPayment::class, 'payment_id', 'id');
+        return $this->hasMany(DetailPayments::class, 'payment_id', 'id');
     }
 
     // Scopes

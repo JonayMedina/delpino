@@ -49,6 +49,7 @@
                 :items="customers"
                 class="elevation-2"
                 loading="true"
+                loading-text="Espere por Favor. Cargando..."
                 :items-per-page="pagination.rowsPerPage"
                 :footer-props="footerProps"
                 :expanded.sync="expanded"
@@ -206,7 +207,7 @@ export default {
         }
     },
     methods: {
-        async getCustomers(){
+        getCustomers(){
             let me = this;
             me.loading = true;
             let url1= '/api/customers?page=' + this.pagination.current + '&search=' + this.search;
@@ -290,3 +291,4 @@ export default {
 
 }
 </script>
+

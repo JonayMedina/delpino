@@ -61,7 +61,7 @@
                         <v-icon right small dark>mdi-book-edit-outline</v-icon>
                     </v-btn>
                     <v-btn
-                        v-if="item.active == 1 "
+                        v-if="item.active == 1"
                         @click="desactiveCurrency(item.id)"
                         color=""
                         medium
@@ -131,7 +131,7 @@
                                         outlined
                                         clearable
                                         dense
-                                        label="ingrese Codigo ISO ejemp: 'USD'"
+                                        label="Ingrese Codigo ISO ejemp: 'USD'"
                                         v-model="currency.iso"
                                         prepend-outer-icon="mdi-cash-check"
                                         >
@@ -168,7 +168,7 @@
                         <v-btn  text color="primary"
                         @click="dialog = false" > Cancelar</v-btn>
                         <v-btn text v-if="dialog_type == 1" @click="createCurrency(currency)" >Guardar</v-btn>
-                        <v-btn text v-if="dialog_type == 2" @click="updateCurrency(list)" >Actualizar</v-btn>
+                        <v-btn text v-if="dialog_type == 2" @click="updateCurrency()" >Actualizar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -258,6 +258,7 @@ export default {
             if (me.validateCurrency()) {
                 return;
             }
+            me.currency._method = 'PUT';
             me.saving = true;
             axios.post('/api/currencies/update/'+ me.currency.id, me.currency)
                 .then(resp => {
@@ -276,8 +277,6 @@ export default {
                         }
                 })
                 .finally(() => me.saving = false)
-
-            bank._method = 'put';
         },
         closeDialog(){
             let me = this;

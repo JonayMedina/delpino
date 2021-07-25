@@ -16,7 +16,7 @@ class PriceController extends Controller
 {
     public function index()
     {
-        $prices = PriceResource::collection(Price::with('currency:id,iso,name,symbol')->get());
+        $prices = PriceResource::collection(Price::with('currency:id,iso,name,symbol,locale')->get());
         return response()->json(['prices' => $prices]);
     }
 

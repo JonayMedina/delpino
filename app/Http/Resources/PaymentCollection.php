@@ -14,6 +14,11 @@ class PaymentCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        // dd($this->resource->lastPage());
+        return [
+            'data' => $this->collection,
+            'current_page' => $this->resource->currentPage(),
+            'last_page' => $this->resource->LastPage()
+        ];
     }
 }

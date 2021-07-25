@@ -71,6 +71,7 @@ class CurrencyController extends Controller
             'name' => 'required|string|unique:currencies,name,' . $currency->id,
             'iso' => 'required|string',
             'symbol' => 'required|string',
+            'locale' => 'required|string',
             'country_id' => 'required'
         ]);
         if ($validator->fails()) {
@@ -84,7 +85,7 @@ class CurrencyController extends Controller
         $currency->country_id = $request->country_id;
         $currency->save();
 
-        return response()->json(['message' => 'Moneda actualizada']);
+        return response()->json(['message' => 'Moneda actualizada', 'currency' => $currency]);
     }
 
     /**

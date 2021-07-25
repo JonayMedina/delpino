@@ -65,7 +65,8 @@ Route::group(['prefix' => 'customers'], function () {
 
 Route::group(['prefix' => 'payments'], function () {
     Route::get('/', 'PaymentController@index');
-    Route::get('all', 'PaymentController@indexAll');
+    Route::get('get-for-stats', 'PaymentController@getForStats');
+    Route::get('counts', 'PaymentController@indexCount');
     Route::get('all-active', 'PaymentController@indexActive');
     Route::post('store', 'PaymentController@store');
     Route::get('count', 'PaymentController@indexCount');

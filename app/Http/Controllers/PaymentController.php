@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaymentCollection;
 use DB;
 use PDF;
 use Auth;
 use Carbon\Carbon;
 use App\Models\Payment;
 use App\Http\Resources\Payment as PaymentResource;
-use App\Http\Resources\PaymentCollection;
+use App\Models\Currency;
 use App\Models\DetailPayments;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,14 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $payments = new PaymentCollection(Payment::with(['agent:id,username,name,wallet_num', 'customer:id,name', 'bank:id,account_holder,name', 'detailpay'])->get()->reverse());
+        $payments = new PaymentCollection(Payment::with(['customer:id,name', 'bank:id,account_holder,bank_name', 'detailPayments'])->orderBy('created_at', 'desc')->paginate(10));
+
+        return response()->json(['payments' => $payments]);
+    }
+
+    public function getForStats()
+    {
+        $payments = PaymentResource::collection(Payment::with(['customer:id,name', 'bank:id,account_holder,bank_name'])->orderBy('created_at', 'desc')->latest()->take(10)->get());
 
         return response()->json(['payments' => $payments]);
     }
@@ -24,17 +32,29 @@ class PaymentController extends Controller
     public function indexCount()
     {
         $total = [];
+        $total_by_iso = [];
         $amount = 0;
         $date = Carbon::now();
         $day = $date->day;
         $month = $date->month;
         $payments = Payment::whereMonth('created_at', '>=', $month)->get();
-
+        $currencies = Currency::active()->get();
+        // dd($payments);
+        foreach ($currencies as $currkey => $curr) {
+            $total_by_iso[$currkey]['iso'] = $curr['iso'];
+            $total_by_iso[$currkey]['name'] = $curr['name'];
+            $total_by_iso[$currkey]['amount'] = 0;
+            foreach ($payments as $key => $pay) {
+                if ($pay['pay_iso'] == $curr['iso']) {
+                    $total_by_iso[$currkey]['amount'] += $pay['pay'];
+                }
+            }
+        }
         $count = $payments->count();
         for ($d = 1; $d <= $day; $d++) {
             for ($i = 0; $i < $count; $i++) {
-                if (Carbon::parse($payments[$i]->payment_date)->day == $d) {
-                    $amount += $payments[$i]->amount;
+                if (Carbon::parse($payments[$i]->created_at)->day == $d) {
+                    $amount += $payments[$i]->pay;
                 }
             }
             $days[$d] = $d;
@@ -42,7 +62,7 @@ class PaymentController extends Controller
             $amount = 0;
         }
         $count = $payments->count();
-        return response()->json(['count' => $count, 'total' => $total, 'days' => $days]);
+        return response()->json(['count' => $count, 'total' => $total, 'days' => $days, 'total_by_iso' => $total_by_iso]);
     }
 
     public function agentCount($id)
@@ -82,18 +102,17 @@ class PaymentController extends Controller
         try {
             DB::beginTransaction();
             $payment = new Payment([
-                'amount' => $request->amount,
-                'amount_iso' => $request->amount_iso,
+                'price_rate' => $request->price_rate,
                 'pay' => $request->pay,
                 'pay_iso' => $request->pay_iso,
                 'operatiton_code' => $request->operatiton_code,
                 'operation_metod' => $request->operation_metod,
                 'customer_id' => $request->customer_id,
                 'bank_id' => $request->bank_id,
-                'description' => $request->description,
                 'active' => 0,
             ]);
 
+            $payment->save();
 
             if ($request->hasFile('file')) {
 
@@ -110,13 +129,15 @@ class PaymentController extends Controller
 
             $detail = $request->detail_pay;
 
-            foreach ($detail as $d) {
+            foreach ($detail as $key => $d) {
+                $bank = (in_array('bank_name', $d)) ? $d['bank_name'] : '';
                 DetailPayments::create([
-                    'paiment_id' => $payment->id,
-                    'amount' => $d->amount,
-                    'bank_account' => $d->bank_account,
-                    'bank_name' => $d->bank_name,
-                    'dni' => $d->dni,
+                    'payment_id' => $payment->id,
+                    'amount' => $d['amount'],
+                    'bank_account' => $d['bank_account'],
+                    'bank_name' => $bank,
+                    'name' => $d['name'],
+                    'dni' => $d['dni'],
                     'active' => 1
                 ]);
             }
@@ -198,11 +219,14 @@ class PaymentController extends Controller
 
     public function activate(Payment $payment)
     {
-
         $payment->active = 1;
         $payment->save();
 
         return response()->json(['message' => 'Cobro Aprobado']);
+    }
+
+    public function payed(Request $request, Payment $payment)
+    {
     }
 
     public function destroy(Payment $payment)

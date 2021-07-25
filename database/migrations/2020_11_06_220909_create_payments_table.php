@@ -15,11 +15,11 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->decimal('pay', 10, 8);
+            $table->decimal('pay', 10, 2);
             $table->string('pay_iso', 10)->nullable();
             $table->integer('operation_code')->nullable();
             $table->text('file')->nullable();
-            $table->enum('operation_method', ['transf', 'deposit']);
+            $table->enum('operation_method', ['transf', 'deposit'])->nullable();
             $table->foreignId('bank_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('agent_id')->nullable()->constrained()->onDelete('set null');

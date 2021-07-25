@@ -117,7 +117,7 @@
 					<v-container>
 						<v-row align="center" class="mr-0">
 							<v-col cols="12" md="6">
-								<div v-if="price.currency" v-text="price.currency.iso"></div>
+								<div v-if="price.currency" v-text="price.iso"></div>
 								<v-text-field
 									type="number"
 									color="deep-purple"

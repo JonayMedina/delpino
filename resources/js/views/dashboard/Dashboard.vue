@@ -5,7 +5,7 @@
     tag="section"
   >
     <v-row>
-      <v-col
+      <!-- <v-col
         cols="12"
         lg="4"
       >
@@ -70,7 +70,7 @@
             </v-icon>
             <span class="caption grey--text font-weight-light">updated 10 minutes ago</span>
           </template> -->
-        </base-material-chart-card>
+        <!-- </base-material-chart-card>
       </v-col>
 
       <v-col
@@ -212,98 +212,60 @@
             <span class="caption grey--text font-weight-light">campaign sent 26 minutes ago</span>
           </template>
         </base-material-chart-card>
+      </v-col> -->
+      <v-col cols="12">
+          <v-row>
+            <v-col v-for="p in payments_by_iso" :key="p.iso"
+            cols="12"
+            sm="6"
+            lg="4"
+            >
+                <base-material-stats-card
+                    color="info"
+                    icon="mdi-cash"
+                    :title="p.name"
+                    :value="p.amount + ' ' + p.iso"
+                    sub-icon="mdi-clock"
+                    sub-text="Total en el mes en Curso"
+                />
+            </v-col>
+          </v-row>
+
       </v-col>
 
       <v-col
         cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="info"
-          icon="mdi-cash-usd-outline"
-          title="Pagos Chile"
-          value="2.450 $"
-          sub-icon="mdi-clock"
-          sub-text="Just Updated"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="primary"
-          icon="mdi-currency-eur"
-          title="España"
-          value="1.500 €"
-          sub-icon="mdi-tag"
-          sub-text="Tracked from Google Analytics"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="success"
-          icon="mdi-store"
-          title="Revenue"
-          value="$ 34,245"
-          sub-icon="mdi-calendar"
-          sub-text="Last 24 Hours"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="orange"
-          icon="mdi-sofa"
-          title="Bookings"
-          value="184"
-          sub-icon="mdi-alert"
-          sub-icon-color="red"
-          sub-text="Get More Space..."
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        md="6"
+        md="7"
       >
         <base-material-card
           color="warning"
-          class="px-5 py-3"
+          class="py-3"
         >
           <template v-slot:heading>
             <div class="display-2 font-weight-light">
-              Employees Stats
+              Ultimas 10 Remesas Recibidas
             </div>
 
             <div class="subtitle-1 font-weight-light">
-              New employees on 15th September, 2016
+              <!-- New employees on 15th September, 2016 -->
             </div>
           </template>
-          <v-card-text>
+          <v-card-text class="no-pad">
             <v-data-table
-              :headers="headers"
-              :items="items"
-            />
+              :headers="paymentHeader"
+              :items="payments_for_stats"
+            >
+                <template v-slot:item.pay="{ item }">
+                    <div>{{ item.pay_formated }} {{ item.pay_iso }}</div>
+                </template>
+            </v-data-table>
           </v-card-text>
         </base-material-card>
       </v-col>
 
       <v-col
         cols="12"
-        md="6"
+        md="5"
       >
         <base-material-card class="px-5 py-3">
           <template v-slot:heading>
@@ -398,6 +360,40 @@
 
     data () {
       return {
+        loadPayments: false,
+        payments_by_iso: [],
+        payments_for_stats: [],
+        paymentHeader: [
+                {
+                    text:'Pago Nro.',
+                    align: 'right',
+                    value: 'id',
+                },
+                {
+                    text:'Cliente ',
+                    align: 'right',
+                    value: 'customer_name',
+                },
+                {
+                    text:'Monto',
+                    align: 'right',
+                    value: 'pay',
+                },
+                {
+                    text:'Banco',
+                    align: 'right',
+                    value: 'bank.bank_name',
+                },
+                {
+                    text:'Fecha de Registro',
+                    align: 'right',
+                    value: 'created_at',
+                },
+                { text: 'Monto', align: 'right', value: 'pay', sortable: false }
+            ],
+        count : 0,
+        total : [],
+        days: [],
         dailySalesChart: {
           data: {
             labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
@@ -596,6 +592,45 @@
       complete (index) {
         this.list[index] = !this.list[index]
       },
+      getPayments(){
+        let me = this;
+        me.loading = true
+        axios.get('/api/payments/counts')
+        .then( res => {
+            var res = res.data;
+            me.payments_by_iso = res.total_by_iso
+        })
+        .catch(err => {
+            console.log(err.data);
+        })
+        .finally(
+            me.loading = false,
+            me.getPaymetnsForStats()
+            );
+      },
+      getPaymetnsForStats(){
+        let me = this;
+        me.loadPayments = true
+        axios.get('/api/payments/get-for-stats')
+        .then( res => {
+            var res = res.data.payments;
+            console.log(res)
+            me.payments_for_stats = res
+        })
+        .catch(err => {
+            console.log(err.data);
+        })
+        .finally( me.loadPayments = false);
+      }
     },
+    mounted() {
+        this.getPayments();
+    }
   }
 </script>
+
+<style >
+    .no-pad {
+        padding: 0! important;
+    }
+</style>

@@ -8,11 +8,11 @@
     <template v-slot:after-heading>
       <div class="ml-auto text-right">
         <div
-          class="body-3 grey--text font-weight-light"
+          class="body-3 grey--text font-weight-light text-left"
           v-text="title"
         />
 
-        <h3 class="display-2 font-weight-light text--primary">
+        <h3 class="display-1 font-weight-light text--primary">
           {{ value }} <small>{{ smallValue }}</small>
         </h3>
       </div>
@@ -102,11 +102,11 @@
 
   .v-card__text
     display: inline-block
-    flex: 1 0 calc(100% - 120px)
+    flex: 1 0 calc(70% - 80px)
     position: absolute
     top: 0
     right: 0
-    width: 100%
+    width: 70%
 
   .v-card__actions
     flex: 1 0 100%
