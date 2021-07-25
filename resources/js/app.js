@@ -4,6 +4,7 @@ import Vue from 'vue';
 window.Vue = require('vue');
 import App from './App.vue';
 import Vuetify from 'vuetify';
+import '@mdi/font/css/materialdesignicons.css';
 import router from './router';
 import Vuex from 'vuex';
 import store from './store';
@@ -44,4 +45,5 @@ const app = new Vue({
     i18n,
     render: h => h(App),
     vuetify: new Vuetify(),
+    iconfont: 'mdi',
 });
