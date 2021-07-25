@@ -14,18 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/panel/{any?}', function () {
-    return view('welcome');
-})->where('any', '.*');
+Route::group(
+    ['middleware' => 'cors'],
+    function () {
+        Route::get('/panel/{any?}', function () {
+            return view('welcome');
+        })->where('any', '.*');
 
-Auth::routes();
+        Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'coming'])->name('coming');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::get('/', [App\Http\Controllers\HomeController::class, 'coming'])->name('coming');
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('cache-c', function () {
-    $exitCode = Artisan::call('config:clear');
-    $exitCode = Artisan::call('cache:clear');
-    $exitCode = Artisan::call('config:cache');
-    return 'DONE'; //Return anything
-});
+        Route::get('cache-c', function () {
+            $exitCode = Artisan::call('config:clear');
+            $exitCode = Artisan::call('cache:clear');
+            $exitCode = Artisan::call('config:cache');
+            return 'DONE'; //Return anything
+        });
+    }
+);
