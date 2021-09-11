@@ -387,7 +387,9 @@
             if (me.currentUser == 4 && !me.user.phone) me.errListC.push("Ingrese numero de Telefono");
 
             if (me.errListC.length) me.eCustomer = 1;
-
+            if (me.errListC.length >= 1) {
+                    Sfire.validateF(me.errListC);
+                };
             return me.eCustomer;
         },
         updatePassword() {
