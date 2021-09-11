@@ -19,13 +19,23 @@ class UserCustomerOwnDataRequest extends FormRequest
     public function rules()
     {
         $auth = Auth::user();
-        $rules = [
-            'name' =>       'required|string|between:2,100',
-            'email' =>      'required|string|email|max:100|unique:users,email,' . $auth->id . ',id',
-            'dni' =>        'nullable|string|between:6,10|unique:customers,dni,' . $auth->customer->id . ',id',
-            'birthdate' =>  'nullable|date',
-            'phone' =>      'nullable|string'
-        ];
+        if ($auth->role == 1) {
+            $rules = [
+                'name' =>       'required|string|between:2,100',
+                'email' =>      'required|string|email|max:100|unique:users,email,' . $auth->id . ',id',
+                'birthdate' =>  'nullable|date',
+                'phone' =>      'nullable|string'
+            ];
+        } else {
+            $rules = [
+                'name' =>       'required|string|between:2,100',
+                'email' =>      'required|string|email|max:100|unique:users,email,' . $auth->id . ',id',
+                'dni' =>        'nullable|string|between:6,10|unique:customers,dni,' . $auth->customer->id . ',id',
+                'birthdate' =>  'nullable|date',
+                'phone' =>      'nullable|string'
+            ];
+        }
+
 
         if ($this->method() == 'POST') {
             $rules['password'] = 'required|string|confirmed|min:6';

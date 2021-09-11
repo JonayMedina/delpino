@@ -55,6 +55,7 @@
                 <v-col
                   cols="12"
                   md="4"
+                  v-show="currentUser.role ==4"
                 >
                   <v-text-field
                     class="purple-input"
@@ -66,6 +67,7 @@
                 <v-col
                 cols="12"
                 md="4"
+                v-show="currentUser.role ==4"
                 >
                     <v-menu
                         ref="menu"
@@ -317,6 +319,9 @@
       passwordConfirmationRule() {
         return (this.password === this.password_confirmation) || 'Las Contraseñas deben Coincidir'
       },
+      currentUser() {
+        return this.$store.getters.currentUser;
+      },
         progress () {
         return Math.min(100, this.password.length * 12.5)
         },
@@ -347,7 +352,6 @@
             if (me.validateCustomer()) {
                 return;
             }
-            console.log(me.user);
             me.saving = true;
             axios.put('/api/user/update-own-data', me.user)
                 .then(response => {
