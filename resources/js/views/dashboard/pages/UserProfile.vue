@@ -118,7 +118,7 @@
                             color="success"
                             class="mr-0"
                             :loading="saving"
-                            @click="updateProfile"
+                            @click="updateProfile()"
                         >
                             Actualizar Perfil
                         </v-btn>
@@ -384,7 +384,7 @@
             if (me.email)
                 me.errListC.push("E-mail Registrado, por favor introduzca otro");
 
-            if (!me.user.phone) me.errListC.push("Ingrese numero de Telefono");
+            if (me.currentUser == 4 && !me.user.phone) me.errListC.push("Ingrese numero de Telefono");
 
             if (me.errListC.length) me.eCustomer = 1;
 
