@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerRequest;
 use DB;
-use PDF;
 use App\Models\Customer;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class CustomerController extends Controller
 {
@@ -40,23 +36,24 @@ class CustomerController extends Controller
 
     public function store(CustomerRequest $request)
     {
-
         $customer = new Customer([
             'country' => $request->country,
-            'name' => strtoupper($this->deleteAccent($request->name)),
+            'name' => ucwords($this->deleteAccent($request->name)),
             'dni' => $request->dni,
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
+            'birthdate' => $request->birthdate,
         ]);
+
         $customer->save();
 
         $user = User::create([
-            'name' => $request->name,
+            'name' => ucwords($this->deleteAccent($request->name)),
             'email' => $request->email,
             'role' => 4,
             'active' => 1,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
             'customer_id' => $customer->id
         ]);
 
@@ -84,11 +81,16 @@ class CustomerController extends Controller
 
             $customer->name = strtoupper($this->deleteAccent($request->name));
             $customer->dni = $request->dni;
-            $customer->email = $request->email;
+            $customer->email = ($request->email) ? $request->email : $customer->email;
             $customer->phone = $request->phone;
             $customer->address = $request->address;
 
             $customer->save();
+            if ($request->email != $customer->email) {
+                $user = $customer->user;
+                $user->email = $request->email;
+                $user->save();
+            }
             DB::commit();
 
             return response()->json(['message' => $customer->name . ' actualizado']);
@@ -170,8 +172,8 @@ class CustomerController extends Controller
 
     public function emailV($email)
     {
-        $e = Customer::where('email', $email)->first();
-        return response()->json(['email' => $e]);
+        $e = User::where('email', $email)->first();
+        return response()->json(['email' => ($e) ? true : false]);
     }
 
     public function dniV($dni)
@@ -183,6 +185,6 @@ class CustomerController extends Controller
     public function phoneV($phone)
     {
         $p = Customer::where('phone', $phone)->first();
-        return response()->json(['phone' => $p]);
+        return response()->json(['phone' => ($p) ? true : false]);
     }
 }

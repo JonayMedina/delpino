@@ -22,9 +22,25 @@ class PaymentController extends Controller
         return response()->json(['payments' => $payments]);
     }
 
+    public function authCustomerPayments()
+    {
+        $auth = Auth::user();
+        $payments = new PaymentCollection(Payment::where('customer_id', $auth->customer->id)->with(['detailPayments', 'bank:id,account_holder,bank_name'])->orderBy('created_at', 'desc')->paginate(10));
+
+        return response()->json(['payments' => $payments]);
+    }
+
     public function getForStats()
     {
         $payments = PaymentResource::collection(Payment::with(['customer:id,name', 'bank:id,account_holder,bank_name'])->orderBy('created_at', 'desc')->latest()->take(10)->get());
+
+        return response()->json(['payments' => $payments]);
+    }
+
+    public function customerForStats()
+    {
+        $auth = Auth::user();
+        $payments = PaymentResource::collection(Payment::where('customer_id', $auth->customer->id)->with(['customer:id,name', 'bank:id,account_holder,bank_name'])->orderBy('created_at', 'desc')->latest()->take(10)->get());
 
         return response()->json(['payments' => $payments]);
     }
@@ -65,30 +81,6 @@ class PaymentController extends Controller
         return response()->json(['count' => $count, 'total' => $total, 'days' => $days, 'total_by_iso' => $total_by_iso]);
     }
 
-    public function agentCount($id)
-    {
-        $total = [];
-        $amount = 0;
-        $date = Carbon::now();
-        $day = $date->day;
-        $month = $date->month;
-        $payments = Payment::where('agent_id', $id)->whereMonth('created_at', '>=', $month)->get();
-
-        $count = $payments->count();
-        for ($d = 1; $d <= $day; $d++) {
-            for ($i = 0; $i < $count; $i++) {
-                if (Carbon::parse($payments[$i]->payment_date)->day == $d) {
-                    $amount += $payments[$i]->amount;
-                }
-            }
-            $days[$d] = $d;
-            $total[$d] = $amount;
-            $amount = 0;
-        }
-        $count = $payments->count();
-        return response()->json(['count' => $count, 'total' => $total, 'days' => $days]);
-    }
-
     public function indexHistory()
     {
         $payments = Payment::with(['agent:id,username', 'client:id,name', 'bank:id,account_holder,name'])
@@ -98,6 +90,60 @@ class PaymentController extends Controller
     }
 
     public function store(Request $request)
+    {
+        $auth = Auth::user();
+        try {
+            DB::beginTransaction();
+            $payment = new Payment([
+                'price_rate' => $request->price_rate,
+                'pay' => $request->pay,
+                'pay_iso' => $request->pay_iso,
+                'operatiton_code' => $request->operatiton_code,
+                'operation_metod' => $request->operation_metod,
+                'customer_id' => $auth->customer->id,
+                'bank_id' => $request->bank_id,
+                'active' => 0,
+            ]);
+
+            $payment->save();
+
+            if ($request->hasFile('file')) {
+
+                if ($request->file('file')->isValid()) {
+                    $imageName = $payment->id . '-' . $payment->created_at->format('d-m-Y-H-m-s') . $request->file->getClientOriginalExtension();
+                    $request->file->move(public_path('/payments/' . $payment->id . '/'), $imageName);
+
+                    $url = '/payments/' . $payment->id . '/' . $imageName;
+
+                    $payment->file = $url;
+                    $payment->save();
+                }
+            }
+
+            $detail = $request->detail_pay;
+
+            foreach ($detail as $key => $d) {
+                $bank = (in_array('bank_name', $d)) ? $d['bank_name'] : '';
+                DetailPayments::create([
+                    'payment_id' => $payment->id,
+                    'amount' => $d['amount'],
+                    'bank_account' => $d['bank_account'],
+                    'bank_name' => $bank,
+                    'name' => $d['name'],
+                    'dni' => $d['dni'],
+                    'active' => 1
+                ]);
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Pago Registrado '], 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e], 400);
+        }
+    }
+
+    public function storeByAdmin(Request $request)
     {
         try {
             DB::beginTransaction();
@@ -158,15 +204,6 @@ class PaymentController extends Controller
         $pdf = PDF::loadView('pdf.Payment-bank', ['Payment' => $payment])->download('Factura-' . $payment->id . '.pdf');
         return $pdf;
     }
-
-    public function indexCustomer()
-    {
-        $user = Auth::user();
-        $payments = new PaymentCollection(Payment::where('customer_id', $user->id)->with(['recipient:id,name', 'bank:id,account_holder,bank_name'])->get()->reverse());
-
-        return response()->json(['payments' => $payments]);
-    }
-
 
     public function update(Request $request, Payment $payment)
     {

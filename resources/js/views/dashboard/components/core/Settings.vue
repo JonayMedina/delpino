@@ -141,13 +141,13 @@
     mixins: [Proxyable],
 
     data: () => ({
-      color: '#E91E63',
+      color: '#FF9800',
       colors: [
         '#9C27b0',
         '#00CAE3',
         '#4CAF50',
-        '#ff9800',
-        '#E91E63',
+        '#FF9800',
+        '#E65100',
         '#FF5252',
       ],
       menu: false,

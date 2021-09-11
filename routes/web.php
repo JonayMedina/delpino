@@ -14,23 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(
-    ['middleware' => 'cors'],
-    function () {
-        Route::get('/panel/{any?}', function () {
-            return view('welcome');
-        })->where('any', '.*');
+Route::get('/auth/{any?}', function () {
+    return view('welcome');
+})->where('any', '.*');
 
-        Auth::routes();
+Route::get('/panel_admin/{any?}', function () {
+    return view('welcome');
+})->where('any', '.*');
 
-        Route::get('/', [App\Http\Controllers\HomeController::class, 'coming'])->name('coming');
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/remesas/{any?}', function () {
+    return view('welcome');
+})->where('any', '.*');
 
-        Route::get('cache-c', function () {
-            $exitCode = Artisan::call('config:clear');
-            $exitCode = Artisan::call('cache:clear');
-            $exitCode = Artisan::call('config:cache');
-            return 'DONE'; //Return anything
-        });
-    }
-);
+Auth::routes();
+
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'coming'])->name('coming');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('cache-c', function () {
+    $e = 0;
+    $e += Artisan::call('config:clear');
+    $e += Artisan::call('cache:clear');
+    $e += Artisan::call('config:cache');
+    return 'DONE ' . $e; //Return anything
+});

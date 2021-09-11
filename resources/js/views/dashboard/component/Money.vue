@@ -1,7 +1,9 @@
 <template>
   <div>
     <v-text-field
+      v-bind:dark="dark"
       v-model="cmpValue"
+      v-bind:class="(whiteText) ? 'white--text' : ''"
       v-bind:label="label"
       v-bind:placeholder="placeholder"
       v-bind:readonly="readonly"
@@ -35,6 +37,10 @@ export default {
     label: {
       type: String,
       default: ""
+    },
+    whiteText: {
+      type: Boolean,
+      default: false
     },
     placeholder: {
       type: String,
@@ -73,6 +79,10 @@ export default {
       default: false
     },
     clearable: {
+      type: Boolean,
+      default: false
+    },
+    dark: {
       type: Boolean,
       default: false
     },

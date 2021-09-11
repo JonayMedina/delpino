@@ -25,17 +25,6 @@
                                 </v-list-item>
                             </v-list>
                         </v-card>
-                        <!-- <router-link :to="{name: 'create-payment'}">
-                            <v-btn
-                            elevation="5"
-                            large
-                            outlined
-                            color="teal"
-                            rounded
-                            >
-
-                            </v-btn>
-                        </router-link> -->
                     </v-col>
                     <v-col cols="12" md="9">
                         <v-text-field v-model="search"
@@ -202,6 +191,7 @@
                                 medium
                                 filled
                                 elevation-4
+                                color="blue-grey"
                             > Cerrar</v-btn>
                             <!-- <v-btn
                                 medium
@@ -277,7 +267,7 @@ export default {
         getPayments(){
             let me = this;
             me.loading = true
-            axios.get('/api/payments?page=' + this.pagination.current + '&search=' + this.search)
+            axios.get('/api/payments/my-payments?page=' + this.pagination.current + '&search=' + this.search)
             .then( res => {
                 var res = res.data.payments;
                 me.payments = res.data;

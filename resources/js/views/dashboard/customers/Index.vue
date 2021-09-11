@@ -158,6 +158,7 @@
                 </v-row>
                 </v-container>
             </div> -->
+            <div>{{ $auth}}</div>
         </base-material-card>
     </v-container>
 </template>

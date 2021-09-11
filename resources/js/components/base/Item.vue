@@ -4,7 +4,8 @@
     :rel="href && href !== '#' ? 'noopener' : undefined"
     :target="href && href !== '#' ? '_blank' : undefined"
     :to="{name:item.to}"
-    :active-class="`primary ${!isDark ? 'black' : 'white'}--text`"
+    :active-class="`highlighted ${!isDark ? 'black' : 'white'}--text`"
+    :class="item.name === $route.name ? 'highlighted' : ''"
   >
     <v-list-item-icon
       v-if="text"
@@ -29,9 +30,12 @@
 
   export default {
     name: 'Item',
-
     mixins: [Themeable],
-
+    data: function () {
+     return {
+        highlighted: 'orange'
+     }
+    },
     props: {
       item: {
         type: Object,

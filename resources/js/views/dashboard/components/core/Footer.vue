@@ -46,6 +46,11 @@
           href: process.env.MIX_IG_URL || 'https://www.instagram.com/venexpressdelpino/',
           text: 'Instagram',
         },
+
+        {
+          href: process.env.MIX_WA_URL || 'https://api.whatsapp.com/send?phone=+584128423488&text=Hola!%20Tengo%20una%20Consulta!',
+          text: 'WhatsApp',
+        },
         {
           href: process.env.MIX_FB_URL || 'https://www.facebook.com/venexpressdelpino/',
           text: 'Facebook',
@@ -66,4 +71,6 @@
       font-weight: 500
       text-decoration: none
       text-transform: uppercase
+  .v-footer
+    margin-top: 10px
 </style>

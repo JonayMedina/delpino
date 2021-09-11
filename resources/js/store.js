@@ -10,7 +10,7 @@ export default new Vuex.Store({
         auth_error : null,
         barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
         barImage: '/img/logo-final.png',
-        drawer: null,
+        drawer: '#FF9800',
         emailDev: 'jonaymedinadev@gmail.com',
         instagram: process.env.MIX_IG_URL || 'https://www.instagram.com/venexpressdelpino/',
         facebook: process.env.MIX_FB_URL || 'https://www.facebook.com/venexpressdelpino/',
@@ -36,8 +36,6 @@ export default new Vuex.Store({
 			state.currentUser=null;
         },
         SET_BAR_IMAGE (state, payload) {
-            console.log(state)
-            console.log(payload)
             state.barImage = payload
         },
         SET_DRAWER (state, payload) {

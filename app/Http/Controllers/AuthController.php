@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserCustomerProfile;
 
 class AuthController extends Controller
 {
@@ -18,37 +18,23 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function login()
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth('api')->setTTL(1440)->attempt($credentials)) {
+        if (!$token = auth('api')->setTTL(1440)->attempt($credentials)) {
             return response()->json(['error' => 'Las Credenciales no coinciden'], 400);
         }
 
         return $this->respondWithToken($token);
     }
 
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function me()
     {
-        return response()->json(auth('api')->user());
+        $user = $this->guardAuth();
+        return response()->json(['user' => $user]);
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function logout()
     {
         auth('api')->logout();
@@ -78,8 +64,21 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'user' => $this->guard('api')->user(),
+            'user' => $this->guardAuth(),
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
+    }
+
+    protected function guardAuth()
+    {
+        $auth = Auth::guard('api')->user();
+
+
+        if ($auth->role == 4) {
+            $user = UserCustomerProfile::make($auth);
+        } else {
+            $user = $auth;
+        }
+        return $user;
     }
 }

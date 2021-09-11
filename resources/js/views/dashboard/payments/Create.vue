@@ -11,22 +11,19 @@
                 class="px-5 py-3"
             >
                 <v-card height="100%">
+                    <error-component
+						v-if="payErrors"
+						:errors="payErrors"
+					></error-component>
                     <v-row class="mx-2" >
                         <v-col cols="12">
                             <v-card-text elevation-2>
                                 Orden de Selecion: <span class="red--text text--darken-4">
-                                <v-icon>mdi-information-variant</v-icon> Seleccione Cliente,
                                 <v-icon>mdi-information-variant</v-icon> Seleccione Moneda de Remesa,
                                 <v-icon>mdi-information-variant</v-icon> Luego El Banco donde Deposito,
                                 <v-icon>mdi-information-variant</v-icon> Inserte el monto de Remesa y
                                 <v-icon>mdi-information-variant</v-icon> Luego agrege los datos del (Los) Beneficiario(s). </span>
                             </v-card-text>
-                        </v-col>
-                        <v-col cols="2" md="6">
-                            <v-autocomplete prepend-icon="mdi-account" clearable v-model="pay.customer_id" :items="customers" :loading="loadingCustomers"
-                            item-text="name" item-value="id"
-                            label="Buscar Cliente">
-                        </v-autocomplete>
                         </v-col>
                         <v-col cols="12" md="6">
                             <v-select
@@ -115,15 +112,15 @@
                                 prepend-outer-icon="mdi-cash-plus"
                                 />
                         </v-col>
-                        <v-banner
-                            >
-                            Carga tus pagos en la lista y guardalos
+                        <v-banner>
+                            Agrega Destinatario(s) en la lista
                                 <v-btn
                                     elevation-5
                                     color="deep-purple accent-4"
+                                    :disabled='!remaining'
                                     @click="openDialog()"
                                 >
-                                    Agregar Remesa
+                                    Agregar Destinatario
                                 </v-btn>
                                 <money
                                 color="deep-purple"
@@ -196,6 +193,7 @@
                                 medium
                                 filled
                                 elevation-4
+                                color="blue-grey"
                             > Cancelar</v-btn>
                         </router-link>
                         <v-btn
@@ -229,41 +227,38 @@
                             flat
                             dark
                             color="orange darken-4"
+                            class="mb-2"
                         >
                             <v-btn
                             icon
-                            dark
                             @click="dialog = false"
                             >
                                 <v-icon>mdi-close</v-icon>
                             </v-btn>
                             <v-toolbar-title>Agregar Pago</v-toolbar-title>
                             <v-spacer></v-spacer>
-                            <v-toolbar-items>
-                                <v-btn
-                                    text
-                                    outlined
-                                    elevation-4
-                                    @click="addReceiver(receiver)"
-                                >
-                                    Agregar Cuenta
-                                </v-btn>
-                                <money
-                                color="deep-purple"
-                                label="Restante en Bs"
-                                :outlined="vmoney.outlined"
-                                :clearable="true"
-                                :dense="vmoney.outlined"
-                                :placeholder="remaining_text"
-                                :readonly="true"
-                                :disabled="true"
-                                :valueWhenIsEmpty="vmoney.valueWhenIsEmpty"
-                                :options.sync="vmoney.options"
-                                :properties="vmoney.properties"
-                                v-model="remaining"
-                                prepend-outer-icon="mdi-cash-plus"
-                                />
-                            </v-toolbar-items>
+                            Disponible
+                            <v-row>
+                                <v-col class="mt-4">
+                                    <money
+                                    :dark="true"
+                                    :background-color="'orange darken-4'"
+                                    :whiteText="true"
+                                    label="Restante en Bs"
+                                    :outlined="vmoney.outlined"
+                                    :clearable="true"
+                                    :dense="vmoney.outlined"
+                                    :placeholder="remaining_text"
+                                    :readonly="true"
+                                    :disabled="true"
+                                    :valueWhenIsEmpty="vmoney.valueWhenIsEmpty"
+                                    :options.sync="vmoney.options"
+                                    :properties="vmoney.properties"
+                                    v-model="remaining"
+                                    prepend-outer-icon="mdi-cash-plus"
+                                    />
+                                </v-col>
+                            </v-row>
                         </v-toolbar>
                         <v-card-text>
                             <v-row class="mx-2" >
@@ -320,7 +315,7 @@
                                 <v-col cols="12" class="pt-0 pl-0">
                                     <money
                                     color="deep-purple"
-                                    label="Insertar Monto"
+                                    label="Insertar Monto| Total Disponible Pre-Cargado"
                                     :outlined="vmoney.outlined"
                                     :clearable="true"
                                     :dense="vmoney.outlined"
@@ -358,7 +353,6 @@
 </template>
 
 <script>
-// import apis from '../../helpers/customer.js'
 export default {
         data() {
             return {
@@ -374,7 +368,6 @@ export default {
                 remaining_text: 'Restante',
                 step: 1,
                 turn:0,
-                loadingCustomers: false,
                 saving: false,
                 min: '',
                 dialog: false,
@@ -389,8 +382,7 @@ export default {
                 modalRules:[],
                 bankDisabled: true,
                 registerDisabled: false,
-                customers : [],
-                customer : {},
+                payErrors: {},
                 pmoney: {
                     value: "",
                     placeholder: "Ingrese Monto depositado",
@@ -439,10 +431,10 @@ export default {
             width: function() {
                 switch (this.$vuetify.breakpoint.name) {
                     case 'xs': return '100%'
-                    case 'sm': return '70%'
-                    case 'md': return '30%'
-                    case 'lg': return '30%'
-                    case 'xl': return '30%'
+                    case 'sm': return '90%'
+                    case 'md': return '70%'
+                    case 'lg': return '60%'
+                    case 'xl': return '50%'
                 }
             },
             register: function(){
@@ -463,17 +455,6 @@ export default {
                     })
                     .catch(err => {console.log(err)})
             },
-            getCustomers(){
-                let me = this;
-                me.loadingCustomers = true;
-                axios.get('/api/customers/all')
-                    .then(res => {
-                        me.customers = res.data.customers;
-                        me.bankDisabled = false
-                    })
-                    .catch(err => { console.log(err) })
-                    .finally(() => me.loadingCustomers = false);
-            },
             getBanks(data){
                 let me = this;
                 axios.get('/api/banks/by-currency/' + data)
@@ -481,7 +462,7 @@ export default {
                         me.banks = res.data.banks;
                         me.bankDisabled = false
                     })
-                    .catch(err => { console.log(err) })
+                    .catch((err) => { console.log(err) })
             },
             setPrice(data){
                 let me = this;
@@ -493,6 +474,9 @@ export default {
                 me.pmoney.options.currency = data.iso;
                 me.pmoney.options.locale = data.locale;
                 me.getBanks(data.currency_id);
+                if (me.total_pay) {
+                    me.setRemaining()
+                }
             },
             addReceiver(data){
                 let me = this;
@@ -523,7 +507,6 @@ export default {
                 let me = this;
 
                 me.pay.detail_pay = me.receivers;
-                console.log(me.pay)
                 if (me.validatePay()) { return; }
                 me.saving = true
                 axios.post('/api/payments/store', me.pay)
@@ -537,16 +520,13 @@ export default {
                         });
                         me.$router.push({name: 'payments'});
                     })
-                    .catch(error =>{
-                        if (error.response.status == 422) {
-                            let data = '';
-                            let errors = error.response.data.errors
-                            for (let field of Object.keys(errors)) {
-                                data = data + '. ' + errors[field].flat();
-                            }
-                            me.alert(4,data);
+                    .catch((error) => {
+						if (error.response.status == 422) {
+							me.payErrors = error.response.data.errors;
+						} else{
+                            console.log(error)
                         }
-                    })
+					})
                     .finally(() => me.saving = false);
 
             },
@@ -579,6 +559,9 @@ export default {
 				if (!me.receiver.amount) me.emodalList.push("Ingrese un Monto");
                 if (me.receiver.amount > me.reminder) me.emodalList.push("Monto superior a su total disponible");
 				if (!me.receiver.bank_account) me.emodalList.push("Ingrese Cuenta");
+                if (me.receiver.bank_account) {
+                    if (me.receiver.bank_account.length < 20 || me.receiver.bank_account.length >20 ) me.emodalList.push("Ingrese Cuenta Correctamente");
+                }
                 if (!me.receiver.name) me.emodalList.push("Ingrese Nombre de Beneficiario");
                 if (!me.receiver.dni) me.emodalList.push("Ingrese C.i. del Beneficiario");
 
@@ -637,7 +620,6 @@ export default {
         mounted(){
             // this.getBanks();
             this.getPrices();
-            this.getCustomers()
         },
     };
 </script>

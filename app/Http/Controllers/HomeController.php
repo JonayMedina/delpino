@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PriceResource;
+use App\Models\Price;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,7 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $prices = PriceResource::collection(Price::with('currency:id,iso,name,symbol,locale')->active()->get());
+        return view('home')->with(['prices' => $prices]);
     }
 
     public function coming()

@@ -17,7 +17,7 @@ $config = [
     <meta name="description" content="Remesas a venezuela Euro Peso Colombiano peso chileno sol peruano">
     <meta name="author" content="jonay medina jonaymedinadev@gmail.com">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Remesas') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

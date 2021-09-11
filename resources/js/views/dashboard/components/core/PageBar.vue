@@ -21,13 +21,13 @@
                 >
                     <v-img
                     :src="barImage"
-                    max-height="50"
+                    max-height="40"
                     />
                 </v-list-item-avatar>
 
                 <v-list-item-content>
                     <v-list-item-title
-                    class="display-1 title-app"
+                    class="title title-app"
                     v-text="$t('app-name')"
                     />
                 </v-list-item-content>
@@ -47,7 +47,14 @@
     >
       <v-icon>mdi-view-dashboard</v-icon>
     </v-btn>
-
+    <v-btn color="orange darken-4" v-show="urlCheck !='register'" :to="{name:'register'}" >
+        Registrarse
+        <v-icon>mdi-account-plus-outline</v-icon>
+    </v-btn>
+    <v-btn color="orange darken-4" v-show="urlCheck !='Login'" :to="{name:'Login'}" >
+        Login
+        <v-icon>mdi-account-arrow-right-outline</v-icon>
+    </v-btn>
   </v-app-bar>
 </template>
 
@@ -61,10 +68,13 @@
   export default {
     name: 'PageBar',
     data: () => ({
-
+        hover : VHover
     }),
     computed: {
         ...mapState(['barImage']),
+        urlCheck(){
+            return this.$route.name
+        }
     }
 
   }

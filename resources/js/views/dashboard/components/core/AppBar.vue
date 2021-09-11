@@ -110,9 +110,9 @@
       class="ml-2"
       min-width="0"
       text
-      to="/pages/user"
+      @click="logout()"
     >
-      <v-icon>mdi-account</v-icon>
+      Salir <v-icon>mdi-account-arrow-right-outline</v-icon>
     </v-btn>
   </v-app-bar>
 </template>
@@ -172,12 +172,19 @@
 
     computed: {
       ...mapState(['drawer']),
+      currentUser() {
+           return this.$store.getters.currentUser
+      },
     },
 
     methods: {
       ...mapMutations({
         setDrawer: 'SET_DRAWER',
       }),
+      logout(){
+        this.$store.commit('logout');
+        this.$router.push({name:'Login'});
+      },
     },
   }
 </script>

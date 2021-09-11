@@ -22,4 +22,11 @@ class Price extends Model
         'created_at' => 'datetime:H:i:s d/m/Y ', // Change format
         'updated_at' => 'datetime:H:i:s d/m/Y',
     ];
+
+    // scopes
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
 }

@@ -12,12 +12,8 @@ export default {
                 confirmButtonText: '<span class="mdi mdi-check-all">Confirmar</span>',
                 cancelButtonText: 'Cancelar',
                 reverseButtons: true,
-                backdrop: `
-                    rgba(0,0,123,0.4)
-                    url("images/logo-final.png")
-                    left top
-                    no-repeat
-                `
+                imageUrl: image,
+                imageWidth: 100,
             }).then((result) => {
                 if (result.value) {
                     item._method = 'put'
@@ -141,13 +137,13 @@ export default {
                 hideClass: {
                     popup: 'animate__animated animate__fadeOutUp'
                 },
-                title: 'Falta(n) Datos',
+                title: 'Falta Info',
                 imageUrl: image,
-                imageWidth: 300,
+                imageWidth: 100,
                 icon: 'error',
                 confirmButtonText: 'Aceptar!',
                 confirmButtonColor: '#3085d6',
-                html: `${data.map(er => `<br><span class="mb-3"><i class="mdi-close-circle-outline mr-3 red"></i> ${er}</span>`)}`,
+                html: `${data.map(er => `<br><span class="mb-3"><i style="color:red" class="mdi mdi-checkbox-marked-outline mr-3 red"></i> ${er}</span>`)}`,
                 showCancelButton: false
             });
         });

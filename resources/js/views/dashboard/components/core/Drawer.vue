@@ -104,7 +104,7 @@
     },
 
     data: () => ({
-      items: [
+      admin: [
         {
           icon: 'mdi-view-dashboard',
           title: 'dashboard',
@@ -118,7 +118,7 @@
         {
           title: 'payments',
           icon: 'mdi-scale-balance',
-          to: 'payments',
+          to: 'charges',
         },
         {
           title: 'prices',
@@ -135,11 +135,38 @@
           icon: 'mdi-bank-check',
           to: 'banks',
         },
+        {
+          title: 'admin-profile',
+          icon: 'mdi-account-circle-outline',
+          to: 'admin-profile',
+        },
       ],
+      customer: [
+        {
+          icon: 'mdi-view-dashboard',
+          title: 'dashboard',
+          to: 'customer-dashboard',
+        },
+        {
+          title: 'payments',
+          icon: 'mdi-scale-balance',
+          to: 'payments',
+        },
+        {
+          title: 'my-profile',
+          icon: 'mdi-account-circle-outline',
+          to: 'user-profile',
+        },
+      ],
+      user: {},
+      items:[]
     }),
 
     computed: {
       ...mapState(['barColor','barImage', 'emailDev']),
+      currentUser() {
+        return this.$store.getters.currentUser;
+      },
       drawer: {
         get () {
           return this.$store.state.drawer
@@ -168,6 +195,17 @@
           title: this.$t(item.title),
         }
       },
+      setItem(){
+        this.user = this.currentUser;
+        if (this.user.role == 1) {
+            this.items = this.admin;
+        } else {
+            this.items = this.customer;
+        }
+      }
+    },
+    mounted() {
+        this.setItem();
     },
   }
 </script>

@@ -198,7 +198,7 @@
 					</v-card-actions>
 				</v-card>
 			</v-dialog> </v-row
-		>.
+		>
 	</v-container>
 </template>
 <script>

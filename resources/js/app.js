@@ -15,6 +15,7 @@ import './plugins/chartist';
 import './plugins/vee-validate';
 import vuetify from './plugins/vuetify';
 import i18n from './i18n';
+import {initialize} from './helpers/general';
 import Sfire from './helpers/swalfire';
 import Alerts from './views/dashboard/component/Alerts';
 import Money from './views/dashboard/component/Money';
@@ -35,6 +36,7 @@ Vue.use(VueAxios, axios);
 Vue.use(Vuetify);
 Vue.use(Vuex);
 
+initialize(store,router);
 const app = new Vue({
     el: '#app',
     router,

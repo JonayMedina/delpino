@@ -7,168 +7,167 @@
 			<v-card>
 				<alerts ref="Alerts"> </alerts>
 				<v-card-text>
-					<v-row class="mx-2">
-						<v-col cols="12" md="4" class="pt-5 pt-xs-0 pl-0">
-							<v-text-field
-								label="Introduzca Nombre Completo"
-								type="text"
-								required
-								outlined
-								clearable
-								dense
-								color="deep-purple"
-								v-model="customer.name"
-								cols="12"
-								md="6"
-								prepend-outer-icon="mdi-account"
-							/>
-						</v-col>
-						<v-col cols="12" md="4" class="pt-5 pt-xs-0 pl-0">
-							<span style="color: red" v-show="email"
-								>Ya en Uso, Inserte Otro</span
-							>
-							<!-- <span style="color:blue;" v-show="!email">Ingrese Mail valido.</span> -->
-							<v-text-field
-								type="text"
-								color="deep-purple"
-								label="Insertar Mail"
-								outlined
-								clearable
-								dense
-								v-model="customer.email"
-								.
-								@change="vEmail(customer.email)"
-								prepend-outer-icon="mdi-email-lock"
-							/>
-						</v-col>
-						<v-col cols="12" md="4" class="pt-5 pt-xs-0 pl-0">
-							<v-autocomplete
-								clearable
-								color="deep-purple"
-								outlined
-								dense
-								v-model="customer.country"
-								:items="countries"
-								item-text="name"
-								item-value="name"
-								label="Pais donde Se ubica"
-								prepend-outer-icon="mdi-book-marker-outline"
-							></v-autocomplete>
-						</v-col>
-						<v-col cols="12" md="4" class="pt-0 pl-0">
-							<span style="color: red" v-show="phone"
-								>Inserte otro, Este se Encuentra en uso!</span
-							>
-							<!-- <span style="color:blue;" v-show="!phone">Inserte Telefono Unico.</span> -->
-							<v-text-field
-								type="text"
-								label="Numero de Telefono Valido"
-								color="deep-purple"
-								v-model="customer.phone"
-								outlined
-								dense
-								clearable
-								@change="vPhone(customer.phone)"
-								prepend-outer-icon="mdi-card-account-phone-outline"
-							/>
-						</v-col>
-						<v-col cols="12" md="4" class="pt-0 pl-0">
-							<v-menu
-								ref="menu"
-								v-model="menu"
-								:close-on-content-click="false"
-								transition="scale-transition"
-								offset-y
-								min-width="290px"
-							>
-								<template v-slot:activator="{ on, attrs }">
-									<v-text-field
-										v-model="computedDate"
-										label="Fecha de Nacimiento"
-										prepend-outer-icon="mdi-cake-variant"
-										readonly
-										outlined
-										dense
-										clearable
-										v-bind="attrs"
-										v-on="on"
-									></v-text-field>
-								</template>
-								<v-date-picker
-									ref="picker"
-									v-model="customer.birthdate"
-									:max="max_date"
-									min="1950-01-01"
-									@change="save"
-								></v-date-picker>
-							</v-menu>
-						</v-col>
-						<v-col cols="12" md="6" class="pt-0 pl-0">
-							<v-textarea
-								v-model="customer.notes"
-								rows="1"
-								auto-grow
-								color="deep-purple"
-								label="Acerca del Cliente"
-								outlined
-								dense
-								clearable
-								prepend-outer-icon="mdi-book-information-variant"
-							></v-textarea>
-						</v-col>
-						<v-col cols="12">
-							<v-row align="center" class="mr-0">
-								<v-col cols="6">
-									<span style="color: red" v-show="min < 6"
-										>Ingrese Constraseña minimo 6 Caracteres</span
-									>
-									<v-text-field
-										type="password"
-										v-model="customer.password"
-										@input="valpass()"
-										placeholder="Contraseña"
-										label="CONTRASEÑA"
-										color="deep-purple"
-										outlined
-										dense
-										clearable
-										prepend-outer-icon="mdi-lock-open-check-outline"
-									/>
-								</v-col>
-								<v-col cols="6">
-									<span
-										style="color: red"
-										v-show="customer.password != customer.password_confirmation"
-										>No Coinciden</span
-									>
-									<v-text-field
-										type="password"
-										v-model="customer.password_confirmation"
-										placeholder="Instroduzcala de nuevo"
-										label="Repita su Contraseña"
-										color="deep-purple"
-										outlined
-										dense
-										clearable
-										prepend-outer-icon="mdi-lock-open-check-outline"
-									/>
-								</v-col>
-							</v-row>
-						</v-col>
-					</v-row>
+                    <v-form v-model="isValid">
+                        <v-row class="mx-2">
+                            <v-col cols="12" md="4" class="pt-5 pt-xs-0 pl-0">
+                                <v-text-field
+                                    label="Introduzca Nombre Completo"
+                                    type="text"
+                                    :rules="[n => !!n || 'Nombre Completo es Requerido']"
+                                    outlined
+                                    clearable
+                                    dense
+                                    color="deep-purple"
+                                    v-model="customer.name"
+                                    prepend-outer-icon="mdi-account"
+                                />
+                            </v-col>
+                            <v-col cols="12" md="4" class="pt-5 pt-xs-0 pl-0">
+                                <span style="color: red" v-show="email"
+                                    >Ya en Uso, Inserte Otro</span
+                                >
+                                <!-- <span style="color:blue;" v-show="!email">Ingrese Mail valido.</span> -->
+                                <v-text-field
+                                    type="text"
+                                    color="deep-purple"
+                                    label="Insertar Mail"
+                                    outlined
+                                    clearable
+                                    :rules="[emailRules.required, emailRules.valid, emailAvailable]"
+                                    dense
+                                    v-model="customer.email"
+                                    @change="vEmail(customer.email)"
+                                    prepend-outer-icon="mdi-email-lock"
+                                    :loading="checkInEmail"
+                                    :disabled="checkInEmail"
+                                />
+                            </v-col>
+                            <!-- <v-col cols="12" md="4" class="pt-5 pt-xs-0 pl-0">
+                                <v-autocomplete
+                                    clearable
+                                    color="deep-purple"
+                                    outlined
+                                    dense
+                                    v-model="customer.country"
+                                    :items="countries"
+                                    item-text="name"
+                                    item-value="name"
+                                    label="Pais donde Se ubica"
+                                    prepend-outer-icon="mdi-book-marker-outline"
+                                ></v-autocomplete>
+                            </v-col> -->
+                            <v-col cols="12" md="4" class="pt-0 pl-0">
+                                <span style="color: red" v-show="phone"
+                                    >Inserte otro, Este se Encuentra en uso!</span
+                                >
+                                <!-- <span style="color:blue;" v-show="!phone">Inserte Telefono Unico.</span> -->
+                                <v-text-field
+                                    type="text"
+                                    label="Numero de Telefono Valido"
+                                    color="deep-purple"
+                                    v-model="customer.phone"
+                                    outlined
+                                    :rules="[p => !!p || 'Telefono es Requerido']"
+                                    dense
+                                    clearable
+                                    @change="vPhone(customer.phone)"
+                                    prepend-outer-icon="mdi-card-account-phone-outline"
+                                />
+                            </v-col>
+                            <v-col cols="12" md="4" class="pt-0 pl-0">
+                                <v-menu
+                                    ref="menu"
+                                    v-model="menu"
+                                    :close-on-content-click="false"
+                                    transition="scale-transition"
+                                    offset-y
+                                    min-width="290px"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                            v-model="computedDate"
+                                            label="Fecha de Nacimiento"
+                                            prepend-outer-icon="mdi-cake-variant"
+                                            readonly
+                                            outlined
+                                            dense
+                                            clearable
+                                            v-bind="attrs"
+                                            v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker
+                                        ref="picker"
+                                        v-model="customer.birthdate"
+                                        :max="max_date"
+                                        min="1950-01-01"
+                                        @change="save"
+                                    ></v-date-picker>
+                                </v-menu>
+                            </v-col>
+                            <v-col cols="12" md="6" class="pt-0 pl-0">
+                                <v-textarea
+                                    v-model="customer.notes"
+                                    rows="1"
+                                    auto-grow
+                                    color="deep-purple"
+                                    label="Acerca del Cliente"
+                                    outlined
+                                    dense
+                                    clearable
+                                    prepend-outer-icon="mdi-book-information-variant"
+                                ></v-textarea>
+                            </v-col>
+                            <v-col cols="12">
+                                <v-row align="center" class="mr-0">
+                                    <v-col cols="12" md="6">
+                                        <v-text-field
+                                            type="password"
+                                            v-model="customer.password"
+                                            @input="valpass()"
+                                            placeholder="Contraseña"
+                                            label="CONTRASEÑA"
+                                            color="deep-purple"
+                                            outlined
+                                            :rules="[passwordRules.required, passwordRules.min, checkEqual]"
+                                            dense
+                                            clearable
+                                            prepend-outer-icon="mdi-lock-open-check-outline"
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <v-text-field
+                                            type="password"
+                                            v-model="customer.password_confirmation"
+                                            placeholder="Instroduzcala de nuevo"
+                                            label="Repita su Contraseña"
+                                            color="deep-purple"
+                                            outlined
+                                            :rules="[passwordRules.required, passwordRules.min, checkEqual]"
+                                            dense
+                                            clearable
+                                            prepend-outer-icon="mdi-lock-open-check-outline"
+                                        />
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-form>
 				</v-card-text>
 				<v-card-actions>
-					<router-link :to="{ name: 'customers' }">
-						<v-btn> Cancelar</v-btn>
-					</router-link>
+                    <v-btn
+                    :to="{ name: 'customers' }"
+                    text
+                    > Cancelar</v-btn>
+                    <v-spacer></v-spacer>
 					<v-btn
-						text
 						color="primary"
 						:loading="saving"
 						right
+                        :disabled="!isValid"
 						@click="createCustomer(customer)"
-						>Registrar</v-btn
-					>
+						>Registrar
+                    </v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-container>
@@ -180,6 +179,7 @@
 	export default {
 		data() {
 			return {
+                isValid: true,
 				dni: "",
 				email: "",
 				phone: "",
@@ -191,11 +191,22 @@
 					birthdate: null,
 				},
 				dialog_title: "",
+                checkInEmail: false,
 				countries: [],
 				step: 1,
 				turn: 0,
 				saving: false,
 				min: "",
+                eCustomer: 0,
+                errListC: [],
+                passwordRules : {
+                    required: value => !!value || 'Campo Requerido.',
+                    min: v => v.length >= 8 || 'Min 8 caracteres entre letras y numeros',
+                },
+                emailRules: [
+                    v => !!v || 'Email es Requerido',
+                    v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'E-mail debe ser valido',
+                ],
 			};
 		},
 		watch: {
@@ -207,6 +218,9 @@
 			computedDate() {
 				return this.formatDate(this.customer.birthdate);
 			},
+            checkEqual() {
+                return (this.customer.password === this.customer.password_confirmation) || 'Las Contraseñas deben Coincidir'
+            },
 		},
 		methods: {
 			setDate() {
@@ -281,8 +295,8 @@
 				// if (!me.customer.dni)me.errListC.push("Por favor ingrese una identificacion Valida!.");
 				// if (!me.customer.phone)me.errListC.push("Ingrese un numero telefonico valido");
 				if (!me.customer.email) me.errListC.push("Ingrese un email valido");
-				if (!me.customer.birthdate)
-					me.errListC.push("Ingrese fecha de Nacimiento");
+				// if (!me.customer.birthdate)
+				// 	me.errListC.push("Ingrese fecha de Nacimiento");
 
 				if (me.email)
 					me.errListC.push("E-mail Registrado, por favor introduzca otro");
@@ -297,10 +311,10 @@
 				if (me.customer.password != me.customer.password_confirmation)
 					me.errListC.push("Las Contraseñas no Coinciden");
 
-				if (me.dni)
-					me.errListC.push(
-						"Documento registrado, verifique si el customere esta registrado Cuando realize un Pago."
-					);
+				// if (me.dni)
+				// 	me.errListC.push(
+				// 		"Documento registrado, verifique si el customere esta registrado Cuando realize un Pago."
+				// 	);
 				if (me.errListC.length) me.eCustomer = 1;
 				if (me.errListC.length >= 1) {
 					Swal.fire({
@@ -319,12 +333,13 @@
 			},
 			vEmail(email) {
 				let me = this;
-				axios
-					.get("/api/customers/email-verify/" + email)
-					.then((response) => {
-						me.email = response.data.email;
-					})
-					.catch((error) => console.log(error));
+				me.checkInEmail = true;
+                axios.get('/api/auth/email-verify/'+email)
+                .then(response => {
+                    me.email =response.data.email;
+                })
+                .catch(error => console.log(error))
+                .finally(() => me.checkInEmail = false);
 			},
 			vDni(dni) {
 				let me = this;
@@ -352,7 +367,7 @@
 			},
 		},
 		mounted() {
-			this.getCountries();
+			// this.getCountries();
 			this.setDate();
 		},
 	};

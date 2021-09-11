@@ -27,9 +27,9 @@ class CustomerRequest extends FormRequest
                 $rules = [
                     'name' => 'required|string|between:2,100',
                     'email' => 'required|string|email|max:100|unique:users,email,' . $this->customer->email,
-                    'dni' => 'sometimes|string|between:2,100|unique:users,dni,' . $this->customer->dni,
-                    'phone' => 'sometimes|string',
-                    'birthday' => 'sometimes|string',
+                    'dni' => 'nullable|string|between:2,100|unique:users,dni,' . $this->customer->dni,
+                    'phone' => 'nullable|string',
+                    'birthday' => 'nullable|date',
                 ];
                 break;
 
@@ -37,9 +37,9 @@ class CustomerRequest extends FormRequest
                 $rules = [
                     'email' => 'required|string|email|max:100|unique:users',
                     'name' => 'required|string|between:2,100',
-                    'dni' => 'sometimes|string|between:2,10',
-                    'phone' => 'sometimes|string',
-                    'birthday' => 'sometimes|string',
+                    'dni' => 'nullable|string|between:2,10',
+                    'phone' => 'nullable|string',
+                    'birthday' => 'nullable|date',
                     'password' => 'required|string|confirmed|min:6',
                 ];
                 break;
@@ -51,8 +51,7 @@ class CustomerRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'Nombre',
-            'surname' => 'Apellido',
+            'name' => 'Nombre completo',
             'email' => 'Correo',
             'phone' => 'Telefono',
             'birthday' => 'Fecha de Nacimiento',
